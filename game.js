@@ -1,27 +1,35 @@
-function Game(size){
-	this.state = new Array(size);
-	this.state.fill(new Array(size));
-	this.state[int(size/2)][int(size/2)] = -1
+function Game(size, update){
+	this.state = []
+	for(var i = 0; i < size; i += 1){
+		this.state[i] = Array(size).fill(0)
+	}
+	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1
+
+	this.update_cb = update
 
 	this.size = size;
 }
 
 Game.prototype.checkplay = function (x,y){
-	var tries = new Array(4)
+	var tries = Array(4).fill(0)
 	if (this.state[x][y] != 0){
 		return false
 	}
 
-	for (var i in state){
-		for (var j in state[i]){
-			if (x == i && y!= j && state[i][j] == 0){
-				tries[y > j] = 1
-			} else if (x != i && y == j && state[i][j] == 0){
-				tries[x > i] = 1
+	if (x==0 || y==0 || x==this.size-1 || y==this.size-1){
+		return true
+	}
+
+	for (var i in this.state){
+		for (var j in this.state[i]){
+			if (x == i && y!= j && this.state[i][j] == 0){
+				tries[Math.floor(y > j)] = 1
+			} else if (x != i && y == j && this.state[i][j] == 0){
+				tries[2+Math.floor(x > i)] = 1
 			}
 		}
 	}
-	if (tries.indexOf(0) == -1){
+	if (tries.indexOf(0) != -1){
 		return true
 	} else {
 		return false
@@ -34,6 +42,7 @@ Game.prototype.play = function (player, x,y){
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player
+		this.update_cb.call(this, this.state)
 		return true
 	} else {
 		return false
