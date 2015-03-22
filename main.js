@@ -13,7 +13,6 @@ function init(){
 
 function update(state)
 {
-	console.log(state)
 	str = "<table>"
 	for(var i = 0; i < 9; i += 1){
 		str += "<tr>"
@@ -33,4 +32,5 @@ init()
 function play(x,y){
 	game.play(i%2+1,x,y)
 	i += 1
+	console.log(game.scores())
 }
