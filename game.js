@@ -46,6 +46,7 @@ Game.prototype.play = function (player, x,y){
 		this.update_cb.call(this, this.state, this.scores())
 		return true
 	} else {
+		this.update_cb.call(this, this.state, this.scores())
 		return false
 	}
 }

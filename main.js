@@ -1,5 +1,6 @@
 function update(state, score)
 {
+	console.log("Updating");
 	var colors = ["grey", "white", "blue", "red"];
 	str = "<table>"
 	for(var i = 0; i < 9; i += 1){
@@ -17,10 +18,8 @@ var i = 0
 var game = new Game(9,update)
 
 function play(x,y){
-	console.log(i)
 	if (game.play(i%2+1,x,y)){
 		i += 1
 	}
-	console.log(i)
 	console.log(game.scores())
 }
