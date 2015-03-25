@@ -1,17 +1,4 @@
-function init(){
-	str = "<table>"
-	for(var i = 0; i < 9; i += 1){
-		str += "<tr>"
-		for(var j = 0; j < 9; j += 1){
-			str += "<td onclick='play("+i+","+j+")'></td>"
-		}
-		str += "</tr>"
-	}
-	str += "</table>"
-	document.getElementById("game").innerHTML = str
-}
-
-function update(state)
+function update(state, score)
 {
 	var colors = ["grey", "white", "blue", "red"];
 	str = "<table>"
@@ -22,7 +9,7 @@ function update(state)
 		}
 		str += "</tr>"
 	}
-	str += "</table>"
+	str += "<span style='color: blue'>" + score[0] + "</span> - <span style='color: red'>"+ score[1] + "</span></table>"
 	document.getElementById("game").innerHTML = str
 }
 
@@ -31,8 +18,9 @@ var game = new Game(9,update)
 
 function play(x,y){
 	console.log(i)
-	game.play(i%2+1,x,y)
-	i += 1
+	if (game.play(i%2+1,x,y)){
+		i += 1
+	}
 	console.log(i)
 	console.log(game.scores())
 }

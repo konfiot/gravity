@@ -6,7 +6,7 @@ function Game(size, update){
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1
 
 	this.update_cb = update
-	this.update_cb.call(this, this.state)
+	this.update_cb.call(this, this.state, this.scores())
 
 	this.size = size;
 }
@@ -43,7 +43,7 @@ Game.prototype.play = function (player, x,y){
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player
-		this.update_cb.call(this, this.state)
+		this.update_cb.call(this, this.state, this.scores())
 		return true
 	} else {
 		return false
@@ -52,7 +52,7 @@ Game.prototype.play = function (player, x,y){
 
 Game.prototype.isFinished = function(){
 	for (var i in this.state){
-		if (state[i].indexOf(0) != -1){
+		if (this.state[i].indexOf(0) != -1){
 			return false
 		}
 	}
