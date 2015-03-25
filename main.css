@@ -1,0 +1,26 @@
+#game
+{
+	width: 100%;
+	height: 100%;
+}
+
+table
+{
+	background-color: black;
+	border-spacing :0px;
+	border: solid black 4px
+}
+td
+{
+	background-color: white;
+	border-color: black;
+	border-style: solid;
+	border-width: 4px;
+	border-radius: 7px;
+	Width: 100px;
+}
+
+tr
+{
+	height: 100px;
+}

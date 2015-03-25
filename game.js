@@ -5,7 +5,8 @@ function Game(size, update){
 	}
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1
 
-		this.update_cb = update
+	this.update_cb = update
+	this.update_cb.call(this, this.state)
 
 	this.size = size;
 }
@@ -50,7 +51,7 @@ Game.prototype.play = function (player, x,y){
 }
 
 Game.prototype.isFinished = function(){
-	for (i in this.state){
+	for (var i in this.state){
 		if (state[i].indexOf(0) != -1){
 			return false
 		}
@@ -67,9 +68,9 @@ Game.prototype.scores = function(){
 	var score = [0,0],
 	count = [[],[],[],[]];
 
-	for (i in this.state){
-		for (j in this.state[i]){
-			if (this.state[i][j] <= 0){
+	for (var i in this.state){
+		for (var j in this.state[i]){
+			if (this.state[i][j] == 0){
 				continue;
 			}
 			for(k  = 0; k < count.length; k += 1){
@@ -90,10 +91,10 @@ Game.prototype.scores = function(){
 				}
 				if (count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
 					count[k][l] = [this.state[i][j], 1]
-				} else if (count[k][l][0] === this.state[i][j]){
+				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)){
 					count[k][l][1] += 1
 					if (count[k][l][1] >= 4){
-						score[this.state[i][j]-1] += 1
+						score[count[k][l][0]-1] += 1
 						count[k][l][1] = 0
 					}
 				}
