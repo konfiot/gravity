@@ -1,6 +1,10 @@
+html, body
+{
+	height: 100%;
+}
+
 #game
 {
-	width: 100%;
 	height: 100%;
 }
 
@@ -8,8 +12,11 @@ table
 {
 	background-color: black;
 	border-spacing :0px;
-	border: solid black 4px
+	border: solid black 4px;
+	height: 90vh;
+	Width: 90vh;
 }
+
 td
 {
 	background-color: white;
@@ -17,10 +24,8 @@ td
 	border-style: solid;
 	border-width: 4px;
 	border-radius: 7px;
-	Width: 100px;
 }
 
 tr
 {
-	height: 100px;
 }
