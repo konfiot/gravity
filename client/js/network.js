@@ -7,17 +7,21 @@ function GameClient(game, player){
 
 GameClient.prototype.list = function(cb){
 	this.socket.emit("list", cb);
-}
+};
+
+GameClient.prototype.create = function(cb){
+	this.socket.emit("create", cb);
+};
 
 GameClient.prototype.enter = function(id, cb){
 	this.socket.emit("enter", {id: id}, cb);
-}
+};
 
 GameClient.prototype.play = function(x,y){
-	if(this.game.play(this.player, rx,y)){ 
+	if(this.game.play(this.player, x,y)){ 
 		this.socket.emit("play", {x: x, y: y});
 	}
-}
+};
 
 GameClient.prototype.update = function(e){
 	switch(e.action){
@@ -28,4 +32,4 @@ GameClient.prototype.update = function(e){
 			this.game.update(e.state);
 		break;
 	}
-}
+};
