@@ -1,4 +1,5 @@
 function GameClient(game, player){
+	'use strict';
 	this.game = game;
 	this.socket = io();
 	this.socket.on('e', this.update);

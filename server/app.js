@@ -55,21 +55,25 @@ var 	games_pending = {},
 io.sockets.on('connection', function (socket) {
 	'use strict';
 	socket.on("list", function (data, cb) {
+		'use strict';
 		cb(games_pending);
 	});
 	socket.on("create", function (data, cb) {
+		'use strict';
 		var id = uuid.v4();
 		games_pending[id] = {name: data["name"]};
 		socket.player = 1;
 		cb({id: id, player: socket.player});
 	});
 	socket.on("enter", function (data, cb) {
+		'use strict';
 		running_games[data.id] = {name: games_pending.name, game: new Game(9, function(){})};
 		socket.player = 2;
 		delete games_pending[data.id];
 		cb({player: socket.player});
 	});
 	socket.on("play", function (data, cb) {
+		'use strict';
 		cb(running_games[data.id].game.play(data.x, data.y, socket.player));
 		if (running_games[data.id].game.isfinished()){
 			delete running_games[data.id];
