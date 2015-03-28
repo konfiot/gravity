@@ -1,6 +1,6 @@
 function GameView(size, colors){
-    this.size = size;
-    this.colors = colors;
+	this.size = size;
+	this.colors = colors;
 }
 
 GameView.prototype.update_game = function(state){
@@ -19,6 +19,11 @@ GameView.prototype.update_score= function(score){
 	document.getElementById("score").innerHTML = "<span style='color: " + this.colors[2] + "'>" + score[0] + "</span> - <span style='color: " + this.colors[3] + "'>"+ score[1] + "</span></table>";
 };
 
-GameView.prototype.finish = function () {
-   
+GameView.prototype.finish = function (win) {
+	if(win <= 0){
+		document.getElementById("finish").innerHTML = "Tie";
+	} else {
+		document.getElementById("finish").innerHTML = "Player " + win + " wins";
+	}
+	document.getElementById("finish").style.display = "block";
 };
