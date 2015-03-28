@@ -4,7 +4,7 @@ var sio = require('socket.io'),
     uuid = require('node-uuid'),
     http = require('http'),
     fs = require('fs'),
-    zlib = require("zlib"),
+    zlib = require("zlib");
 
 var server = http.createServer(function (request, response) {
     'use strict';
