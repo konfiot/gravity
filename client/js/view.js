@@ -5,9 +5,9 @@ function GameView(size, colors){
 
 GameView.prototype.update_game = function(state){
 	var str = "<table>";
-	for(var i = 0; i < 9; i += 1){
+	for(var i = 0; i < this.size; i += 1){
 		str += "<tr>";
-		for(var j = 0; j < 9; j += 1){
+		for(var j = 0; j < this.size; j += 1){
 			str += "<td onclick='play("+i+","+j+")' style='background-color:"+this.colors[state[i][j]+1]+"'> </td>";
 		}
 		str += "</tr>";
@@ -20,5 +20,5 @@ GameView.prototype.update_score= function(score){
 };
 
 GameView.prototype.finish = function () {
-    
+   
 };
