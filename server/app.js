@@ -75,7 +75,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on("play", function (data, cb) {
 		'use strict';
 		cb(running_games[data.id].game.play(data.x, data.y, socket.player));
-		if (running_games[data.id].game.isfinished()){
+		if (running_games[data.id].game.isFinished()){
 			delete running_games[data.id];
 		}
 	});

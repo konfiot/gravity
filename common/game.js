@@ -7,7 +7,7 @@ function Game(size, update){
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
 
 	this.update_cb = update;
-	this.update_cb.call(this, this.state, this.scores());
+	this.update_cb.call(this, this.state, this.scores(), false);
 
 	this.size = size;
 }
@@ -46,10 +46,10 @@ Game.prototype.play = function (player, x,y){
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player;
-		this.update_cb.call(this, this.state, this.scores());
+		this.update_cb.call(this, this.state, this.scores(), this.isFinished());
 		return true;
 	} else {
-		this.update_cb.call(this, this.state, this.scores());
+		this.update_cb.call(this, this.state, this.scores(), this.isFinished());
 		return false;
 	}
 };
