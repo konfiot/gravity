@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concat: {
             js: {
-                src: ['node_modules/socket.io-client/socket.io.js',  'common/game.js', 'client/js/main.js', 'client/js/network.js'],
+                src: ['node_modules/socket.io-client/socket.io.js',  'common/game.js', 'client/js/view.js', 'client/js/network.js', 'client/js/main.js'],
                 dest: 'client/dist.js'
             },
             css: {
