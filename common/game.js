@@ -71,6 +71,14 @@ Game.prototype.isFinished = function(){
 	return true;
 };
 
+Game.prototype.setSize = function (size) {
+	for(var i = 0; i < size; i += 1){
+		this.state[i] = Array(size);
+		for (var j = 0; j < size; j += 1){
+			this.state[i][j] = 0;
+		}
+	}
+};
 
 function next(x,y){
 	'use strict';

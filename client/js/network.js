@@ -1,7 +1,6 @@
-function GameClient(game){
+function GameClient(){
 	'use strict';
 
-	this.game = game;
 	this.player = -1;
 	parent = this;
 	this.socket = io("@@URL_SOCKETIO_SERVER");
@@ -14,13 +13,17 @@ GameClient.prototype.list = function(cb){
 	this.socket.emit("list", {}, cb);
 };
 
-GameClient.prototype.create = function(name, cb){
+GameClient.prototype.create = function(name, size, cb){
 	parent = this;
-	this.socket.emit("create", {name: name}, function (data) {
+	this.socket.emit("create", {name: name, size: size}, function (data) {
 		parent.id = data.id;
 		parent.player = data.player;
 		cb(data);
 	});
+};
+
+GameClient.prototype.setGame = function (game) {
+	this.game = game;
 };
 
 GameClient.prototype.enter = function(id, cb){

@@ -63,17 +63,17 @@ io.sockets.on('connection', function (socket) {
 		var id = uuid.v4();
 		socket.player = 1;
 		socket.id = id;
-		games_pending[id] = {name: data["name"], cb: function () {
+		games_pending[id] = {name: data.name, size: data.size, cb: function () {
 			cb({id: id, player: socket.player});
 		}};
 	});
 	socket.on("enter", function (data, cb) {
 		'use strict';
-		running_games[data.id] = {name: games_pending[data.id].name, game: new Game(3, function(){})};
+		running_games[data.id] = {name: games_pending[data.id].name, game: new Game(games_pending[data.id].size, function(){})};
 		games_pending[data.id].cb.call(this);
 		socket.player = 2;
+		cb({player: socket.player, size: games_pending[data.id].size});
 		delete games_pending[data.id];
-		cb({player: socket.player});
 	});
 	socket.on("play", function (data, cb) {
 		'use strict';
@@ -90,6 +90,6 @@ io.sockets.on('connection', function (socket) {
 	socket.on("disconnect", function () {
 		delete running_games[socket.id];
 		delete games_pending[socket.id];
-	})
+	});
 });
 

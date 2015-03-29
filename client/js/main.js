@@ -1,4 +1,4 @@
-var size = 3;
+var size = 9;
 
 function toggle_div(name, show){
 	document.getElementById(name).style.display = (show) ? "block" : "none";
@@ -54,7 +54,6 @@ document.getElementById("solo").addEventListener("click", function (e) {
 document.getElementById("multi").addEventListener("click", function (e) {
 	toggle_div("menu", false);
 	toggle_div("list", true);
-	var game = new Game(size,update);
 	var network = new GameClient(game);
 	
 	network.list(function (list) {
@@ -70,7 +69,8 @@ document.getElementById("multi").addEventListener("click", function (e) {
 				toggle_div("connecting", true);
 				network.enter(e.target.id, function (data) {
 					toggle_div("connecting", false);
-					init_game(size, function (x,y) {
+					network.setGame(new Game(data.size, update));
+					init_game(data.size, function (x,y) {
 						console.log("Tried to play");
 						network.play(x,y);
 					});
@@ -83,8 +83,9 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	document.getElementById("create").addEventListener("click", function (e) {
 		toggle_div("waiting", true);
 		toggle_div("list", false);
-		network.create(document.getElementById("name").value, function (data) {
-			init_game(size, function (x,y) {
+		network.setGame(new Game(parseInt(document.getElementById("size").value), update));
+		network.create(document.getElementById("name").value, parseInt(document.getElementById("size").value), function (data) {
+			init_game(parseInt(document.getElementById("size").value), function (x,y) {
 				network.play(x,y);
 			});
 		});
