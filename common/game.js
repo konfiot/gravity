@@ -71,11 +71,6 @@ Game.prototype.isFinished = function(){
 	return true;
 };
 
-function next(x,y){
-	'use strict';
-	return (Math.max(Math.abs(x[0]-y[0]),Math.abs(x[1]-y[1])) <= 1);
-}
-
 Game.prototype.scores = function(){
 	'use strict';
 	var score = [0,0],
@@ -83,10 +78,6 @@ Game.prototype.scores = function(){
 
 	for (var i in this.state){
 		for (var j in this.state[i]){
-			if (this.state[i][j] == 0){
-				count = [[],[],[],[]];
-				continue;
-			}
 			for(var k  = 0; k < count.length; k += 1){
 				var l = 0;
 				switch(k){
@@ -103,7 +94,7 @@ Game.prototype.scores = function(){
 				        l = i-j+this.size;
 					break;
 				}
-				if (count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
+				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
 					count[k][l] = [this.state[i][j], 1];
 				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)){
 					count[k][l][1] += 1;
