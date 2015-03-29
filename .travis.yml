@@ -1,14 +1,15 @@
 language: node_js
 node_js:
-  - '0.12'
-env : 'SOCKETIO_SERVER=https://gravitygame.herokuapp.com/'
+- '0.12'
+env: SOCKETIO_SERVER=https://gravitygame.herokuapp.com/
 deploy:
+  matrix:
   - provider: heroku
-    api_key:
-      secure: VJIV3fBb/EAUsJMQVrUuOrpUv6H/42SekAUbLPTHfPvj9ATr5HP+4tPB0ayKSemzq+WwG/gusXw6ljpGHoT5BFlOC6Bhv9cssClOHSAEycxAG3qVB1fN4IoPmZ4UlqTJfa/60Txm/2PqOs4I9fMiz/u61GUJKXQtT2o28l2jTI8=
     app: gravitygame
     on:
       repo: konfiot/gravity
       branch: master
       node: '0.12'
     skip_cleanup: true
+  api_key:
+    secure: FDYBU3zRrFz5bmCr8YzUjIviq6YHkn0ncwkVcS+LtyTmrUgJMsSNH6SHGQpsWbyr1XpL/E1M2HKeI5g/CyaN71T19NvJLwSa/Xj18UtX83AJG6vnAuGoFHDOogGn4Dvi/T6zaNb3wwxbpU7zIkFNFGjpAA818Qm8E9y2SAoOaNY=
