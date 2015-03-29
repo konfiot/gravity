@@ -90,3 +90,8 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		});
 	});
 });
+
+document.getElementById("restart").addEventListener("click", function (e) {
+	toggle_div("finish", false);
+	toggle_div("menu", true);
+});
