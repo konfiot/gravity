@@ -4,7 +4,7 @@ function GameClient(game){
 	this.game = game;
 	this.player = -1;
 	parent = this;
-	this.socket = io();
+	this.socket = io("@@URL_SOCKETIO_SERVER");
 	this.socket.on('e', function (data) {
 		parent.update(data);
 	});
