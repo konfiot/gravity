@@ -2,7 +2,10 @@ function Game(size, update){
 	'use strict';
 	this.state = [];
 	for(var i = 0; i < size; i += 1){
-		this.state[i] = Array(size).fill(0);
+		this.state[i] = Array(size);
+		for (var j = 0; j < size; j += 1){
+			this.state[i][j] = 0;
+		}
 	}
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
 
@@ -14,7 +17,7 @@ function Game(size, update){
 
 Game.prototype.checkplay = function (x,y){
 	'use strict';
-	var tries = Array(4).fill(0);
+	var tries = [0,0,0,0];
 	if (this.state[x][y] != 0){
 		return false;
 	}
@@ -39,14 +42,18 @@ Game.prototype.checkplay = function (x,y){
 	}
 };
 
-Game.prototype.play = function (player, x,y){
+Game.prototype.play = function (player, x,y, overwrite){
 	'use strict';
 	if (player > 2 || player < 1){
+		return false;
+	}
+	if (player == this.oldplayer && !overwrite){
 		return false;
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player;
 		this.update_cb.call(this, this.state, this.scores(), this.isFinished());
+		this.oldplayer = player;
 		return true;
 	} else {
 		this.update_cb.call(this, this.state, this.scores(), this.isFinished());
@@ -111,3 +118,7 @@ Game.prototype.scores = function(){
 	return score;
 };
 
+
+try {
+module.exports.Game = Game;
+} catch (ignore) {}

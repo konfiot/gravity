@@ -48,3 +48,23 @@ td
 	background-color: rgba(255,255,255,0.7);
 	font-size: 25vh;
 }
+
+#menu {
+	display: block;
+}
+
+.p1 {
+	background-color: blue;
+}
+
+.p2 {
+	background-color: red;
+}
+
+.p-1 {
+	background-color: gray;
+}
+
+.p0 {
+	background-color: white;
+}

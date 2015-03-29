@@ -5,7 +5,7 @@ var sio = require('socket.io'),
 	http = require('http'),
 	fs = require('fs'),
 	zlib = require("zlib"),
-	Game = require("../common/game.js");
+	Game = require("../common/game.js").Game;
 
 var server = http.createServer(function (request, response) {
 	'use strict';
@@ -61,20 +61,27 @@ io.sockets.on('connection', function (socket) {
 	socket.on("create", function (data, cb) {
 		'use strict';
 		var id = uuid.v4();
-		games_pending[id] = {name: data["name"]};
 		socket.player = 1;
-		cb({id: id, player: socket.player});
+		games_pending[id] = {name: data["name"], cb: function () {
+			cb({id: id, player: socket.player});
+		}};
 	});
 	socket.on("enter", function (data, cb) {
 		'use strict';
-		running_games[data.id] = {name: games_pending.name, game: new Game(9, function(){})};
+		running_games[data.id] = {name: games_pending[data.id].name, game: new Game(3, function(){})};
+		games_pending[data.id].cb.call(this);
 		socket.player = 2;
 		delete games_pending[data.id];
 		cb({player: socket.player});
 	});
 	socket.on("play", function (data, cb) {
 		'use strict';
-		cb(running_games[data.id].game.play(data.x, data.y, socket.player));
+		if (running_games[data.id].game.play(socket.player, data.x, data.y)){
+			socket.broadcast.emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});
+			cb(true);
+		} else {
+			cb(false);
+		}
 		if (running_games[data.id].game.isFinished()){
 			delete running_games[data.id];
 		}
