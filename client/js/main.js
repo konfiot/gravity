@@ -15,7 +15,7 @@ function update(state, score, finished)
 		if(score[0] == score[1]){
 			document.getElementById("winner").innerHTML = "Tie";
 		} else {
-			document.getElementById("winner").innerHTML = "Player " + score.indexOf(Math.max.apply(this, score)) + " wins";
+			document.getElementById("winner").innerHTML = "Player " + (score.indexOf(Math.max.apply(this, score))+1) + " wins";
 		}
 		toggle_div("finish", true);
 	}
