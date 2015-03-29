@@ -1,5 +1,9 @@
 var size = 3;
 
+function toggle_div(name, show){
+	document.getElementById(name).style.display = (show) ? "block" : "none";
+}
+
 function update(state, score, finished)
 {
 	var cells = document.getElementsByTagName("td");
@@ -9,15 +13,12 @@ function update(state, score, finished)
 	document.getElementById("score").innerHTML = "<span class='t1'>" + score[0] + "</span> - <span class='t2'>"+ score[1] + "</span></table>";
 	if (finished){
 		if(score[0] == score[1]){
-			//view.finish(true, -1);
+			document.getElementById("winner").innerHTML = "Tie";
 		} else {
-			//view.finish(true, score.indexOf(Math.max.apply(this, score) + 1));
+			document.getElementById("winner").innerHTML = "Player " + score.indexOf(Math.max.apply(this, score)) + " wins";
 		}
+		toggle_div("finish", true);
 	}
-}
-
-function toggle_div(name, show){
-	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
 function init_game(size, cb){
