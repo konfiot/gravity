@@ -71,15 +71,6 @@ Game.prototype.isFinished = function(){
 	return true;
 };
 
-Game.prototype.setSize = function (size) {
-	for(var i = 0; i < size; i += 1){
-		this.state[i] = Array(size);
-		for (var j = 0; j < size; j += 1){
-			this.state[i][j] = 0;
-		}
-	}
-};
-
 function next(x,y){
 	'use strict';
 	return (Math.max(Math.abs(x[0]-y[0]),Math.abs(x[1]-y[1])) <= 1);
@@ -93,6 +84,7 @@ Game.prototype.scores = function(){
 	for (var i in this.state){
 		for (var j in this.state[i]){
 			if (this.state[i][j] == 0){
+				count = [[],[],[],[]];
 				continue;
 			}
 			for(var k  = 0; k < count.length; k += 1){
@@ -108,7 +100,7 @@ Game.prototype.scores = function(){
 				        l = i+j;
 					break;
 					case 3:
-					        l = i-j+this.size;
+				        l = i-j+this.size;
 					break;
 				}
 				if (count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
@@ -116,6 +108,7 @@ Game.prototype.scores = function(){
 				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)){
 					count[k][l][1] += 1;
 					if (count[k][l][1] >= 4){
+						console.log("Player " + count[k][l][0]-1 + " scored with k=" + k + " and l=" + l);
 						score[count[k][l][0]-1] += 1;
 						count[k][l][1] = 0;
 					}
