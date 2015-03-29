@@ -14,9 +14,9 @@ GameClient.prototype.list = function(cb){
 	this.socket.emit("list", {}, cb);
 };
 
-GameClient.prototype.create = function(cb){
+GameClient.prototype.create = function(name, cb){
 	parent = this;
-	this.socket.emit("create", {name: "Partie"}, function (data) {
+	this.socket.emit("create", {name: name}, function (data) {
 		parent.id = data.id;
 		parent.player = data.player;
 		cb(data);

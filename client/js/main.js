@@ -83,7 +83,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	document.getElementById("create").addEventListener("click", function (e) {
 		toggle_div("waiting", true);
 		toggle_div("list", false);
-		network.create(function (data) {
+		network.create(document.getElementById("name").value, function (data) {
 			init_game(size, function (x,y) {
 				network.play(x,y);
 			});
