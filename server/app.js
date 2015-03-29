@@ -62,6 +62,7 @@ io.sockets.on('connection', function (socket) {
 		'use strict';
 		var id = uuid.v4();
 		socket.player = 1;
+		socket.id = id;
 		games_pending[id] = {name: data["name"], cb: function () {
 			cb({id: id, player: socket.player});
 		}};
@@ -86,5 +87,9 @@ io.sockets.on('connection', function (socket) {
 			delete running_games[data.id];
 		}
 	});
+	socket.on("disconnect", function () {
+		delete running_games[socket.id];
+		delete games_pending[socket.id];
+	})
 });
 
