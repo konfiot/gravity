@@ -70,6 +70,14 @@ td
 	background-color: white;
 }
 
+.t1 {
+	color: blue;
+}
+
+.t1 {
+	color: red;
+}
+
 button {
 	font-size: inherit;
 }
