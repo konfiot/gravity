@@ -1,6 +1,6 @@
 body
 {
-	background-color: gray;
+	background-color: silver;
 }
 
 #game
@@ -25,7 +25,7 @@ body
 
 table
 {
-	background-color: gray;
+	background-color: silver;
 	border-spacing :15px;
 	/*border: solid black 4px;*/
 	width: 100%;
@@ -34,9 +34,9 @@ table
 
 td
 {
-	background-color: silver;
-	border-radius: 3vh;
-	box-shadow: 5px 5px 5px;
+	background-color: gray;
+	border-radius: 0.25vh;
+	box-shadow: 2px 2px 2px  inset ;
 }
 
 #list, #finish, #menu {
@@ -66,13 +66,13 @@ td
 }
 
 .p-1 {
-	background-color: gray;
-	color: gray;
+	background-color: silver;
+	color: silver;
 }
 
 
 .p0 {
-	background-color: silver;
+	background-color: gray;
 }
 
 .t1 {
