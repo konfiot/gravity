@@ -1,3 +1,8 @@
+body
+{
+	background-color: gray;
+}
+
 #game
 {
 	margin-left: auto;
@@ -20,20 +25,18 @@
 
 table
 {
-	background-color: black;
-	border-spacing :0px;
-	border: solid black 4px;
+	background-color: gray;
+	border-spacing :15px;
+	/*border: solid black 4px;*/
 	width: 100%;
 	height: 100%;
 }
 
 td
 {
-	background-color: white;
-	border-color: black;
-	border-style: solid;
-	border-width: 4px;
-	border-radius: 7px;
+	background-color: silver;
+	border-radius: 3vh;
+	box-shadow: 5px 5px 5px;
 }
 
 #list, #finish, #menu {
@@ -55,19 +58,21 @@ td
 }
 
 .p1 {
-	background-color: blue;
+	background-color: rgba(0,0,255,0.5);
 }
 
 .p2 {
-	background-color: red;
+	background-color: rgba(255,0,0,0.5);
 }
 
 .p-1 {
 	background-color: gray;
+	color: gray;
 }
 
+
 .p0 {
-	background-color: white;
+	background-color: silver;
 }
 
 .t1 {
