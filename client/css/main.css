@@ -40,7 +40,7 @@ td
 	/*box-shadow: 2px 2px 2px  inset ;*/
 }
 
-#list, #finish, #menu {
+#list, #finish, #menu, #connecting, #waiting{
 	position: absolute;
 	left: 0;
 	top: 0;
