@@ -96,16 +96,9 @@ Game.prototype.scores = function(){
 				}
 				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
 					count[k][l] = [this.state[i][j], 1];
-					if (k == 2){
-						console.log("Counting : l="+l + " count=" + count[k][l][1]);
-					}
 				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)){
 					count[k][l][1] += 1;
-					if (k == 2){
-						console.log("Counting : l="+l + " count=" + count[k][l][1]);
-					}
 					if (count[k][l][1] >= 4){
-						console.log("Player " + (count[k][l][0] - 1) + " scored with k=" + k + " and l=" + l);
 						score[count[k][l][0]-1] += 1;
 						count[k][l][1] = 0;
 					}
