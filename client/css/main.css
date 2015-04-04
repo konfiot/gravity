@@ -20,7 +20,8 @@ body
 	margin-right: auto;
 	font-size: 5vh;
 	text-align: center;
-	font-style: Ubuntu;
+	font-style: Helvatica;
+	color: gray;
 }
 
 table
@@ -36,7 +37,7 @@ td
 {
 	background-color: gray;
 	border-radius: 0.25vh;
-	box-shadow: 2px 2px 2px  inset ;
+	/*box-shadow: 2px 2px 2px  inset ;*/
 }
 
 #list, #finish, #menu {
@@ -76,11 +77,11 @@ td
 }
 
 .t1 {
-	color: blue;
+	color: rgba(0,0,255,0.5);
 }
 
 .t2 {
-	color: red;
+	color: rgba(255,0,0,0.5);
 }
 
 button {
