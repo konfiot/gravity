@@ -26,7 +26,7 @@ function init_game(size, cb){
 	for(var i = 0; i < size; i += 1){
 		str += "<tr>";
 		for(var j = 0; j < size; j += 1){
-			str += "<td></td>";
+			str += "<td class='p" + ((i == Math.floor(size/2) && j == Math.floor(size/2)) ? "-1" : "0") + "'></td>";
 		}
 		str += "</tr>";
 	}
