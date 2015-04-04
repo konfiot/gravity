@@ -1,6 +1,10 @@
 function Game(size, update, nplayers){
 	'use strict';
 	this.state = [];
+	this.size = Math.floor(size || 9);
+	this.nplayers = Math.floor(nplayers || 2);
+	this.whosturn = 0;
+	
 	for(var i = 0; i < size; i += 1){
 		this.state[i] = Array(size);
 		for (var j = 0; j < size; j += 1){
@@ -8,13 +12,9 @@ function Game(size, update, nplayers){
 		}
 	}
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
-
+	
 	this.update_cb = update;
 	this.update_cb.call(this, this.state, this.scores(), false);
-
-	this.size = Math.floor(size || 9);
-	this.nplayers = Math.floor(nplayers || 2);
-	this.whosturn = 0;
 }
 
 Game.prototype.checkplay = function (x,y){
