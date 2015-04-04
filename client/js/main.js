@@ -1,5 +1,3 @@
-var size = 9;
-
 function toggle_div(name, show){
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
@@ -10,7 +8,11 @@ function update(state, score, finished)
 	for (var i = 0; i < cells.length; i += 1){
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
 	}
-	document.getElementById("score").innerHTML = "<span class='t1'>" + score[0] + "</span> - <span class='t2'>"+ score[1] + "</span></table>";
+	var str = "";
+	for(var j = 0; j < score.length; j += 1){
+		str += "<span class='t"+(j+1)+"'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
+	}
+	document.getElementById("score").innerHTML = str
 	if (finished){
 		if(score[0] == score[1]){
 			document.getElementById("winner").innerHTML = "Tie";
@@ -41,11 +43,13 @@ function init_game(size, cb){
 }
 
 document.getElementById("solo").addEventListener("click", function (e) {
-	var game = new Game(size,update);
+	var nplayers = document.getElementById("nplayers_solo").value;
+	var size = document.getElementById("size_solo").value;
+	var game = new Game(size, update, nplayers);
 	var i = 0;
 	toggle_div("menu", false);
 	init_game(size, function (x,y) {
-		if (game.play(i%2+1,x,y)){
+		if (game.play(i%nplayers+1,x,y)){
 			i += 1;
 		}
 	});

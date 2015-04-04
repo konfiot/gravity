@@ -66,6 +66,10 @@ td
 	background-color: rgba(255,0,0,0.5);
 }
 
+.p3 {
+	background-color: rgba(0,255,0,0.5);
+}
+
 .p-1 {
 	background-color: silver;
 	color: silver;
@@ -82,6 +86,10 @@ td
 
 .t2 {
 	color: rgba(255,0,0,0.5);
+}
+
+.t3 {
+	color: rgba(0,255,0,0.5);
 }
 
 button {

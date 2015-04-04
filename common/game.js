@@ -1,4 +1,4 @@
-function Game(size, update){
+function Game(size, update, nplayers){
 	'use strict';
 	this.state = [];
 	for(var i = 0; i < size; i += 1){
@@ -12,7 +12,9 @@ function Game(size, update){
 	this.update_cb = update;
 	this.update_cb.call(this, this.state, this.scores(), false);
 
-	this.size = size;
+	this.size = Math.floor(size || 9);
+	this.nplayers = Math.floor(nplayers || 2);
+	this.whosturn = 0;
 }
 
 Game.prototype.checkplay = function (x,y){
@@ -44,16 +46,18 @@ Game.prototype.checkplay = function (x,y){
 
 Game.prototype.play = function (player, x,y, overwrite){
 	'use strict';
-	if (player > 2 || player < 1){
+	if (player > this.nplayers || player < 1){
 		return false;
 	}
-	if (player == this.oldplayer && !overwrite){
+	
+	if (player != this.whosturn%this.nplayers+1 && !overwrite){
+		console.log("Player " + player + " tried to play when it was player " + this.whosturn%this.nplayers + " to play")
 		return false;
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player;
 		this.update_cb.call(this, this.state, this.scores(), this.isFinished());
-		this.oldplayer = player;
+		this.whosturn += 1;
 		return true;
 	} else {
 		this.update_cb.call(this, this.state, this.scores(), this.isFinished());
@@ -73,8 +77,13 @@ Game.prototype.isFinished = function(){
 
 Game.prototype.scores = function(){
 	'use strict';
-	var score = [0,0],
+	var score = Array(this.nplayers),
 	count = [[],[],[],[]];
+
+	for (var h = 0; h < score.length; h += 1){
+		score[h] = 0;
+	}
+	
 
 	for (var i = 0; i< this.state.length; i += 1){
 		for (var j = 0; j< this.state[i].length; j += 1){
