@@ -65,25 +65,33 @@ io.sockets.on('connection', function (socket) {
 		socket.player = 1;
 		socket.game_id = id;
 		socket.join(id);
-		games_pending[id] = {name: data.name, size: data.size, cb: function () {
-			cb({id: id, player: socket.player});
-		}};
+		games_pending[id] = {name: data.name, size: data.size, nplayers: data.nplayers, connected_players: 1};
+		cb.call(this, {
+			id: id,
+			player: socket.player
+		});
 	});
 	socket.on("enter", function (data, cb) {
 		'use strict';
 		
-		running_games[data.id] = {name: games_pending[data.id].name, game: new Game(games_pending[data.id].size, function(){})};
-		games_pending[data.id].cb.call(this);
-		socket.player = 2;
+		games_pending[data.id].connected_players += 1;
+		socket.player = games_pending[data.id].connected_players;
 		socket.join(data.id);
-		cb({player: socket.player, size: games_pending[data.id].size});
-		delete games_pending[data.id];
+		
+		cb.call(cb, {player: socket.player, size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers});
+		
+		if (games_pending[data.id].connected_players === games_pending[data.id].nplayers){
+			running_games[data.id] = {name: games_pending[data.id].name, game: new Game(games_pending[data.id].size, function(){}, games_pending[data.id].nplayers)};
+			io.sockets.to(data.id).emit("e", {action: "begin"});
+			
+			delete games_pending[data.id];
+		}
 	});
 	socket.on("play", function (data, cb) {
 		'use strict';
 		
 		if (running_games[data.id].game.play(socket.player, data.x, data.y)){
-			io.sockets.to(data.id).emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});
+			socket.to(data.id).emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});
 			cb(true);
 		} else {
 			cb(false);

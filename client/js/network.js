@@ -1,7 +1,9 @@
-function GameClient(){
+function GameClient(begin_cb){
 	'use strict';
 
 	this.player = -1;
+	this.begin_cb = begin_cb;
+	
 	parent = this;
 	this.socket = io("@@URL_SOCKETIO_SERVER");
 	this.socket.on('e', function (data) {
@@ -13,9 +15,9 @@ GameClient.prototype.list = function(cb){
 	this.socket.emit("list", {}, cb);
 };
 
-GameClient.prototype.create = function(name, size, cb){
+GameClient.prototype.create = function(name, size, nplayers, cb){
 	parent = this;
-	this.socket.emit("create", {name: name, size: size}, function (data) {
+	this.socket.emit("create", {name: name, size: size, nplayers: nplayers}, function (data) {
 		parent.id = data.id;
 		parent.player = data.player;
 		cb(data);
@@ -56,5 +58,7 @@ GameClient.prototype.update = function (e){
 		case "update":
 			this.game.update(e.state);
 		break;
+		case "begin":
+			this.begin_cb.call(this);
 	}
 };

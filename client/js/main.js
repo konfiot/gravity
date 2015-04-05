@@ -58,7 +58,9 @@ document.getElementById("solo").addEventListener("click", function (e) {
 document.getElementById("multi").addEventListener("click", function (e) {
 	toggle_div("menu", false);
 	toggle_div("list", true);
-	var network = new GameClient(game);
+	var network = new GameClient(function () {
+		toggle_div("waiting", false);
+	});
 	
 	network.list(function (list) {
 		var str = "<ul>";
@@ -73,9 +75,10 @@ document.getElementById("multi").addEventListener("click", function (e) {
 				toggle_div("connecting", true);
 				network.enter(e.target.id, function (data) {
 					toggle_div("connecting", false);
-					network.setGame(new Game(data.size, update));
+					toggle_div("waiting", true);
+					console.log("I Was there");
+					network.setGame(new Game(data.size, update, data.nplayers));
 					init_game(data.size, function (x,y) {
-						console.log("Tried to play");
 						network.play(x,y);
 					});
 	
@@ -87,9 +90,8 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	document.getElementById("create").addEventListener("click", function (e) {
 		toggle_div("waiting", true);
 		toggle_div("list", false);
-		network.setGame(new Game(parseInt(document.getElementById("size").value), update));
-		network.create(document.getElementById("name").value, parseInt(document.getElementById("size").value), function (data) {
-			toggle_div("waiting", false);
+		network.setGame(new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value)));
+		network.create(document.getElementById("name").value, parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), function (data) {
 			init_game(parseInt(document.getElementById("size").value), function (x,y) {
 				network.play(x,y);
 			});
