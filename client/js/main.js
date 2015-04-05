@@ -63,11 +63,11 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	});
 	
 	network.list(function (list) {
-		var str = "<ul>";
+		var str = "<table>";
 		for (var i in list) {
-			str+="<li><a id='"+ i +"'>"+list[i].name+"</a></li>";
+			str+="<tr><td><a id='"+ i +"'>"+list[i].name+"</a></td><td>"+list[i].connected_players + " / " + list[i].nplayers + "</td><td>"+list[i].size+"</td></tr>";
 		}
-		str += "</ul>";
+		str += "</table>";
 		document.getElementById("games").innerHTML = str;
 		for (i in list) {
 			document.getElementById(i).addEventListener("click", function (e) {
