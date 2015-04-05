@@ -51,7 +51,6 @@ Game.prototype.play = function (player, x,y, overwrite){
 	}
 	
 	if (player != this.whosturn%this.nplayers+1 && !overwrite){
-		console.log("Player " + player + " tried to play when it was player " + this.whosturn%this.nplayers + " to play")
 		return false;
 	}
 	if (this.checkplay(x,y)){

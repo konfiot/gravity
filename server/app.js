@@ -60,25 +60,30 @@ io.sockets.on('connection', function (socket) {
 	});
 	socket.on("create", function (data, cb) {
 		'use strict';
+		
 		var id = uuid.v4();
 		socket.player = 1;
-		socket.id = id;
+		socket.game_id = id;
+		socket.join(id);
 		games_pending[id] = {name: data.name, size: data.size, cb: function () {
 			cb({id: id, player: socket.player});
 		}};
 	});
 	socket.on("enter", function (data, cb) {
 		'use strict';
+		
 		running_games[data.id] = {name: games_pending[data.id].name, game: new Game(games_pending[data.id].size, function(){})};
 		games_pending[data.id].cb.call(this);
 		socket.player = 2;
+		socket.join(data.id);
 		cb({player: socket.player, size: games_pending[data.id].size});
 		delete games_pending[data.id];
 	});
 	socket.on("play", function (data, cb) {
 		'use strict';
+		
 		if (running_games[data.id].game.play(socket.player, data.x, data.y)){
-			socket.broadcast.emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});
+			io.sockets.to(data.id).emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});
 			cb(true);
 		} else {
 			cb(false);
@@ -88,8 +93,8 @@ io.sockets.on('connection', function (socket) {
 		}
 	});
 	socket.on("disconnect", function () {
-		delete running_games[socket.id];
-		delete games_pending[socket.id];
+		delete running_games[socket.game_id];
+		delete games_pending[socket.game_id];
 	});
 });
 

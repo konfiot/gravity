@@ -44,10 +44,13 @@ GameClient.prototype.play = function(x,y){
 };
 
 GameClient.prototype.update = function (e){
+	console.log("Got sthg");
 	switch(e.action){
 		case "play":
 			if (e.id === this.id){
 				this.game.play(e.player, e.x, e.y, true);
+			} else {
+				console.log("Update didn't match the id");
 			}
 		break;
 		case "update":
