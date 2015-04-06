@@ -33,7 +33,7 @@ table
 #game > table
 {
 	background-color: silver;
-	border-spacing :.5vw;
+	border-spacing :1vw;
 	/*border: solid black 4px;*/
 }
 
