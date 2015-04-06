@@ -65,7 +65,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	network.list(function (list) {
 		var str = "<table>";
 		for (var i in list) {
-			str+="<tr><td><a id='"+ i +"'>"+list[i].name+"</a></td><td>"+list[i].connected_players + " / " + list[i].nplayers + "</td><td>"+list[i].size+"</td></tr>";
+			str+="<tr id='"+ i +"'><td>"+list[i].name+"</td><td>"+list[i].connected_players + " / " + list[i].nplayers + "</td><td>"+list[i].size+"</td></tr>";
 		}
 		str += "</table>";
 		document.getElementById("games").innerHTML = str;
@@ -73,7 +73,8 @@ document.getElementById("multi").addEventListener("click", function (e) {
 			document.getElementById(i).addEventListener("click", function (e) {
 				toggle_div("list", false);
 				toggle_div("connecting", true);
-				network.enter(e.target.id, function (data) {
+				console.log(e);
+				network.enter(i, function (data) {
 					toggle_div("connecting", false);
 					toggle_div("waiting", true);
 					console.log("I Was there");
