@@ -73,11 +73,9 @@ document.getElementById("multi").addEventListener("click", function (e) {
 			document.getElementById(i).addEventListener("click", function (e) {
 				toggle_div("list", false);
 				toggle_div("connecting", true);
-				console.log(e);
 				network.enter(i, function (data) {
 					toggle_div("connecting", false);
 					toggle_div("waiting", true);
-					console.log("I Was there");
 					network.setGame(new Game(data.size, update, data.nplayers));
 					init_game(data.size, function (x,y) {
 						network.play(x,y);
