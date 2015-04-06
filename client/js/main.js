@@ -58,6 +58,7 @@ document.getElementById("solo").addEventListener("click", function (e) {
 document.getElementById("multi").addEventListener("click", function (e) {
 	toggle_div("menu", false);
 	toggle_div("list", true);
+	document.getElementById("name").focus();
 	var network = new GameClient(function () {
 		toggle_div("waiting", false);
 	});
@@ -86,7 +87,9 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		}
 	});
 	
-	document.getElementById("create").addEventListener("click", function (e) {
+	document.getElementById("create").addEventListener("submit", function (e) {
+		console.log("submit");
+		e.preventDefault();
 		toggle_div("waiting", true);
 		toggle_div("list", false);
 		network.setGame(new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value)));
@@ -95,6 +98,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 				network.play(x,y);
 			});
 		});
+		return false;
 	});
 });
 
