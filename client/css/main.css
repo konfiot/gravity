@@ -4,6 +4,13 @@ body
 	font-family: Helvetica;
 }
 
+.restart
+{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
 #game
 {
 	margin-left: auto;

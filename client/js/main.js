@@ -101,8 +101,14 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		return false;
 	});
 });
+var restart_buttons = document.getElementsByClassName("restart");
+for (var i  = 0; i < restart_buttons.length; i += 1){
+	restart_buttons[i].addEventListener("click", function (e) {
+		toggle_div("finish", false);
+		toggle_div("list", false);
+		toggle_div("waiting", false);
+		toggle_div("menu", true);
+	});
+}
 
-document.getElementById("restart").addEventListener("click", function (e) {
-	toggle_div("finish", false);
-	toggle_div("menu", true);
-});
+

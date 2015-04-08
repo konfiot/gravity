@@ -5,11 +5,12 @@
 	<link rel="stylesheet" href="main.css?__inline=true"></link>
 </head>
 <body>
+	<button class="restart">Return to menu</button>
 	<div id="score"></div>
 	<div id="game"></div>		
 	<div id="finish">
 		<div id="winner"></div>
-		<button id="restart">Return to menu</button>
+		<button class="restart">Return to menu</button>
 	</div>
 	<div id="menu">
 		<input type="number" id="nplayers_solo" placeholder="Number of player"/><input type="number" id="size_solo" placeholder="Grid size"/>
@@ -17,6 +18,7 @@
 		<p><button id="multi">Multiplayer</button></p>
 	</div>
 	<div id="list">
+		<button class="restart">Return to menu</button>
 		<form id="create"><input type="text" id="name" placeholder="Game name" /><input type="number" id="size" placeholder="Grid size"/><input type="number" id="nplayers" placeholder="Number of players"/><button type="submit">Create</button></form>
 		<div id="games"></div>
 	</div>
@@ -24,6 +26,7 @@
 		Connecting
 	</div>
 	<div id="waiting">
+		<button class="restart">Return to menu</button>
 		Waiting for other players
 	</div>
 	<script src="dist.js?__inline=true"></script>
