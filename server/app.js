@@ -56,6 +56,7 @@ io.sockets.on('connection', function (socket) {
 	'use strict';
 	socket.on("list", function (data, cb) {
 		'use strict';
+		socket.join("list");
 		cb(games_pending);
 	});
 	socket.on("create", function (data, cb) {
@@ -64,8 +65,10 @@ io.sockets.on('connection', function (socket) {
 		var id = uuid.v4();
 		socket.player = 1;
 		socket.game_id = id;
+		socket.leave("list");
 		socket.join(id);
 		games_pending[id] = {name: data.name, size: data.size, nplayers: data.nplayers, connected_players: 1};
+		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 		cb.call(this, {
 			id: id,
 			player: socket.player
@@ -76,6 +79,7 @@ io.sockets.on('connection', function (socket) {
 		
 		games_pending[data.id].connected_players += 1;
 		socket.player = games_pending[data.id].connected_players;
+		socket.leave("list");
 		socket.join(data.id);
 		
 		cb.call(cb, {player: socket.player, size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers});
@@ -86,6 +90,7 @@ io.sockets.on('connection', function (socket) {
 			
 			delete games_pending[data.id];
 		}
+		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 	});
 	socket.on("play", function (data, cb) {
 		'use strict';
@@ -103,6 +108,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on("disconnect", function () {
 		delete running_games[socket.game_id];
 		delete games_pending[socket.game_id];
+		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 	});
 });
 

@@ -12,6 +12,7 @@ function GameClient(begin_cb){
 }
 
 GameClient.prototype.list = function(cb){
+	this.list_cb = cb;
 	this.socket.emit("list", {}, cb);
 };
 
@@ -60,5 +61,9 @@ GameClient.prototype.update = function (e){
 		break;
 		case "begin":
 			this.begin_cb.call(this);
+		break;
+		case "update_list":
+			this.list_cb.call(this, e.data)
+		break;
 	}
 };
