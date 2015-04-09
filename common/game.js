@@ -14,7 +14,7 @@ function Game(size, update, nplayers){
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
 	
 	this.update_cb = update;
-	this.update_cb.call(this, this.state, this.scores(), false,  this.whosturn);
+	this.update_cb.call(this, this.state, this.scores(), false, 1);
 }
 
 Game.prototype.checkplay = function (x,y){
@@ -50,7 +50,7 @@ Game.prototype.play = function (player, x,y, overwrite){
 		return false;
 	}
 	
-	if (player != this.whosturn%this.nplayers+1 && !overwrite){
+	if (player-1 != this.whosturn && !overwrite){
 		return false;
 	}
 	if (this.checkplay(x,y)){

@@ -4,13 +4,14 @@ function toggle_div(name, show){
 
 function update(state, score, finished, current)
 {
+	console.log(current)
 	var cells = document.getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1){
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
 	}
 	var str = "";
 	for(var j = 0; j < score.length; j += 1){
-		str += "<span class='t"+(j+1)+" " + ((j+1 == current) ? "current" : "") + "'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
+		str += "<span class='t"+(j+1)+" " + (((j+1)%score.length == current) ? "current" : "") + "'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
 	}
 	document.getElementById("score").innerHTML = str;
 	if (finished){
