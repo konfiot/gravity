@@ -2,7 +2,7 @@ function toggle_div(name, show){
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
-function update(state, score, finished)
+function update(state, score, finished, current)
 {
 	var cells = document.getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1){
@@ -10,9 +10,9 @@ function update(state, score, finished)
 	}
 	var str = "";
 	for(var j = 0; j < score.length; j += 1){
-		str += "<span class='t"+(j+1)+"'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
+		str += "<span class='t"+(j+1)+" " + ((j+1 == current) ? "current" : "") + "'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
 	}
-	document.getElementById("score").innerHTML = str
+	document.getElementById("score").innerHTML = str;
 	if (finished){
 		if(score[0] == score[1]){
 			document.getElementById("winner").innerHTML = "Tie";
