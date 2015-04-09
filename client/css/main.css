@@ -95,6 +95,11 @@ table
 	background-color: gray;
 }
 
+.last
+{
+	box-shadow: 2px 2px 2px ;
+}
+
 .p1 {
 	background-color: rgba(0,0,255,0.5);
 }

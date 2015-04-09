@@ -55,7 +55,7 @@ Game.prototype.play = function (player, x,y, overwrite){
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player;
-		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn);
+		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, [x,y]);
 		this.whosturn += 1;
 		this.whosturn %= this.nplayers;
 		return true;

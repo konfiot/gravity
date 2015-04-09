@@ -2,12 +2,15 @@ function toggle_div(name, show){
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
-function update(state, score, finished, current)
+function update(state, score, finished, current, lastplays)
 {
-	console.log(current)
 	var cells = document.getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1){
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
+		if (lastplays !== undefined && cells[i].parentElement.rowIndex == lastplays[0] && cells[i].cellIndex == lastplays[1]){
+			cells[i].className += " last";
+		}
+		
 	}
 	var str = "";
 	for(var j = 0; j < score.length; j += 1){
