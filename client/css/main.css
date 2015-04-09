@@ -1,6 +1,6 @@
 body
 {
-	background-color: silver;
+	background-color: rgb(240,240,240);
 	font-family: Helvetica;
 }
 
@@ -28,7 +28,7 @@ body
 	margin-right: auto;
 	font-size: 5vh;
 	text-align: center;
-	color: gray;
+	color: rgb(190,190,190);
 }
 
 table
@@ -39,7 +39,7 @@ table
 
 #game > table
 {
-	background-color: silver;
+	background-color: rgb(240,240,240);
 	border-spacing :5px;
 	/*border: solid black 4px;*/
 }
@@ -78,7 +78,7 @@ table
 
 #games * tr:hover
 {
-	background-color: silver;
+	background-color: rgb(240,240,240);
 }
 
 #games * td:nth-child(1)
@@ -92,7 +92,7 @@ table
 
 .current
 {
-	background-color: gray;
+	background-color: rgb(190,190,190);
 }
 
 .last
@@ -129,13 +129,13 @@ table
 }
 
 .p-1 {
-	background-color: silver;
-	color: silver;
+	background-color: rgb(240,240,240);
+	color: rgb(240,240,240);
 }
 
 
 .p0 {
-	background-color: gray;
+	background-color: rgb(190,190,190);
 }
 
 .t1 {
