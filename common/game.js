@@ -30,9 +30,9 @@ Game.prototype.checkplay = function (x,y){
 
 	for (var i in this.state){
 		for (var j in this.state[i]){
-			if (x == i && y!= j && this.state[i][j] == 0){
+			if (x == i && y!= j && this.state[i][j] <= 0){
 				tries[Math.floor(y > j)] = 1;
-			} else if (x != i && y == j && this.state[i][j] == 0){
+			} else if (x != i && y == j && this.state[i][j] <= 0){
 				tries[2+Math.floor(x > i)] = 1;
 			}
 		}
