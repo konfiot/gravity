@@ -60,7 +60,6 @@ Game.prototype.play = function (player, x,y, overwrite){
 		this.whosturn %= this.nplayers;
 		return true;
 	} else {
-		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn);
 		return false;
 	}
 };
