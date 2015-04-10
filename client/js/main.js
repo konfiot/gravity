@@ -18,7 +18,7 @@ function update(state, score, finished, current, lastplays)
 	}
 	document.getElementById("score").innerHTML = str;
 
-	document.getElementById("game").className = "c"+(current+1);
+	document.getElementById("game").className = "c"+((current+1)%score.length+1);
 
 	if (finished){
 		if(score[0] == score[1]){

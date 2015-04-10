@@ -14,7 +14,7 @@ function Game(size, update, nplayers){
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
 	
 	this.update_cb = update;
-	this.update_cb.call(this, this.state, this.scores(), false, 1);
+	this.update_cb.call(this, this.state, this.scores(), false, -1);
 }
 
 Game.prototype.checkplay = function (x,y){
