@@ -41,7 +41,8 @@ table
 {
 	background-color: rgb(240,240,240);
 	border-spacing :5px;
-	/*border: solid black 4px;*/
+	border-color: inherit;
+	border-style: solid ;
 }
 
 #game * td
@@ -90,14 +91,9 @@ table
 	display: block;
 }
 
-.current
-{
-	background-color: rgb(190,190,190);
-}
-
 .last
 {
-	box-shadow: 2px 2px 2px ;
+	box-shadow: 2px 2px;
 }
 
 .p1 {
@@ -164,6 +160,34 @@ table
 
 .t7 {
 	color: rgba(0,171,159,0.5);
+}
+
+.c1 {
+	border-color: rgba(0,0,255,0.5);
+}
+
+.c2 {
+	border-color: rgba(255,0,0,0.5);
+}
+
+.c3 {
+	border-color: rgba(33,127,39,0.5);
+}
+
+.c4 {
+	border-color: rgba(229,109,0,0.5);
+}
+
+.c5 {
+	border-color: rgba(116,5,127,0.5);
+}
+
+.c6 {
+	border-color: rgba(255,222,0,0.5);
+}
+
+.c7 {
+	border-color: rgba(0,171,159,0.5);
 }
 
 button {

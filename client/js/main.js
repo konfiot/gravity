@@ -14,9 +14,12 @@ function update(state, score, finished, current, lastplays)
 	}
 	var str = "";
 	for(var j = 0; j < score.length; j += 1){
-		str += "<span class='t"+(j+1)+" " + (((j+1)%score.length == current) ? "current" : "") + "'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
+		str += "<span class='t"+(j+1)+"'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
 	}
 	document.getElementById("score").innerHTML = str;
+
+	document.getElementById("game").className = "c"+(current+1);
+
 	if (finished){
 		if(score[0] == score[1]){
 			document.getElementById("winner").innerHTML = "Tie";
