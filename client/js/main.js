@@ -1,3 +1,4 @@
+
 function toggle_div(name, show){
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
