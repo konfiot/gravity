@@ -5,6 +5,8 @@ function Game(size, update, nplayers){
 	this.nplayers = Math.floor(nplayers || 2);
 	this.whosturn = 0;
 	
+	this.plays = [];
+	
 	for(var i = 0; i < size; i += 1){
 		this.state[i] = Array(size);
 		for (var j = 0; j < size; j += 1){
@@ -13,6 +15,11 @@ function Game(size, update, nplayers){
 	}
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
 	
+	this.score = Array(this.nplayers);
+	for (var h = 0; h < this.score.length; h += 1){
+		this.score[h] = 0;
+	}
+
 	this.update_cb = update;
 	this.update_cb.call(this, this.state, this.scores(), false, -1);
 }
@@ -76,16 +83,19 @@ Game.prototype.isFinished = function(){
 
 Game.prototype.scores = function(){
 	'use strict';
-	var score = Array(this.nplayers),
-	count = [[],[],[],[]];
+	var count = [[],[],[],[]];
 
-	for (var h = 0; h < score.length; h += 1){
-		score[h] = 0;
-	}
 	
-
 	for (var i = 0; i< this.state.length; i += 1){
 		for (var j = 0; j< this.state[i].length; j += 1){
+			var played = -1;
+			for (var m = 0; m < this.plays.length; m += 1){
+				for (var n = 0; n < this.plays[m][0].length; n += 1){
+					if (this.plays[m][0][n][0] === i && this.plays[m][0][n][1] === j){
+						played = this.plays[m][1];
+					}
+				}
+			}
 			for(var k  = 0; k < count.length; k += 1){
 				var l = 0;
 				switch(k){
@@ -96,25 +106,28 @@ Game.prototype.scores = function(){
 						l = j;
 					break;
 					case 2:
-				        l = i+j;
+						l = i+j;
 					break;
 					case 3:
-				        l = i-j+this.size;
+						l = i-j+this.size;
 					break;
 				}
-				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
-					count[k][l] = [this.state[i][j], 1];
+				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j] || played === k){
+					count[k][l] = [this.state[i][j], 1, [[i,j]]];
 				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)){
 					count[k][l][1] += 1;
+					count[k][l][2].push([i,j]);
 					if (count[k][l][1] >= 4){
-						score[count[k][l][0]-1] += 1;
+						console.log("scored with i="+i+" j="+j+" k="+k)
+						this.score[count[k][l][0]-1] += 1;
 						count[k][l][1] = 0;
+						this.plays.push([count[k][l][2], k])
 					}
 				}
 			}
 		}
 	}
-	return score;
+	return Array(this.score);
 };
 
 
