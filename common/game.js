@@ -83,7 +83,7 @@ Game.prototype.isFinished = function(){
 
 Game.prototype.scores = function(){
 	'use strict';
-	var count = [[],[],[],[]];
+var count = [[],[],[],[]];
 
 	
 	for (var i = 0; i< this.state.length; i += 1){
@@ -112,8 +112,10 @@ Game.prototype.scores = function(){
 						l = i-j+this.size;
 					break;
 				}
-				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j] || played === k){
+				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
 					count[k][l] = [this.state[i][j], 1, [[i,j]]];
+				} else if (played == k) {
+					count[k][l] = undefined;
 				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)){
 					count[k][l][1] += 1;
 					count[k][l][2].push([i,j]);

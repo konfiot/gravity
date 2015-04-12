@@ -5,7 +5,6 @@ function toggle_div(name, show){
 
 function update(state, score, finished, current, plays, lastplays)
 {
-	console.log(score);	
 	var cells = document.getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1){
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
@@ -105,7 +104,6 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	});
 	
 	document.getElementById("create").addEventListener("submit", function (e) {
-		console.log("submit");
 		e.preventDefault();
 		toggle_div("waiting", true);
 		toggle_div("list", false);
