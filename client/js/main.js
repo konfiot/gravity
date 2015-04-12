@@ -5,6 +5,7 @@ function toggle_div(name, show){
 
 function update(state, score, finished, current, plays, lastplays)
 {
+	console.log(score);	
 	var cells = document.getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1){
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];

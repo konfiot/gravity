@@ -127,7 +127,7 @@ Game.prototype.scores = function(){
 			}
 		}
 	}
-	return Array(this.score);
+	return this.score;
 };
 
 
