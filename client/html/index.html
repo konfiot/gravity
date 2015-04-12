@@ -14,13 +14,41 @@
 		<button class="restart">Return to menu</button>
 	</div>
 	<div id="menu">
-		<input type="number" id="nplayers_solo" placeholder="Number of player"/><input type="number" id="size_solo" placeholder="Grid size"/>
+		<select id="nplayers_solo"> 
+			<option value="2">2 players</option>
+			<option value="3">3 players</option>
+			<option value="4">4 players</option>
+		</select>
+		<select id="size_solo">
+			<option>5</option>
+			<option>7</option>
+			<option>9</option>
+			<option>11</option>
+			<option>13</option>
+			<option>15</option>
+			<option>17</option>
+		</select>
 		<p><button id="solo">Solo</button></p>
 		<p><button id="multi">Multiplayer</button></p>
 	</div>
 	<div id="list">
 		<button class="restart">Return to menu</button>
-		<form id="create"><input type="text" id="name" placeholder="Game name" /><input type="number" id="size" placeholder="Grid size"/><input type="number" id="nplayers" placeholder="Number of players"/><button type="submit">Create</button></form>
+		<form id="create"><input type="text" id="name" placeholder="Game name" />
+			<select id="nplayers_solo"> 
+				<option>2 players</option>
+				<option>3 players</option>
+				<option>4 players</option>
+			</select>
+			<select id="size_solo">
+				<option>5</option>
+				<option>7</option>
+				<option>9</option>
+				<option>11</option>
+				<option>13</option>
+				<option>15</option>
+				<option>17</option>
+			</select>
+		<button type="submit">Create</button></form>
 		<div id="games"></div>
 	</div>
 	<div id="connecting">

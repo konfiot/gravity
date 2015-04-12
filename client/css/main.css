@@ -50,9 +50,10 @@ table
 #game > table
 {
 	background-color: rgb(240,240,240);
-	border-spacing :5px;
+	border-spacing :.25vw;
 	border-color: inherit;
 	border-style: solid ;
+	border-width: .25vw;
 }
 
 #game * td
@@ -60,8 +61,7 @@ table
 	border-style: solid;
 	border-color: transparent;
 	border-radius: 0.25vh;
-	border-width:7px;
-	/*box-shadow: 2px 2px 2px  inset ;*/
+	border-width:.35vw;
 }
 
 #list, #finish, #menu, #connecting, #waiting{
@@ -72,8 +72,7 @@ table
 	text-align: center;
 	width: 100%;
 	height: 100%;
-	background-color: white;
-	background-color: rgba(255,255,255,0.7);
+	background-color: rgb(240,240,240);
 	font-size: 10vh;
 }
 
@@ -122,23 +121,10 @@ table
 	background-color: rgba(229,109,12,0.5);
 }
 
-.p5 {
-	background-color: rgba(116,5,127,0.5);
-}
-
-.p6 {
-	background-color: rgba(255,222,0,0.5);
-}
-
-.p7 {
-	background-color: rgba(0,171,159,0.5);
-}
-
 .p-1 {
 	background-color: rgb(240,240,240);
 	color: rgb(240,240,240);
 }
-
 
 .p0 {
 	background-color: rgb(210,210,210);
@@ -160,18 +146,6 @@ table
 	color: rgba(229,109,0,0.5);
 }
 
-.t5 {
-	color: rgba(116,5,127,0.5);
-}
-
-.t6 {
-	color: rgba(255,222,0,0.5);
-}
-
-.t7 {
-	color: rgba(0,171,159,0.5);
-}
-
 .c1 {
 	border-color: rgba(0,0,255,0.5);
 }
@@ -188,22 +162,11 @@ table
 	border-color: rgba(229,109,0,0.5);
 }
 
-.c5 {
-	border-color: rgba(116,5,127,0.5);
-}
-
-.c6 {
-	border-color: rgba(255,222,0,0.5);
-}
-
-.c7 {
-	border-color: rgba(0,171,159,0.5);
-}
 
 button {
 	font-size: inherit;
 }
 
-input {
+input, select{
 	font-size: inherit;
 }
