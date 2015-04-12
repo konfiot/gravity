@@ -28,7 +28,12 @@ body
 	margin-right: auto;
 	font-size: 5vh;
 	text-align: center;
-	color: rgb(190,190,190);
+	color: rgb(210,210,210);
+}
+
+.last
+{
+	border-color: rgba(255,255,255,0.3) !important;
 }
 
 table
@@ -47,7 +52,10 @@ table
 
 #game * td
 {
+	border-style: solid;
+	border-color: transparent;
 	border-radius: 0.25vh;
+	border-width:7px;
 	/*box-shadow: 2px 2px 2px  inset ;*/
 }
 
@@ -91,10 +99,7 @@ table
 	display: block;
 }
 
-.last
-{
-	box-shadow: 2px 2px;
-}
+
 
 .p1 {
 	background-color: rgba(0,0,255,0.5);
@@ -131,7 +136,7 @@ table
 
 
 .p0 {
-	background-color: rgb(190,190,190);
+	background-color: rgb(210,210,210);
 }
 
 .t1 {
