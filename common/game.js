@@ -21,7 +21,7 @@ function Game(size, update, nplayers){
 	}
 
 	this.update_cb = update;
-	this.update_cb.call(this, this.state, this.scores(), false, -1);
+	this.update_cb.call(this, this.state, this.scores(), false, -1, this.plays);
 }
 
 Game.prototype.checkplay = function (x,y){
@@ -62,7 +62,7 @@ Game.prototype.play = function (player, x,y, overwrite){
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player;
-		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, [x,y]);
+		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays, [x,y]);
 		this.whosturn += 1;
 		this.whosturn %= this.nplayers;
 		return true;

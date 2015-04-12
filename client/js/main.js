@@ -3,7 +3,7 @@ function toggle_div(name, show){
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
-function update(state, score, finished, current, lastplays)
+function update(state, score, finished, current, plays, lastplays)
 {
 	var cells = document.getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1){
@@ -12,7 +12,15 @@ function update(state, score, finished, current, lastplays)
 			cells[i].className += " last";
 		}
 		
+		for(var j = 0; j < plays.length; j += 1){
+			for (var k = 0; k < plays[j][0].length; k += 1){
+				if (cells[i].parentElement.rowIndex == plays[j][0][k][0] && cells[i].cellIndex == plays[j][0][k][1]){
+					cells[i].className += " used";
+				}
+			}
+		}
 	}
+
 	var str = "";
 	for(var j = 0; j < score.length; j += 1){
 		str += "<span class='t"+(j+1)+"'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");

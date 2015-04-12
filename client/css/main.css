@@ -36,6 +36,11 @@ body
 	border-color: rgba(255,255,255,0.3) !important;
 }
 
+.used
+{
+	opacity: 0.5;
+}
+
 table
 {
 	width: 100%;
