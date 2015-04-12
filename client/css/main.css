@@ -12,8 +12,13 @@ body
 .restart
 {
 	position: absolute;
-	bottom: 0;
-	left: 0;
+	bottom: 2vh;
+	left: 2vw;
+	min-width: 0 !important;
+	width: 3vw;
+	height: 5vh;
+	padding-top: 0;
+	padding-bottom: 7vh;
 }
 
 #game
@@ -55,7 +60,7 @@ table
 #game > table
 {
 	background-color: rgb(240,240,240);
-	border-spacing :.25vw;
+	border-spacing: 3px; 
 	border-color: inherit;
 	border-style: solid ;
 	border-width: .25vw;
@@ -66,7 +71,7 @@ table
 	border-style: solid;
 	border-color: transparent;
 	border-radius: 0.25vh;
-	border-width:.35vw;
+	border-width: 6px;
 }
 
 #list, #finish, #menu, #connecting, #waiting{
@@ -175,9 +180,18 @@ table
 
 
 button {
-	font-size: inherit;
+	border-style: none;
+	padding: 5vh;
+	border-radius: 1vh;
+	font-size: 7vh;
+	color: white;
+	width: 20vw;
+	min-width: 300px;
+	background-color: rgb(88,172,236);
+	box-shadow: 0 1.2vh rgb(49,141,206);
 }
 
 input, select{
-	font-size: inherit;
+	font-size: 7vh;
+	max-width: 95vw;
 }
