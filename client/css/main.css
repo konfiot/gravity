@@ -91,7 +91,7 @@ table
 
 #games * tr:hover
 {
-	background-color: rgb(240,240,240);
+	background-color: rgb(210,210,210);
 }
 
 #games * td:nth-child(1)
