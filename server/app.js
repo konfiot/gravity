@@ -67,7 +67,7 @@ io.sockets.on('connection', function (socket) {
 		socket.game_id = id;
 		socket.leave("list");
 		socket.join(id);
-		games_pending[id] = {name: data.name, size: data.size, nplayers: data.nplayers, connected_players: 1};
+		games_pending[id] = {name: data.name, size: data.size, nplayers: data.nplayers, connected_players: 1, pseudos: [data.pseudo]};
 		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 		cb.call(this, {
 			id: id,
@@ -78,6 +78,7 @@ io.sockets.on('connection', function (socket) {
 		'use strict';
 		
 		games_pending[data.id].connected_players += 1;
+		games_pending[data.id].pseudos.push(data.pseudo);
 		socket.player = games_pending[data.id].connected_players;
 		socket.leave("list");
 		socket.join(data.id);
@@ -86,7 +87,8 @@ io.sockets.on('connection', function (socket) {
 		
 		if (games_pending[data.id].connected_players === games_pending[data.id].nplayers){
 			running_games[data.id] = {name: games_pending[data.id].name, game: new Game(games_pending[data.id].size, function(){}, games_pending[data.id].nplayers)};
-			io.sockets.to(data.id).emit("e", {action: "begin"});
+			io.sockets.to(data.id).emit("e", {action: "begin", data: games_pending[data.id].pseudos});
+			
 			
 			delete games_pending[data.id];
 		}
