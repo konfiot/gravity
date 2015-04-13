@@ -1,3 +1,4 @@
+var socket = io("@@URL_SOCKETIO_SERVER");
 
 function toggle_div(name, show){
 	document.getElementById(name).style.display = (show) ? "block" : "none";
@@ -71,11 +72,27 @@ document.getElementById("solo").addEventListener("click", function (e) {
 	});
 });
 
+document.getElementById("leaderbord").addEventListener("click", function(e){
+	socket.emit("scores", {}, function(data){
+		var str = "";
+		for(var i in data){
+			if (data.hasOwnProperty(i)){
+				str += "<tr>";
+				str += "<td>"+ i + "</td><td>"+data[i]+"</td>";
+				str += "</tr>";
+			}
+		}
+		document.getElementById("scores_table").innerHTML = str;
+		toggle_div("menu", false);
+		toggle_div("scores", true);
+	});
+});
+
 document.getElementById("multi").addEventListener("click", function (e) {
 	toggle_div("menu", false);
 	toggle_div("list", true);
 	document.getElementById("name").focus();
-	var network = new GameClient(function (pseudos) {
+	var network = new GameClient(socket, function (pseudos) {
 		toggle_div("waiting", false);
 		str = "";
 		for (var i = 0; i < pseudos.length; i += 1){
@@ -127,6 +144,7 @@ for (var i  = 0; i < restart_buttons.length; i += 1){
 		toggle_div("finish", false);
 		toggle_div("list", false);
 		toggle_div("waiting", false);
+		toggle_div("scores", false);
 		toggle_div("menu", true);
 	});
 }

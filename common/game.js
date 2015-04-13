@@ -85,6 +85,8 @@ Game.prototype.scores = function(){
 	'use strict';
 	var count = [[],[],[],[]];
 
+	console.log(this.plays);
+	
 	for (var i = 0; i< this.state.length; i += 1){
 		for (var j = 0; j< this.state[i].length; j += 1){
 			var played = [];

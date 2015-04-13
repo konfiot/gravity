@@ -109,6 +109,9 @@ io.sockets.on('connection', function (socket) {
 			delete running_games[data.id];
 		}
 	});
+	socket.on("scores", function(data, cb){
+		scoring.get_scores(cb);
+	});
 	socket.on("disconnect", function () {
 		delete running_games[socket.game_id];
 		delete games_pending[socket.game_id];

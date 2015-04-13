@@ -1,11 +1,11 @@
-function GameClient(begin_cb){
+function GameClient(socket, begin_cb){
 	'use strict';
 
 	this.player = -1;
 	this.begin_cb = begin_cb;
 	
 	parent = this;
-	this.socket = io("@@URL_SOCKETIO_SERVER");
+	this.socket = socket;
 	this.socket.on('e', function (data) {
 		parent.update(data);
 	});
