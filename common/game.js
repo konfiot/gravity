@@ -83,16 +83,17 @@ Game.prototype.isFinished = function(){
 
 Game.prototype.scores = function(){
 	'use strict';
-var count = [[],[],[],[]];
+	var count = [[],[],[],[]];
 
+	console.log(this.plays);
 	
 	for (var i = 0; i< this.state.length; i += 1){
 		for (var j = 0; j< this.state[i].length; j += 1){
-			var played = -1;
+			var played = [];
 			for (var m = 0; m < this.plays.length; m += 1){
 				for (var n = 0; n < this.plays[m][0].length; n += 1){
 					if (this.plays[m][0][n][0] === i && this.plays[m][0][n][1] === j){
-						played = this.plays[m][1];
+						played.push(this.plays[m][1]);
 					}
 				}
 			}
@@ -114,7 +115,7 @@ var count = [[],[],[],[]];
 				}
 				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j]){
 					count[k][l] = [this.state[i][j], 1, [[i,j]]];
-				} else if (played == k) {
+				} else if (played.indexOf(k) !== -1){
 					count[k][l] = undefined;
 				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)){
 					count[k][l][1] += 1;
