@@ -5,7 +5,8 @@ var sio = require('socket.io'),
 	http = require('http'),
 	fs = require('fs'),
 	zlib = require("zlib"),
-	Game = require("../common/game.js").Game;
+	Game = require("../common/game.js").Game,
+	scoring = require("./scoring.js");
 
 var server = http.createServer(function (request, response) {
 	'use strict';
@@ -86,7 +87,7 @@ io.sockets.on('connection', function (socket) {
 		cb.call(cb, {player: socket.player, size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers});
 		
 		if (games_pending[data.id].connected_players === games_pending[data.id].nplayers){
-			running_games[data.id] = {name: games_pending[data.id].name, game: new Game(games_pending[data.id].size, function(){}, games_pending[data.id].nplayers)};
+			running_games[data.id] = {name: games_pending[data.id].name, pseudos: games_pending[data.id].pseudos, game: new Game(games_pending[data.id].size, function(){}, games_pending[data.id].nplayers)};
 			io.sockets.to(data.id).emit("e", {action: "begin", data: games_pending[data.id].pseudos});
 			
 			
@@ -104,6 +105,7 @@ io.sockets.on('connection', function (socket) {
 			cb(false);
 		}
 		if (running_games[data.id].game.isFinished()){
+			scoring.push_scores(running_games[data.id].pseudos, running_games[data.id].game.scores());
 			delete running_games[data.id];
 		}
 	});
