@@ -75,13 +75,24 @@ document.getElementById("solo").addEventListener("click", function (e) {
 
 document.getElementById("leaderbord").addEventListener("click", function(e){
 	socket.emit("scores", {}, function(data){
-		var str = "";
+		var str = "",
+			r = 1,
+			enumerate = [];
+
 		for(var i in data){
 			if (data.hasOwnProperty(i)){
-				str += "<tr>";
-				str += "<td>"+ i + "</td><td>"+data[i].total+"</td><td>" + parseInt(data[i].won/data[i].total*100) + " %</td><td>" + data[i].score + "</td>";
-				str += "</tr>";
+				console.log("Dan");
+				enumerate.push([i, data[i]])
 			}
+		}
+
+		enumerate.sort(function(a,b){return b[1].score - a[1].score});
+
+		for(var j  = 0; j < enumerate.length; j += 1){
+			str += "<tr>";
+			str += "<td>" + r + "</td><td>" + enumerate[j][0] + "</td><td>"+enumerate[j][1].total+"</td><td>" + parseInt(enumerate[j][1].won/enumerate[j][1].total*100) + " %</td><td>" + enumerate[j][1].score + "</td>";
+			str += "</tr>";
+			r += 1;
 		}
 		document.getElementById("scores_table").innerHTML = str;
 		toggle_div("menu", false);
