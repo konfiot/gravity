@@ -1,18 +1,39 @@
 var	fs = require("fs");
 
-function compute_scores(pseudos, scores, data){
-	var points = Array(pseudos.length);
+function sum(array){
+	var sum = 0;
+	for(var i = 0; i < array.length; i += 1){
+		sum += array[i];
+	}
+	return sum;
+}
+
+function compute_scores(pseudos, scores, data, game){
+	var points = Array(pseudos.length),
+		K = sum(scores)/Math.pow(game.size, 2)/game.nplayers,
+		dr = 0,
+		dp = 0;
+	
 	for (var i = 0; i < pseudos.length; i += 1){
-		points[i] = scores[i];
+		for (var j = 0; j < pseudos.length; j += 1){
+			dp = scores[i] - scores[j];
+			dr = Math.abs(data[pseudos[i]].won/data[pseudos[i]].total - data[pseudos[j]].won/data[pseudos[j]].total);
+			if(dp > 0){
+				points[i] += K*4*dp*max(15, 1/dr)+10;
+			} else {
+				points[i] += (1+dp/score[j])*dr*4+5;
+			}
+		}
+		points[i] = 3*parseInt(Math.log(points[i]));
 	}
 	return points;
 }
 
 
-function push_scores(pseudos, scores){
+function push_scores(pseudos, scores, game){
 	fs.readFile("scores.json", function(err, raw){
 		data = JSON.parse(raw || "{}");
-		var points = compute_scores(pseudos, scores, data);
+		var points = compute_scores(pseudos, scores, data, game);
 		console.log(points);
 		for (var i = 0; i < pseudos.length; i += 1){
 			data[pseudos[i]] = data[pseudos[i]] || {score: 0, won: 0, total: 0};

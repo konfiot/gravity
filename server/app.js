@@ -87,7 +87,7 @@ io.sockets.on('connection', function (socket) {
 		cb.call(cb, {player: socket.player, size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers});
 		
 		if (games_pending[data.id].connected_players === games_pending[data.id].nplayers){
-			running_games[data.id] = {name: games_pending[data.id].name, pseudos: games_pending[data.id].pseudos, game: new Game(games_pending[data.id].size, function(){}, games_pending[data.id].nplayers)};
+			running_games[data.id] = {name: games_pending[data.id].name, pseudos: games_pending[data.id].pseudos, game: new Game(games_pending[data.id].size, function(){}, games_pending[data.id].nplayers), config: {size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers}};
 			io.sockets.to(data.id).emit("e", {action: "begin", data: games_pending[data.id].pseudos});
 			
 			
@@ -105,7 +105,7 @@ io.sockets.on('connection', function (socket) {
 			cb(false);
 		}
 		if (running_games[data.id].game.isFinished()){
-			scoring.push_scores(running_games[data.id].pseudos, running_games[data.id].game.scores());
+			scoring.push_scores(running_games[data.id].pseudos, running_games[data.id].game.scores(), running_games[data.id].config);
 			delete running_games[data.id];
 		}
 	});
