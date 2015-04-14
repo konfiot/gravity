@@ -85,8 +85,6 @@ Game.prototype.scores = function(){
 	'use strict';
 	var count = [[],[],[],[]];
 
-	console.log(this.plays);
-	
 	for (var i = 0; i< this.state.length; i += 1){
 		for (var j = 0; j< this.state[i].length; j += 1){
 			var played = [];
@@ -121,7 +119,6 @@ Game.prototype.scores = function(){
 					count[k][l][1] += 1;
 					count[k][l][2].push([i,j]);
 					if (count[k][l][1] >= 4){
-						console.log("scored with i="+i+" j="+j+" k="+k)
 						this.score[count[k][l][0]-1] += 1;
 						count[k][l][1] = 0;
 						this.plays.push([count[k][l][2], k])
