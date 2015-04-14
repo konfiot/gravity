@@ -65,6 +65,7 @@ document.getElementById("solo").addEventListener("click", function (e) {
 	var game = new Game(size, update, nplayers);
 	var i = 0;
 	toggle_div("menu", false);
+	document.getElementById("pseudos").innerHTML = "";
 	init_game(size, function (x,y) {
 		if (game.play(i%nplayers+1,x,y)){
 			i += 1;
