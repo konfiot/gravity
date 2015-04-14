@@ -183,7 +183,7 @@ table
 
 button {
 	border-style: none;
-	padding: 5vh;
+	padding: 1.5vh;
 	border-radius: 1vh;
 	font-size: 5vh;
 	color: white;
@@ -191,9 +191,15 @@ button {
 	min-width: 300px;
 	background-color: rgb(88,172,236);
 	box-shadow: 0 1.2vh rgb(49,141,206);
+	vertical-align: top;
 }
+
 
 input, select{
 	font-size: 7vh;
 	max-width: 95vw;
 }
+
+form
+{
+	margin-top: 2vh;
