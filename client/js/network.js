@@ -33,6 +33,9 @@ GameClient.prototype.setGame = function (game) {
 GameClient.prototype.enter = function(id, pseudo, cb){
 	parent = this;
 	this.id = id;
+	if (pseudo == ""){
+		pseudo = "Invité";
+	}
 	this.socket.emit("enter", {id: id, pseudo: pseudo}, function (data) {
 		parent.player = data.player;
 		cb(data);
