@@ -15,7 +15,11 @@ function push_scores(pseudos, scores){
 		var points = compute_scores(pseudos, scores, data);
 		console.log(points);
 		for (var i = 0; i < pseudos.length; i += 1){
-			data[pseudos[i]] += points[i];
+			data[pseudos[i]] = data[pseudos[i]] || {score: 0, won: 0, total: 0};
+
+			data[pseudos[i]].score += points[i];
+			data[pseudos[i]].total += 1;
+			data[pseudos[i]].won += (scores[i] === Math.max.apply(this, scores)) ? 1 : 0;
 		}
 		fs.writeFile("scores.json", JSON.stringify(data), function(){});
 	});

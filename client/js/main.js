@@ -78,7 +78,7 @@ document.getElementById("leaderbord").addEventListener("click", function(e){
 		for(var i in data){
 			if (data.hasOwnProperty(i)){
 				str += "<tr>";
-				str += "<td>"+ i + "</td><td>"+data[i]+"</td>";
+				str += "<td>"+ i + "</td><td>"+data[i].score+"</td><td>" + data[i].won + " / " + data[i].total + "</td><td>" + (data[i].won/data[i].total) + "</td>";
 				str += "</tr>";
 			}
 		}
