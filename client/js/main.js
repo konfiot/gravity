@@ -78,7 +78,7 @@ document.getElementById("leaderbord").addEventListener("click", function(e){
 		for(var i in data){
 			if (data.hasOwnProperty(i)){
 				str += "<tr>";
-				str += "<td>"+ i + "</td><td>"+data[i].score+"</td><td>" + data[i].won + " / " + data[i].total + "</td><td>" + (data[i].won/data[i].total) + "</td>";
+				str += "<td>"+ i + "</td><td>"+data[i].total+"</td><td>" + parseInt(data[i].won/data[i].total*100) + " %</td><td>" + data[i].score + "</td>";
 				str += "</tr>";
 			}
 		}
@@ -102,7 +102,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	});
 	
 	network.list(function (list) {
-		var str = "<table>";
+		var str = "<table class='list'>";
 		for (var i in list) {
 			str+="<tr id='"+ i +"'><td>"+list[i].name+"</td><td>"+list[i].connected_players + " / " + list[i].nplayers + "</td><td>"+list[i].size+"</td></tr>";
 		}

@@ -55,12 +55,14 @@ body
 
 table
 {
-	width: 100%;
-	height: 100%;
+	width: 80%;
+	margin: auto;	
 }
 
 #game > table
 {
+	height: 100%;
+	width: 100%;
 	background-color: rgb(240,240,240);
 	border-spacing: 3px; 
 	border-color: inherit;
@@ -94,27 +96,27 @@ table
 	text-align: center;
 }
 
-#games > table 
+#games > table
 {
 	border-collapse: collapse;
 	border: none
 }
 
-#games * td 
-{
-	border-style: solid;
-	border-color: black;;
-	border-width: 0 0 0 .25vw;
-}
 
 #games * tr:hover
 {
 	background-color: rgb(210,210,210);
 }
 
-#games * td:nth-child(1)
+.list
 {
-	border-width:0;
+	border-collapse: collapse;
+	margin-top: 2vw;
+}
+
+.list > tbody > tr:nth-child(2n+1)
+{
+	background-color: rgb(200,227,249);
 }
 
 #menu {
