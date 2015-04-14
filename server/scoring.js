@@ -23,7 +23,7 @@ function push_scores(pseudos, scores){
 
 function get_scores(cb){
 	fs.readFile("scores.json", function(err, raw){
-		cb.call(cb, JSON.parse(raw));
+		cb.call(cb, JSON.parse(raw || "{}"));
 	});
 }
 		
