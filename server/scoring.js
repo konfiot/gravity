@@ -16,6 +16,10 @@ function compute_scores(pseudos, scores, data, game){
 		rj = 0,
 		dp = 0;
 	
+	for (var k = 0; k < points.length; k += 1){
+		points[k] = 0;
+	}
+
 	for (var i = 0; i < pseudos.length; i += 1){
 		if (data[pseudos[i]] !== undefined){
 			ri = data[pseudos[i]].won/data[pseudos[i]].total;
@@ -31,9 +35,9 @@ function compute_scores(pseudos, scores, data, game){
 			dp = scores[i] - scores[j];
 			dr = Math.abs(ri - rj);
 			if(dp > 0){
-				points[i] += K*4*dp*Math.max(15, 1/dr)+10;
+				points[i] += K*4*dp*Math.min(15, 1/dr)+10;
 			} else {
-				points[i] += (1+dp/scores[j])*dr*4+5;
+				points[i] += (1+dp/(scores[j]+1))*dr*4+5;
 			}
 		}
 		points[i] = 3*parseInt(Math.log(points[i]));
