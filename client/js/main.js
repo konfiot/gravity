@@ -91,7 +91,7 @@ document.getElementById("leaderbord").addEventListener("click", function(e){
 document.getElementById("multi").addEventListener("click", function (e) {
 	toggle_div("menu", false);
 	toggle_div("list", true);
-	document.getElementById("name").focus();
+	document.getElementById("pseudo").focus();
 	var network = new GameClient(socket, function (pseudos) {
 		toggle_div("waiting", false);
 		str = "";
@@ -130,7 +130,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		toggle_div("waiting", true);
 		toggle_div("list", false);
 		network.setGame(new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value)));
-		network.create(document.getElementById("name").value, parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
+		network.create(parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
 			init_game(parseInt(document.getElementById("size").value), function (x,y) {
 				network.play(x,y);
 			});

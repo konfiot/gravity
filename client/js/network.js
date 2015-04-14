@@ -16,10 +16,10 @@ GameClient.prototype.list = function(cb){
 	this.socket.emit("list", {}, cb);
 };
 
-GameClient.prototype.create = function(name, size, nplayers, pseudo, cb){
+GameClient.prototype.create = function(size, nplayers, pseudo, cb){
 	parent = this;
 	console.log(pseudo);
-	this.socket.emit("create", {name: name, size: size, nplayers: nplayers, pseudo: pseudo}, function (data) {
+	this.socket.emit("create", {name: pseudo, size: size, nplayers: nplayers, pseudo: pseudo}, function (data) {
 		parent.id = data.id;
 		parent.player = data.player;
 		cb(data);
