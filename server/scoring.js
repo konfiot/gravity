@@ -35,9 +35,9 @@ function compute_scores(pseudos, scores, data, game){
 			dp = scores[i] - scores[j];
 			dr = Math.abs(ri - rj);
 			if(dp > 0){
-				points[i] += K*4*dp*Math.min(15, 1/dr)+10;
+				points[i] += K*10*dp*Math.min(15, 1/dr)+10;
 			} else {
-				points[i] += (1+dp/(scores[j]+1))*dr*4+5;
+				points[i] += (1+dp/(scores[j]+1))*dr*2+1;
 			}
 		}
 		points[i] = 3*parseInt(Math.log(points[i]));
