@@ -62,9 +62,9 @@ Game.prototype.play = function (player, x,y, overwrite){
 	}
 	if (this.checkplay(x,y)){
 		this.state[x][y] = player;
-		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays, [x,y]);
 		this.whosturn += 1;
 		this.whosturn %= this.nplayers;
+		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays, [x,y]);
 		return true;
 	} else {
 		return false;
@@ -130,6 +130,9 @@ Game.prototype.scores = function(){
 	return this.score;
 };
 
+Game.prototype.getState = function(){
+	return this.state;
+}
 
 try {
 module.exports.Game = Game;
