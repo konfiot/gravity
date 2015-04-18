@@ -1,4 +1,5 @@
-var	fs = require("fs");
+var	fs = require("fs"),
+	pg = require("pg");
 
 function sum(array){
 	var sum = 0;
@@ -47,19 +48,55 @@ function compute_scores(pseudos, scores, data, game){
 
 
 function push_scores(pseudos, scores, game){
-	fs.readFile("scores.json", function(err, raw){
-		data = JSON.parse(raw || "{}");
-		var points = compute_scores(pseudos, scores, data, game);
-		console.log(points);
-		for (var i = 0; i < pseudos.length; i += 1){
-			data[pseudos[i]] = data[pseudos[i]] || {score: 0, won: 0, total: 0};
+	if (process.env.ENV === "prod"){
+		pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+			if (err){
+				console.log("Cannot connect");
+				console.log(JSON.stringify(err));
+			} else {
+				console.log("Connected");
+			}
 
-			data[pseudos[i]].score += points[i];
-			data[pseudos[i]].total += 1;
-			data[pseudos[i]].won += (scores[i] === Math.max.apply(this, scores)) ? 1 : 0;
-		}
-		fs.writeFile("scores.json", JSON.stringify(data), function(){});
-	});
+			client.query("SELECT * from players WHERE pseudo IN $1", [pseudos], function(err, result){
+				var	data = {},
+					points = [];
+				if(err){
+					console.log("Erreur dans la récupération des données");
+				} else {
+					console.log("No error");
+				}
+
+				for (var j = 0; j < result.rows.length; j += 1){
+					data[result.rows[j].pseudo] = result.rows[j];
+				}
+
+				console.log(data);
+				points = compute_scores(pseudos, scores, data, game);
+
+				for (var i = 0; i < pseudos.length; i += 1){
+					if (data[pseudos[i]] !== undefined){
+						client.query('INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)' , [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {done();});
+					} else {
+						client.query('UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1', [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {done();});
+					}
+				}
+			});
+		});
+	} else {
+		fs.readFile("scores.json", function(err, raw){
+			var data = JSON.parse(raw || "{}"),
+				points = compute_scores(pseudos, scores, data, game);
+
+			for (var i = 0; i < pseudos.length; i += 1){
+				data[pseudos[i]] = data[pseudos[i]] || {score: 0, won: 0, total: 0};
+
+				data[pseudos[i]].score += points[i];
+				data[pseudos[i]].total += 1;
+				data[pseudos[i]].won += (scores[i] === Math.max.apply(this, scores)) ? 1 : 0;
+			}
+			fs.writeFile("scores.json", JSON.stringify(data), function(){});
+		});
+	}
 }
 
 function get_scores(cb){
