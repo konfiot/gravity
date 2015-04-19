@@ -74,6 +74,7 @@ document.getElementById("solo").addEventListener("click", function (e) {
 });
 
 document.getElementById("leaderbord").addEventListener("click", function(e){
+	toggle_div("menu", false);
 	toggle_div("loading", true);
 	socket.emit("scores", {}, function(data){
 		toggle_div("loading", false);
@@ -83,7 +84,6 @@ document.getElementById("leaderbord").addEventListener("click", function(e){
 
 		for(var i in data){
 			if (data.hasOwnProperty(i)){
-				console.log("Dan");
 				enumerate.push([i, data[i]])
 			}
 		}
@@ -97,7 +97,6 @@ document.getElementById("leaderbord").addEventListener("click", function(e){
 			r += 1;
 		}
 		document.getElementById("scores_table").innerHTML = str;
-		toggle_div("menu", false);
 		toggle_div("scores", true);
 	});
 });

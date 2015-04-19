@@ -79,6 +79,10 @@ table
 	border-width: 6px;
 }
 
+#loading{
+	z-index: 6;
+}
+
 #list, #finish, #menu, #connecting, #waiting, #scores, #loading {
 	position: absolute;
 	left: 0;
