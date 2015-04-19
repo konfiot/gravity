@@ -57,11 +57,12 @@ function push_scores(pseudos, scores, game){
 				console.log("Connected");
 			}
 
-			client.query("SELECT * from players WHERE pseudo IN $1", [pseudos], function(err, result){
+			client.query("SELECT * from players", function(err, result){
 				var	data = {},
 					points = [];
 				if(err){
 					console.log("Erreur dans la récupération des données");
+					console.log(JSON.stringify(err));
 				} else {
 					console.log("No error");
 				}
@@ -72,12 +73,13 @@ function push_scores(pseudos, scores, game){
 
 				console.log(data);
 				points = compute_scores(pseudos, scores, data, game);
+				console.log(points);
 
 				for (var i = 0; i < pseudos.length; i += 1){
-					if (data[pseudos[i]] !== undefined){
-						client.query('INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)' , [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {done();});
+					if (data[pseudos[i]] === undefined){
+						client.query('INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)' , [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {console.log("Inserted, err="+JSON.stringify(err));done();});
 					} else {
-						client.query('UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1', [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {done();});
+						client.query('UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1', [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {console.log("Updated, err="+JSON.stringify(err));done();});
 					}
 				}
 			});
