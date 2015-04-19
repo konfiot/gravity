@@ -74,7 +74,9 @@ document.getElementById("solo").addEventListener("click", function (e) {
 });
 
 document.getElementById("leaderbord").addEventListener("click", function(e){
+	toggle_div("loading", true);
 	socket.emit("scores", {}, function(data){
+		toggle_div("loading", false);
 		var str = "",
 			r = 1,
 			enumerate = [];
