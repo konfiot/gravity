@@ -78,7 +78,7 @@ table
 	border-width: 6px;
 }
 
-#list, #finish, #menu, #connecting, #waiting, #scores{
+#list, #finish, #menu, #connecting, #waiting, #scores, #loading {
 	position: absolute;
 	left: 0;
 	top: 0;

@@ -9,7 +9,7 @@ module.exports = function (grunt) {
                 dest: 'client/dist.js'
             },
             css: {
-                src: ['client/css/main.css'],
+                src: ['client/css/spinner.css', 'client/css/main.css'],
                 dest: 'client/main.css'
             },
         },
