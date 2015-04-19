@@ -190,7 +190,7 @@ button {
 	font-size: 5vh;
 	color: white;
 	width: 20vw;
-	min-width: 300px;
+	min-width: 35vh;
 	background-color: rgb(88,172,236);
 	box-shadow: 0 1.2vh rgb(49,141,206);
 	vertical-align: top;
