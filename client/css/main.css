@@ -133,6 +133,7 @@ table
 
 #menu {
 	display: block;
+	z-index: 7;
 }
 
 
