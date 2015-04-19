@@ -187,7 +187,6 @@ button {
 	border-style: none;
 	padding: 1.5vh;
 	border-radius: 1vh;
-	font-size: 5vh;
 	color: white;
 	width: 20vw;
 	min-width: 35vh;
@@ -197,8 +196,10 @@ button {
 }
 
 
-input, select{
-	font-size: 7vh;
+input, select, button{
+	vertical-align: middle;
+	margin: 1vh 1vw;
+	font-size: 5vh;
 	max-width: 95vw;
 }
 

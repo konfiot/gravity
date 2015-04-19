@@ -53,6 +53,7 @@ var 	games_pending = {},
 
 /* ---------------------------- Listening sockets ---------------------------- */
 
+
 io.sockets.on('connection', function (socket) {
 	'use strict';
 	socket.on("list", function (data, cb) {
