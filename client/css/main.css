@@ -11,7 +11,7 @@ body
 
 .restart
 {
-	position: absolute;
+	position: fixed;
 	bottom: 2vh;
 	left: 2vw;
 	width: auto;
@@ -22,6 +22,7 @@ body
 	padding-left: 1.5%;
 	padding-right: 1.5%;
 }
+
 
 #game
 {
@@ -96,12 +97,6 @@ table
 	text-align: center;
 }
 
-#games > table
-{
-	border-collapse: collapse;
-	border: none
-}
-
 
 #games * tr:hover
 {
@@ -111,13 +106,29 @@ table
 .list
 {
 	border-collapse: collapse;
-	margin-top: 2vw;
+}
+
+.list * td {
+	width: 16vw;
 }
 
 .list > tbody > tr:nth-child(2n+1)
 {
 	background-color: rgb(200,227,249);
 }
+
+.list thead {
+	background-color: rgb(240,240,240);
+	position: fixed;
+	padding-top: 4vh;
+	z-index: 5;
+}
+
+.list > tbody {
+	position: relative;
+	top: 11vh;
+}
+
 
 #menu {
 	display: block;
