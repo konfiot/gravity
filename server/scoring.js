@@ -102,9 +102,22 @@ function push_scores(pseudos, scores, game){
 }
 
 function get_scores(cb){
-	fs.readFile("scores.json", function(err, raw){
-		cb.call(cb, JSON.parse(raw || "{}"));
-	});
+	if (process.env.ENV === "prod"){
+		pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+			client.query("SELECT * from players", function(err, result){
+				var data = {};
+				for (var j = 0; j < result.rows.length; j += 1){
+					data[result.rows[j].pseudo] = result.rows[j];
+				}
+				cb.call(cb, data);
+				done();
+			});
+		});
+	} else {
+		fs.readFile("scores.json", function(err, raw){
+			cb.call(cb, JSON.parse(raw || "{}"));
+		});
+	}
 }
 		
 module.exports.push_scores = push_scores;
