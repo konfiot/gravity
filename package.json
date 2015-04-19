@@ -1,7 +1,7 @@
 {
-  "name": "Snake",
+  "name": "Gravity",
   "version": "0.1.0",
-  "description": "A boundless snake",
+  "description": "The gravity game",
   "dependencies": {
     "socket.io": "~1.3.5",
     "node-uuid": "~1.4.1",
