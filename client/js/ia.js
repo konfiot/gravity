@@ -85,12 +85,9 @@ function iaplay(state, scores, played){
 	var cells = playable_cells(state),
 		segments = segment(state, played),
 		risk_map = init_array(state.length),
-		ends = [];
 
 	for (var i = 0; i < segments.length; i += 1){
-		ends = get_ends(segment[i]); // TODO: Coder la fonction
-		dof = dof(ends, state); //TODO: Coder la fonction
-		for (var j = 0; j < ends.length; j += 1){
+		for (var j = 0; j < segment[i].length; j += 1){
 			if (free(state, end[j]) && dof + segment[i][1].length == 4){ // TODO: coder la fonction
 				risk_map[ends[j][0]][ends[j][1]].def += 1;
 			} else if (!free(state, end[j]){
