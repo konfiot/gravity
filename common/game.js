@@ -134,6 +134,10 @@ Game.prototype.getState = function(){
 	return this.state;
 }
 
+Game.prototype.getPlays = function(){
+	return this.plays;
+}
+
 try {
 module.exports.Game = Game;
 } catch (ignore) {}
