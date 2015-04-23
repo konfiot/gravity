@@ -64,7 +64,6 @@ function push_not_visited(from, to, size, arr1, arr2){
 		for (var i = 0; i < arr.length; i += 1){
 			for (var j = 0; j < arr[i].length; j += 1){
 				if (array_equals(from[k], arr[i][j]) || out_of_bonds(from[k], size)){
-					console.log("Rejectiing " + from[k] + " Res : " + array_equals(from[k], arr[i][j]) + " "  +  out_of_bonds(from[k], size));
 					ok = false;
 				}
 			}
@@ -76,12 +75,39 @@ function push_not_visited(from, to, size, arr1, arr2){
 	}
 }
 
+function trim_ends(segments, state){
+	var to_del = [],
+		occ = 0;
+
+	for (var i = 0; i < segments.length; i += 1){
+		occ = occupied(segments[i], state);
+		to_del = [];
+		
+		for (var j = 0; j < segments[i].length; j += 1){
+			if (free(state, segments[i][j])){
+				var n = nearest(segments[i], j, state);
+				console.log(n);
+				nearest(segments[i], j, state);
+				console.log(n);
+				if (n > (4 - 1)){
+					console.log("Trimming " + JSON.stringify(segments[i][j]));
+					to_del.unshift(j);
+				}
+			} 
+		}
+
+		for (var k = 0; k < to_del.length; k += 1) {
+			segments[i].splice(to_del[k], 1);
+		}
+	}
+}
+	
+
 function discoverFrom(segments, state, i, j, p){
 	var to_visit_try = [[i,j+1,1],[i,j-1,1],[i+1,j+1,3],[i+1,j,2],[i+1,j-1,0],[i-1,j,2],[i-1,j+1,0],[i-1,j-1,3]],
 		to_visit = [],
 		c,
 		next,
-		count = [0, 0, 0, 0],
 		to_del = [],
 		directions = [[[i,j,0]], [[i,j,1]], [[i,j,2]], [[i,j,3]]];
 	
@@ -96,10 +122,6 @@ function discoverFrom(segments, state, i, j, p){
 		c = to_visit.shift();
 
 		if (state[c[0]][c[1]] === 0) {
-			count[c[2]] += 1;
-			if (count[c[2]] === 4){
-				continue;
-			}
 			directions[c[2]].push(c);
 		} else if (state[c[0]][c[1]] === p) {
 			if (count[c[2]] > 0){
@@ -126,6 +148,7 @@ function discoverFrom(segments, state, i, j, p){
 		}
 		push_not_visited(next, to_visit, state.length, segments, directions);
 	}
+	trim_ends(directions, state);
 	Array.prototype.push.apply(segments, directions);
 }
 
@@ -144,7 +167,7 @@ function segment(state, plays){
 }
 
 function free(state, p){
-	return state[p[0]][p[1]] == 0;
+	return state[p[0]][p[1]] === 0;
 }
 
 function nearest(segment, i, state){
