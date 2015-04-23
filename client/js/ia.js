@@ -54,22 +54,25 @@ function array_equals(arr1, arr2){
 }
 
 function push_not_visited(from, to, size, arr1, arr2){
-	arr = Array();
+	var arr = Array(),
+		ok = true;
+
 	Array.prototype.push.apply(arr, arr1);
 	Array.prototype.push.apply(arr, arr2);
 
-	for (var i = 0; i < arr.length; i += 1){
-		for (var j = 0; j < arr[i].length; j += 1){
-			for (var k = 0; k < from.length; k += 1) {
+	for (var k = 0; k < from.length; k += 1) {
+		for (var i = 0; i < arr.length; i += 1){
+			for (var j = 0; j < arr[i].length; j += 1){
 				if (array_equals(from[k], arr[i][j]) || out_of_bonds(from[k], size)){
-					console.log("Deleted " + JSON.stringify(from[k]));
-					from.splice(k, 1);
+					ok = false;
 				}
 			}
 		}
+		if (ok) {
+			to.push(from[k]);
+		}
+		ok = true;
 	}
-	console.log("Pushed " + JSON.stringify(from));
-	Array.prototype.push.apply(to, from);
 }
 
 function discoverFrom(segments, state, i, j, p){
@@ -87,13 +90,14 @@ function discoverFrom(segments, state, i, j, p){
 		}
 	}
 
-	console.log(to_visit);
+	console.log("To visit : " + JSON.stringify(to_visit));
+
 	while (to_visit.length > 0) {
 		c = to_visit.pop();
 
 		if (state[c[0]][c[1]] === 0) {
 			count[c[2]] += 1;
-			if (count[c[2]] === 4){
+			if (count[c[2]] === 3){
 				continue;
 			}
 			directions[c[2]].push(c);
