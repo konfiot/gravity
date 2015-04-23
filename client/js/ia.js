@@ -37,62 +37,105 @@ function playable_cells(state){
 	return list;
 }
 
-function segment(state, plays){
-	var count = [[],[],[],[]],
-		segments = [];
+function out_of_bonds(c, size){
+	return (c[0] < 0 || c[0] >= size || c[1] < 0 || c[1] >= size);
+}
 
-	for (var i = 0; i< state.length; i += 1){
-		for (var j = 0; j< state[i].length; j += 1){
-			var played = [];
-			for (var m = 0; m < plays.length; m += 1){
-				for (var n = 0; n < plays[m][0].length; n += 1){
-					if (plays[m][0][n][0] === i && plays[m][0][n][1] === j){
-						played.push(plays[m][1]);
-					}
-				}
-			}
+function array_equals(arr1, arr2){
+	if (arr1.length !== arr2.length){
+		return false;
+	}
+	for (var i = 0; i < arr1.length; i += 1){
+		if (arr1[i] !== arr2[i]){
+			return false;
+		}
+	}
+	return true;
+}
 
-			for(var k  = 0; k < count.length; k += 1){
-				var l = 0;
-				switch(k){
-					case 0:
-						l = i;
-					break;
-					case 1:
-						l = j;
-					break;
-					case 2:
-						l = i+j;
-					break;
-					case 3:
-						l = i-j+state.length;
-					break;
-				}
+function push_not_visited(from, to, size, arr1, arr2){
+	arr = Array();
+	Array.prototype.push.apply(arr, arr1);
+	Array.prototype.push.apply(arr, arr2);
 
-				if (count[k][l] === undefined) {
-					count[k][l] = [state[i][j], [[i,j]]];
-
-				} else if (played.indexOf(k) !== -1){
-					segments.push(count[k][l][1]);
-					count[k][l] = undefined;
-
-				} else if (count[k][l][0] === state[i][j]){
-					count[k][l][1].push([i,j]);
-
-				} else if (count[k][l][0] === 0){
-					count[k][l][0] = state[i][j];
-					count[k][l][1].push([i,j]);
-				
-				} else if (state[i][j] === 0){
-					count[k][l][1].push([i,j]);
-
-				} else {
-					segments.push(count[k][l][1]);
-					count[k][l] = undefined;
+	for (var i = 0; i < arr.length; i += 1){
+		for (var j = 0; j < arr[i].length; j += 1){
+			for (var k = 0; k < from.length; k += 1) {
+				if (array_equals(from[k], arr[i][j]) || out_of_bonds(from[k], size)){
+					console.log("Deleted " + JSON.stringify(from[k]));
+					from.splice(k, 1);
 				}
 			}
 		}
 	}
+	console.log("Pushed " + JSON.stringify(from));
+	Array.prototype.push.apply(to, from);
+}
+
+function discoverFrom(segments, state, i, j, p){
+	var to_visit_try = [[i,j+1,1],[i,j-1,1],[i+1,j+1,3],[i+1,j,2],[i+1,j-1,0],[i-1,j,2],[i-1,j+1,0],[i-1,j-1,3]],
+		to_visit = [],
+		c,
+		next,
+		count = [0, 0, 0, 0],
+		to_del = [],
+		directions = [[[i,j,0]], [[i,j,1]], [[i,j,2]], [[i,j,3]]];
+	
+	for (var k = 0; k < to_visit_try.length; k += 1){
+		if (!out_of_bonds(to_visit_try[k], state.length)){
+			to_visit.push(to_visit_try[k]);
+		}
+	}
+
+	console.log(to_visit);
+	while (to_visit.length > 0) {
+		c = to_visit.pop();
+
+		if (state[c[0]][c[1]] === 0) {
+			count[c[2]] += 1;
+			if (count[c[2]] === 4){
+				continue;
+			}
+			directions[c[2]].push(c);
+		} else if (state[c[0]][c[1]] === p) {
+			if (count[c[2]] > 0){
+				continue;
+			}
+			directions[c[2]].push(c);
+		} else {
+			continue;
+		}
+
+		switch(c[2]) {
+			case 0:
+				next = [[i+1, j-1, 0],[i-1, j+1, 0]];
+			break;
+			case 1:
+				next = [[i, j-1, 1],[i, j+1, 1]];
+			break;
+			case 2:
+				next = [[i+1, j, 2],[i-1, j, 2]];
+			break;
+			case 3:
+				next = [[i+1, j+1, 3],[i-1, j-1, 3]];
+			break;
+		}
+		push_not_visited(next, to_visit, state.length, segments, directions);
+	}
+	Array.prototype.push.apply(segments, directions);
+}
+
+function segment(state, plays){
+	var segments = [];
+
+	for (var i = 0; i < state.length; i += 1){
+		for (var j = 0; j < state[i].length; j += 1){
+			if (state[i][j] === 1) {
+				discoverFrom(segments, state, i, j, state[i][j]);
+			}
+		}
+	}
+
 	return segments;
 }
 
