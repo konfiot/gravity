@@ -64,6 +64,7 @@ function push_not_visited(from, to, size, arr1, arr2){
 		for (var i = 0; i < arr.length; i += 1){
 			for (var j = 0; j < arr[i].length; j += 1){
 				if (array_equals(from[k], arr[i][j]) || out_of_bonds(from[k], size)){
+					console.log("Rejectiing " + from[k] + " Res : " + array_equals(from[k], arr[i][j]) + " "  +  out_of_bonds(from[k], size));
 					ok = false;
 				}
 			}
@@ -90,14 +91,13 @@ function discoverFrom(segments, state, i, j, p){
 		}
 	}
 
-	console.log("To visit : " + JSON.stringify(to_visit));
 
 	while (to_visit.length > 0) {
 		c = to_visit.shift();
 
 		if (state[c[0]][c[1]] === 0) {
 			count[c[2]] += 1;
-			if (count[c[2]] === 3){
+			if (count[c[2]] === 4){
 				continue;
 			}
 			directions[c[2]].push(c);
@@ -112,16 +112,16 @@ function discoverFrom(segments, state, i, j, p){
 
 		switch(c[2]) {
 			case 0:
-				next = [[i+1, j-1, 0],[i-1, j+1, 0]];
+				next = [[c[0]+1, c[1]-1, 0],[c[0]-1, c[1]+1, 0]];
 			break;
 			case 1:
-				next = [[i, j-1, 1],[i, j+1, 1]];
+				next = [[c[0], c[1]-1, 1],[c[0], c[1]+1, 1]];
 			break;
 			case 2:
-				next = [[i+1, j, 2],[i-1, j, 2]];
+				next = [[c[0]+1, c[1], 2],[c[0]-1, c[1], 2]];
 			break;
 			case 3:
-				next = [[i+1, j+1, 3],[i-1, j-1, 3]];
+				next = [[c[0]+1, c[1]+1, 3],[c[0]-1, c[1]-1, 3]];
 			break;
 		}
 		push_not_visited(next, to_visit, state.length, segments, directions);
