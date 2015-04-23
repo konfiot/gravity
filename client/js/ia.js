@@ -93,7 +93,7 @@ function discoverFrom(segments, state, i, j, p){
 	console.log("To visit : " + JSON.stringify(to_visit));
 
 	while (to_visit.length > 0) {
-		c = to_visit.pop();
+		c = to_visit.shift();
 
 		if (state[c[0]][c[1]] === 0) {
 			count[c[2]] += 1;
@@ -192,7 +192,6 @@ function iaplay(state, scores, played){
 	for (var i = 0; i < segments.length; i += 1){
 		for (var j = 0; j < segments[i].length; j += 1){
 			if (free(state, segments[i][j])){
-				console.log(segments[i].length, nearest(segments[i], j, state) , occupied(segments[i], state));
 				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + 2*occupied(segments[i], state);
 			} 
 		}
