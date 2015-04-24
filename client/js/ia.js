@@ -86,11 +86,9 @@ function trim_ends(segments, state){
 		for (var j = 0; j < segments[i].length; j += 1){
 			if (free(state, segments[i][j])){
 				var n = nearest(segments[i], j, state);
-				console.log(n);
 				nearest(segments[i], j, state);
-				console.log(n);
 				if (n > (4 - 1)){
-					console.log("Trimming " + JSON.stringify(segments[i][j]));
+					//console.log("Trimming " + JSON.stringify(segments[i][j]));
 					to_del.unshift(j);
 				}
 			} 
@@ -108,6 +106,7 @@ function discoverFrom(segments, state, i, j, p){
 		to_visit = [],
 		c,
 		next,
+		count = [false, false, false, false],
 		to_del = [],
 		directions = [[[i,j,0]], [[i,j,1]], [[i,j,2]], [[i,j,3]]];
 	
@@ -123,8 +122,9 @@ function discoverFrom(segments, state, i, j, p){
 
 		if (state[c[0]][c[1]] === 0) {
 			directions[c[2]].push(c);
+			count[c[2]] = true;
 		} else if (state[c[0]][c[1]] === p) {
-			if (count[c[2]] > 0){
+			if (count[c[2]]){
 				continue;
 			}
 			directions[c[2]].push(c);
@@ -215,7 +215,7 @@ function iaplay(state, scores, played){
 	for (var i = 0; i < segments.length; i += 1){
 		for (var j = 0; j < segments[i].length; j += 1){
 			if (free(state, segments[i][j])){
-				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + 2*occupied(segments[i], state);
+				risk_map[segments[i][j][0]][segments[i][j][1]] += /*segments[i].length*/ - nearest(segments[i], j, state) + 2*occupied(segments[i], state);
 			} 
 		}
 	}
