@@ -192,7 +192,7 @@ function iaplay(state, scores, played){
 	for (var i = 0; i < segments.length; i += 1){
 		for (var j = 0; j < segments[i].length; j += 1){
 			if (free(state, segments[i][j])){
-				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + 2*occupied(segments[i], state);
+				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + 4*occupied(segments[i], state);
 			} 
 		}
 	}
