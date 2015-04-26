@@ -23,14 +23,14 @@ function checkplay(state, x,y){
 	} else {
 		return false;
 	}
-};
+}
 
 function playable_cells(state){
 	var list = [];
 	for (var i = 0; i < state.length; i += 1){
 		for (var j = 0; j < state.length; j += 1){
 			if(checkplay(state, i, j)){
-				list.push([i, j])
+				list.push([i, j]);
 			}
 		}
 	}
@@ -82,7 +82,6 @@ function discoverFrom(segments, state, i, j, p){
 		c,
 		next,
 		count = [0, 0, 0, 0],
-		to_del = [],
 		directions = [[[i,j,0]], [[i,j,1]], [[i,j,2]], [[i,j,3]]];
 	
 	for (var k = 0; k < to_visit_try.length; k += 1){
@@ -155,7 +154,7 @@ function nearest(segment, i, state){
 		} else if (state[b[0]][b[1]] === 0){
 			return -1;
 		} else {
-			return Math.abs(a[0]-c[0]) + Math.abs(a[1]-c[1]) - Math.abs(b[0]-c[0]) + Math.abs(b[1]-c[1])
+			return Math.abs(a[0]-c[0]) + Math.abs(a[1]-c[1]) - Math.abs(b[0]-c[0]) + Math.abs(b[1]-c[1]);
 		}
 	});
 	return Math.max(Math.abs(segment[0][0]-c[0]), Math.abs(segment[0][1]-c[1]));
@@ -172,7 +171,7 @@ function occupied(segment, state){
 }
 
 function init_array(len){
-	array = Array(len);
+	var array = Array(len);
 	for (var i = 0; i < len; i += 1){
 		array[i] = Array(len);
 		for (var j = 0; j < len; j += 1){
