@@ -99,10 +99,20 @@ function trim_ends(segments, state){
 		}
 	}
 }
-	
 
-function discoverFrom(segments, state, i, j, p){
-	var to_visit_try = [[i,j+1,1],[i,j-1,1],[i+1,j+1,3],[i+1,j,2],[i+1,j-1,0],[i-1,j,2],[i-1,j+1,0],[i-1,j-1,3]],
+function already_played(c, plays, state) {
+	for (var i = 0; i < plays.length; i += 1) {
+		for (var j = 0; j < plays[i][0].length; j += 1) {
+			if (plays[i][0][j][0] === c[0] && plays[i][0][j][1] === c[1] && plays[i][1] === c[2]) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function discoverFrom(segments, state, i, j, p, plays){
+	var to_visit_try = [[i,j+1,0],[i,j-1,0],[i+1,j+1,3],[i+1,j,1],[i+1,j-1,2],[i-1,j,1],[i-1,j+1,2],[i-1,j-1,3]],
 		to_visit = [],
 		c,
 		next,
@@ -126,6 +136,8 @@ function discoverFrom(segments, state, i, j, p){
 		} else if (state[c[0]][c[1]] === p) {
 			if (count[c[2]]){
 				continue;
+			} else if (already_played(c, plays, state)) {
+				continue;
 			}
 			directions[c[2]].push(c);
 		} else {
@@ -134,13 +146,13 @@ function discoverFrom(segments, state, i, j, p){
 
 		switch(c[2]) {
 			case 0:
-				next = [[c[0]+1, c[1]-1, 0],[c[0]-1, c[1]+1, 0]];
-			break;
-			case 1:
 				next = [[c[0], c[1]-1, 1],[c[0], c[1]+1, 1]];
 			break;
-			case 2:
+			case 1:
 				next = [[c[0]+1, c[1], 2],[c[0]-1, c[1], 2]];
+			break;
+			case 2:
+				next = [[c[0]+1, c[1]-1, 0],[c[0]-1, c[1]+1, 0]];
 			break;
 			case 3:
 				next = [[c[0]+1, c[1]+1, 3],[c[0]-1, c[1]-1, 3]];
@@ -158,7 +170,7 @@ function segment(state, plays){
 	for (var i = 0; i < state.length; i += 1){
 		for (var j = 0; j < state[i].length; j += 1){
 			if (state[i][j] === 1) {
-				discoverFrom(segments, state, i, j, state[i][j]);
+				discoverFrom(segments, state, i, j, state[i][j], plays);
 			}
 		}
 	}
@@ -214,7 +226,7 @@ function iaplay(state, scores, played){
 
 	for (var i = 0; i < segments.length; i += 1){
 		for (var j = 0; j < segments[i].length; j += 1){
-			if (free(state, segments[i][j])){
+			if (free(state, segments[i][j]) && !already_played(segments[i][j], played, state){
 				risk_map[segments[i][j][0]][segments[i][j][1]] += /*segments[i].length*/ - nearest(segments[i], j, state) + 2*occupied(segments[i], state);
 			} 
 		}
