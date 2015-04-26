@@ -86,9 +86,9 @@ function trim_ends(segments, state){
 		for (var j = 0; j < segments[i].length; j += 1){
 			if (free(state, segments[i][j])){
 				var n = nearest(segments[i], j, state);
-				nearest(segments[i], j, state);
-				if (n > (4 - 1)){
-					//console.log("Trimming " + JSON.stringify(segments[i][j]));
+				console.log(n, segments[i][j], nearest(segments[i], j, state));
+				if (n > (4 - occ)){
+					console.log("Trimming " + JSON.stringify(segments[i][j]));
 					to_del.unshift(j);
 				}
 			} 
@@ -183,16 +183,13 @@ function free(state, p){
 
 function nearest(segment, i, state){
 	var c = segment[i];
-	segment.sort(function(a,b){
-		if (state[a[0]][a[1]] === 0){
-			return 1;
-		} else if (state[b[0]][b[1]] === 0){
-			return -1;
+	return segment.reduce(function(a,b){
+		if (free(state, b)) {
+			return a;
 		} else {
-			return Math.abs(a[0]-c[0]) + Math.abs(a[1]-c[1]) - Math.abs(b[0]-c[0]) + Math.abs(b[1]-c[1]);
+			return Math.min(a, Math.max(Math.abs(b[0]-c[0]), Math.abs(b[1]-c[1])));
 		}
-	});
-	return Math.max(Math.abs(segment[0][0]-c[0]), Math.abs(segment[0][1]-c[1]));
+	}, segment.length);
 }
 
 function occupied(segment, state){
