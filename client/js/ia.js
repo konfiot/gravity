@@ -61,9 +61,9 @@ function push_not_visited(from, to, size, arr1, arr2){
 	Array.prototype.push.apply(arr, arr2);
 
 	for (var k = 0; k < from.length; k += 1) {
-		for (var i = 0; i < arr.length; i += 1){
-			for (var j = 0; j < arr[i].length; j += 1){
-				if (array_equals(from[k], arr[i][j]) || out_of_bonds(from[k], size)){
+		for (var i = 0; i < arr.length; i += 1) {
+			for (var j = 0; j < arr[i].length; j += 1) {
+				if (array_equals(from[k], arr[i][j]) || out_of_bonds(from[k], size)) {
 					ok = false;
 				}
 			}
@@ -85,13 +85,10 @@ function trim_ends(segments, state){
 		
 		for (var j = 0; j < segments[i].length; j += 1){
 			if (free(state, segments[i][j])){
-				var n = nearest(segments[i], j, state);
-				console.log(n, segments[i][j], nearest(segments[i], j, state));
-				if (n > (4 - occ)){
-					console.log("Trimming " + JSON.stringify(segments[i][j]));
+				if (nearest(segments[i], j, state) > (4 - occ)){
 					to_del.unshift(j);
 				}
-			} 
+			}
 		}
 
 		for (var k = 0; k < to_del.length; k += 1) {
@@ -145,13 +142,13 @@ function discoverFrom(segments, state, i, j, p, plays){
 
 		switch(c[2]) {
 			case 0:
-				next = [[c[0], c[1]-1, 1],[c[0], c[1]+1, 1]];
+				next = [[c[0], c[1]-1, 0],[c[0], c[1]+1, 0]];
 			break;
 			case 1:
-				next = [[c[0]+1, c[1], 2],[c[0]-1, c[1], 2]];
+				next = [[c[0]+1, c[1], 1],[c[0]-1, c[1], 1]];
 			break;
 			case 2:
-				next = [[c[0]+1, c[1]-1, 0],[c[0]-1, c[1]+1, 0]];
+				next = [[c[0]+1, c[1]-1, 2],[c[0]-1, c[1]+1, 2]];
 			break;
 			case 3:
 				next = [[c[0]+1, c[1]+1, 3],[c[0]-1, c[1]-1, 3]];
@@ -192,11 +189,14 @@ function nearest(segment, i, state){
 	}, segment.length);
 }
 
-function occupied(segment, state){
+function occupied(segment, state, debug){
 	var count = 0;
 	for (var i = 0; i < segment.length; i += 1){
 		if (state[segment[i][0]][segment[i][1]] !== 0){
 			count += 1;
+		}
+		if (debug) {
+			console.log(segment[i], state[segment[i][0]][segment[i][1]]);
 		}
 	}
 	return count;
@@ -218,17 +218,20 @@ function iaplay(state, scores, played){
 		segments = segment(state, played),
 		risk_map = init_array(state.length);
 	
-	console.log(segments);
+	//console.log(segments);
 
 	for (var i = 0; i < segments.length; i += 1){
 		for (var j = 0; j < segments[i].length; j += 1){
 			if (free(state, segments[i][j]) && !already_played(segments[i][j], played, state)){
-				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + 4*occupied(segments[i], state);
+				if (segments[i][j][0] == 5 && segments[i][j][1] == 5) {
+					console.log(segments[i].length , nearest(segments[i], j, state) , Math.pow(4, occupied(segments[i], state, true)));
+				}
+				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + Math.pow(4, occupied(segments[i], state));
 			} 
 		}
 	}
 
-	console.log(JSON.stringify(risk_map));
+	//console.log(JSON.stringify(risk_map));
 	cells.sort(function (a,b){
 		return risk_map[b[0]][b[1]] - risk_map[a[0]][a[1]];
 	});
