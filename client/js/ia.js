@@ -42,10 +42,7 @@ function out_of_bonds(c, size){
 }
 
 function array_equals(arr1, arr2){
-	if (arr1.length !== arr2.length){
-		return false;
-	}
-	for (var i = 0; i < arr1.length; i += 1){
+	for (var i = 0; i < Math.min(arr1.length, arr2.length); i += 1){
 		if (arr1[i] !== arr2[i]){
 			return false;
 		}
@@ -109,11 +106,11 @@ function already_played(c, plays, state) {
 }
 
 function discoverFrom(segments, state, i, j, p, plays){
-	var to_visit_try = [[i,j+1,0],[i,j-1,0],[i+1,j+1,3],[i+1,j,1],[i+1,j-1,2],[i-1,j,1],[i-1,j+1,2],[i-1,j-1,3]],
+	var to_visit_try = [[i,j+1,0, false],[i,j-1,0, false],[i+1,j+1,3, false],[i+1,j,1, false],[i+1,j-1,2, false],[i-1,j,1, false],[i-1,j+1,2, false],[i-1,j-1,3, false]],
 		to_visit = [],
 		c,
 		next,
-		count = [false, false, false, false],
+		free = false;
 		directions = [[[i,j,0]], [[i,j,1]], [[i,j,2]], [[i,j,3]]];
 	
 	for (var k = 0; k < to_visit_try.length; k += 1){
@@ -127,31 +124,36 @@ function discoverFrom(segments, state, i, j, p, plays){
 		c = to_visit.shift();
 
 		if (state[c[0]][c[1]] === 0) {
+			c.pop();
 			directions[c[2]].push(c);
-			count[c[2]] = true;
+			free = true;
+
 		} else if (state[c[0]][c[1]] === p) {
-			if (count[c[2]]){
+			if (c[3]){
+				c.pop();
 				continue;
 			} else if (already_played(c, plays, state)) {
 				continue;
 			}
+			c.pop();
 			directions[c[2]].push(c);
+
 		} else {
 			continue;
 		}
 
 		switch(c[2]) {
 			case 0:
-				next = [[c[0], c[1]-1, 0],[c[0], c[1]+1, 0]];
+				next = [[c[0], c[1]-1, 0, free],[c[0], c[1]+1, 0, free]];
 			break;
 			case 1:
-				next = [[c[0]+1, c[1], 1],[c[0]-1, c[1], 1]];
+				next = [[c[0]+1, c[1], 1, free],[c[0]-1, c[1], 1, free]];
 			break;
 			case 2:
-				next = [[c[0]+1, c[1]-1, 2],[c[0]-1, c[1]+1, 2]];
+				next = [[c[0]+1, c[1]-1, 2, free],[c[0]-1, c[1]+1, 2, free]];
 			break;
 			case 3:
-				next = [[c[0]+1, c[1]+1, 3],[c[0]-1, c[1]-1, 3]];
+				next = [[c[0]+1, c[1]+1, 3, free],[c[0]-1, c[1]-1, 3, free]];
 			break;
 		}
 		push_not_visited(next, to_visit, state.length, segments, directions);
