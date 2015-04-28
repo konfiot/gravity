@@ -1,24 +1,24 @@
-function checkplay(state, x,y) {
+function checkplay(state, x, y) {
 	'use strict';
-	var tries = [0,0,0,0];
+	var tries = [0, 0, 0, 0];
 	if (state[x][y] != 0) {
 		return false;
 	}
 
-	if (x==0 || y==0 || x==state.length-1 || y==state.length-1) {
+	if (x == 0 || y == 0 || x == state.length - 1 || y == state.length - 1) {
 		return true;
 	}
 
 	for (var i in state) {
 		for (var j in state[i]) {
-			if (x == i && y!= j && state[i][j] <= 0) {
+			if (x == i && y != j && state[i][j] <= 0) {
 				tries[Math.floor(y > j)] = 1;
 			} else if (x != i && y == j && state[i][j] <= 0) {
-				tries[2+Math.floor(x > i)] = 1;
+				tries[2 + Math.floor(x > i)] = 1;
 			}
 		}
 	}
-	if (tries.indexOf(0) != -1) {
+	if (tries.indexOf(0) !== -1) {
 		return true;
 	} else {
 		return false;
@@ -73,7 +73,7 @@ function push_not_visited(from, to, size, arr1, arr2) {
 }
 
 function trim_ends(segments, state) {
-	var to_del = [],
+	var 	to_del = [],
 		occ = 0;
 
 	for (var i = 0; i < segments.length; i += 1) {
@@ -106,7 +106,7 @@ function already_played(c, plays, state) {
 }
 
 function discoverFrom(segments, state, i, j, p, plays) {
-	var to_visit_try = [[i,j+1,0, false],[i,j-1,0, false],[i+1,j+1,3, false],[i+1,j,1, false],[i+1,j-1,2, false],[i-1,j,1, false],[i-1,j+1,2, false],[i-1,j-1,3, false]],
+	var to_visit_try = [[i, j + 1, 0, false], [i, j - 1, 0, false], [i + 1, j + 1, 3, false], [i + 1, j, 1, false], [i + 1, j - 1, 2, false], [i -1, j ,1, false], [i - 1, j + 1, 2, false], [i - 1, j - 1, 3, false]],
 		to_visit = [],
 		c,
 		next,
@@ -144,16 +144,16 @@ function discoverFrom(segments, state, i, j, p, plays) {
 
 		switch(c[2]) {
 			case 0:
-				next = [[c[0], c[1]-1, 0, free],[c[0], c[1]+1, 0, free]];
+				next = [[c[0], c[1] - 1, 0, free],[c[0], c[1] + 1, 0, free]];
 			break;
 			case 1:
-				next = [[c[0]+1, c[1], 1, free],[c[0]-1, c[1], 1, free]];
+				next = [[c[0] + 1, c[1], 1, free],[c[0] - 1, c[1], 1, free]];
 			break;
 			case 2:
-				next = [[c[0]+1, c[1]-1, 2, free],[c[0]-1, c[1]+1, 2, free]];
+				next = [[c[0] + 1, c[1] - 1, 2, free],[c[0] - 1, c[1] + 1, 2, free]];
 			break;
 			case 3:
-				next = [[c[0]+1, c[1]+1, 3, free],[c[0]-1, c[1]-1, 3, free]];
+				next = [[c[0] + 1, c[1] + 1, 3, free],[c[0] - 1, c[1] - 1, 3, free]];
 			break;
 		}
 		push_not_visited(next, to_visit, state.length, segments, directions);
@@ -182,11 +182,11 @@ function free(state, p) {
 
 function nearest(segment, i, state) {
 	var c = segment[i];
-	return segment.reduce(function(a,b) {
+	return segment.reduce(function(a, b) {
 		if (free(state, b)) {
 			return a;
 		} else {
-			return Math.min(a, Math.max(Math.abs(b[0]-c[0]), Math.abs(b[1]-c[1])));
+			return Math.min(a, Math.max(Math.abs(b[0] - c[0]), Math.abs(b[1] - c[1])));
 		}
 	}, segment.length);
 }
@@ -206,6 +206,7 @@ function occupied(segment, state, debug) {
 
 function init_array(len) {
 	var array = Array(len);
+
 	for (var i = 0; i < len; i += 1) {
 		array[i] = Array(len);
 		for (var j = 0; j < len; j += 1) {
@@ -234,7 +235,7 @@ function iaplay(state, scores, played) {
 	}
 
 	//console.log(JSON.stringify(risk_map));
-	cells.sort(function (a,b) {
+	cells.sort(function (a, b) {
 		return risk_map[b[0]][b[1]] - risk_map[a[0]][a[1]];
 	});
 	return cells[0];

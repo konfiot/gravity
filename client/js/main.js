@@ -4,8 +4,7 @@ function toggle_div(name, show) {
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
-function update(state, score, finished, current, plays, lastplays)
-{
+function update(state, score, finished, current, plays, lastplays) {
 	var cells = document.getElementById("game").getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1) {
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
