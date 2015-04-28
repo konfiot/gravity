@@ -87,8 +87,8 @@ io.sockets.on('connection', function (socket) {
 		
 		cb.call(cb, {player: socket.player, size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers});
 		
-		if (games_pending[data.id].connected_players === games_pending[data.id].nplayers){
-			running_games[data.id] = {name: games_pending[data.id].name, pseudos: games_pending[data.id].pseudos, game: new Game(games_pending[data.id].size, function(){}, games_pending[data.id].nplayers), config: {size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers}};
+		if (games_pending[data.id].connected_players === games_pending[data.id].nplayers) {
+			running_games[data.id] = {name: games_pending[data.id].name, pseudos: games_pending[data.id].pseudos, game: new Game(games_pending[data.id].size, function() {}, games_pending[data.id].nplayers), config: {size: games_pending[data.id].size, nplayers: games_pending[data.id].nplayers}};
 			io.sockets.to(data.id).emit("e", {action: "begin", data: games_pending[data.id].pseudos});
 			
 			
@@ -99,18 +99,18 @@ io.sockets.on('connection', function (socket) {
 	socket.on("play", function (data, cb) {
 		'use strict';
 		
-		if (running_games[data.id].game.play(socket.player, data.x, data.y)){
+		if (running_games[data.id].game.play(socket.player, data.x, data.y)) {
 			socket.to(data.id).emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});
 			cb(true);
 		} else {
 			cb(false);
 		}
-		if (running_games[data.id].game.isFinished()){
+		if (running_games[data.id].game.isFinished()) {
 			scoring.push_scores(running_games[data.id].pseudos, running_games[data.id].game.scores(), running_games[data.id].config);
 			delete running_games[data.id];
 		}
 	});
-	socket.on("scores", function(data, cb){
+	socket.on("scores", function(data, cb) {
 		scoring.get_scores(cb);
 	});
 	socket.on("disconnect", function () {

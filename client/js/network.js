@@ -1,4 +1,4 @@
-function GameClient(socket, begin_cb){
+function GameClient(socket, begin_cb) {
 	'use strict';
 
 	this.player = -1;
@@ -11,12 +11,12 @@ function GameClient(socket, begin_cb){
 	});
 }
 
-GameClient.prototype.list = function(cb){
+GameClient.prototype.list = function(cb) {
 	this.list_cb = cb;
 	this.socket.emit("list", {}, cb);
 };
 
-GameClient.prototype.create = function(size, nplayers, pseudo, cb){
+GameClient.prototype.create = function(size, nplayers, pseudo, cb) {
 	parent = this;
 	console.log(pseudo);
 	this.socket.emit("create", {name: pseudo, size: size, nplayers: nplayers, pseudo: pseudo}, function (data) {
@@ -30,10 +30,10 @@ GameClient.prototype.setGame = function (game) {
 	this.game = game;
 };
 
-GameClient.prototype.enter = function(id, pseudo, cb){
+GameClient.prototype.enter = function(id, pseudo, cb) {
 	parent = this;
 	this.id = id;
-	if (pseudo == ""){
+	if (pseudo == "") {
 		pseudo = "Invité";
 	}
 	this.socket.emit("enter", {id: id, pseudo: pseudo}, function (data) {
@@ -42,19 +42,19 @@ GameClient.prototype.enter = function(id, pseudo, cb){
 	});
 };
 
-GameClient.prototype.play = function(x,y){
-	if(this.game.play(this.player, x,y)){ 
+GameClient.prototype.play = function(x,y) {
+	if(this.game.play(this.player, x,y)) { 
 		this.socket.emit("play", {id: this.id, x: x, y: y}, function (worked) {
 			
 		});
 	}
 };
 
-GameClient.prototype.update = function (e){
+GameClient.prototype.update = function (e) {
 	console.log("Got sthg");
-	switch(e.action){
+	switch(e.action) {
 		case "play":
-			if (e.id === this.id){
+			if (e.id === this.id) {
 				this.game.play(e.player, e.x, e.y, true);
 			}
 		break;
