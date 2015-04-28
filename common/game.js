@@ -139,5 +139,5 @@ Game.prototype.getPlays = function() {
 }
 
 try {
-module.exports.Game = Game;
+	module.exports.Game = Game;
 } catch (ignore) {}
