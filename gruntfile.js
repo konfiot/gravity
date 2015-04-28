@@ -46,7 +46,8 @@ module.exports = function (grunt) {
         },
         csslint : {
             options: {
-                "ids": false
+                "ids": false,
+                "box-sizing": false
             },
             src: ["client/css/*.css"]
         },

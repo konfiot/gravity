@@ -8,10 +8,12 @@ function update(state, score, finished, current, plays, lastplays) {
 	var cells = document.getElementById("game").getElementsByTagName("td");
 	for (var i = 0; i < cells.length; i += 1) {
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
-		if (lastplays !== undefined && cells[i].parentElement.rowIndex == lastplays[0] && cells[i].cellIndex == lastplays[1]) {
-			cells[i].className += " last";
+		if (lastplays !== undefined && cells[i].parentElement.rowIndex === lastplays[0] && cells[i].cellIndex === lastplays[1]) {
+			cells[i].id = "last";
+		} else {
+			cells[i].id = "";
 		}
-		
+
 		for(var j = 0; j < plays.length; j += 1) {
 			for (var k = 0; k < plays[j][0].length; k += 1) {
 				if (cells[i].parentElement.rowIndex == plays[j][0][k][0] && cells[i].cellIndex == plays[j][0][k][1]) {
@@ -40,7 +42,7 @@ function update(state, score, finished, current, plays, lastplays) {
 }
 
 function init_game(size, cb) {
-	var str = "<table>";
+	var str = "<table class='game_table'>";
 	for(var i = 0; i < size; i += 1) {
 		str += "<tr>";
 		for(var j = 0; j < size; j += 1) {

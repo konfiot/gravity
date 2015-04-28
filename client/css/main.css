@@ -42,10 +42,10 @@ body
 	color: rgb(210,210,210);
 }
 
-.last
+#last
 {
-	border-color: rgb(255,255,255) !important;
-	border-color: rgba(255,255,255,0.3) !important;
+	border-color: rgb(255,255,255) ;
+	border-color: rgba(255,255,255,0.3) ;
 }
 
 .used
@@ -58,7 +58,7 @@ table
 	margin: auto;	
 }
 
-#game > table
+.game_table 
 {
 	height: 100%;
 	width: 100%;
@@ -69,7 +69,7 @@ table
 	border-width: .25vw;
 }
 
-#game * td
+.game_table * td
 {
 	border-style: solid;
 	border-color: transparent;
@@ -108,7 +108,7 @@ table
 .list
 {
 	border-collapse: collapse;
-	font-size: 4vh !important;
+	font-size: 4vh;
 }
 
 .list * td {
@@ -211,6 +211,7 @@ table
 
 
 button {
+	box-sizing: border-box;
 	border-style: none;
 	padding: 1.5vh;
 	border-radius: 1vh;
