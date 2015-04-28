@@ -24,8 +24,8 @@ function update(state, score, finished, current, plays, lastplays) {
 	}
 
 	var str = "";
-	for(var j = 0; j < score.length; j += 1) {
-		str += "<span class='t"+(j+1)+"'>" + score[j] + "</span>" + ((j == score.length - 1) ?  "" : " - ");
+	for(var l = 0; l < score.length; l += 1) {
+		str += "<span class='t"+(l+1)+"'>" + score[l] + "</span>" + ((l == score.length - 1) ?  "" : " - ");
 	}
 	document.getElementById("score").innerHTML = str;
 
@@ -52,10 +52,13 @@ function init_game(size, cb) {
 	}
 	str += "</table>";
 	document.getElementById("game").innerHTML = str;
-	for (var i = 0; i < size*size; i += 1) {
-		document.getElementById("game").getElementsByTagName("td")[i].addEventListener("click", function (e) {
-			cb(e.target.parentElement.rowIndex, e.target.cellIndex);
-		});
+
+	var manageEvent = function (e) {
+		cb(e.target.parentElement.rowIndex, e.target.cellIndex);
+	};
+
+	for (var k = 0; k < size*size; k += 1) {
+		document.getElementById("game").getElementsByTagName("td")[k].addEventListener("click", manageEvent);
 	}
 
 }
@@ -90,11 +93,11 @@ document.getElementById("leaderbord").addEventListener("click", function(e) {
 
 		for(var i in data) {
 			if (data.hasOwnProperty(i)) {
-				enumerate.push([i, data[i]])
+				enumerate.push([i, data[i]]);
 			}
 		}
 
-		enumerate.sort(function(a,b) {return b[1].score - a[1].score});
+		enumerate.sort(function(a,b) {return b[1].score - a[1].score;});
 
 		for(var j  = 0; j < enumerate.length; j += 1) {
 			str += "<tr>";
@@ -127,20 +130,23 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		}
 		str += "</table>";
 		document.getElementById("games").innerHTML = str;
-		for (i in list) {
-			document.getElementById(i).addEventListener("click", function (e) {
-				toggle_div("list", false);
-				toggle_div("connecting", true);
-				network.enter(i, document.getElementById("pseudo").value, function (data) {
-					toggle_div("connecting", false);
-					toggle_div("waiting", true);
-					network.setGame(new Game(data.size, update, data.nplayers));
-					init_game(data.size, function (x,y) {
-						network.play(x,y);
-					});
-	
+
+		var manageEvent = function (e) {
+			toggle_div("list", false);
+			toggle_div("connecting", true);
+			network.enter(i, document.getElementById("pseudo").value, function (data) {
+				toggle_div("connecting", false);
+				toggle_div("waiting", true);
+				network.setGame(new Game(data.size, update, data.nplayers));
+				init_game(data.size, function (x,y) {
+					network.play(x,y);
 				});
+
 			});
+		};
+
+		for (i in list) {
+			document.getElementById(i).addEventListener("click", manageEvent);
 		}
 	});
 	
@@ -157,15 +163,18 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		return false;
 	});
 });
-var restart_buttons = document.getElementsByClassName("restart");
-for (var i  = 0; i < restart_buttons.length; i += 1) {
-	restart_buttons[i].addEventListener("click", function (e) {
+
+var	restart_buttons = document.getElementsByClassName("restart"),
+	manageEvent = function (e) {
 		toggle_div("finish", false);
 		toggle_div("list", false);
 		toggle_div("waiting", false);
 		toggle_div("scores", false);
 		toggle_div("menu", true);
-	});
+	};
+
+for (var i  = 0; i < restart_buttons.length; i += 1) {
+	restart_buttons[i].addEventListener("click", manageEvent);
 }
 
 

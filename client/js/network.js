@@ -33,7 +33,7 @@ GameClient.prototype.setGame = function (game) {
 GameClient.prototype.enter = function(id, pseudo, cb) {
 	parent = this;
 	this.id = id;
-	if (pseudo == "") {
+	if (pseudo === "") {
 		pseudo = "Invité";
 	}
 	this.socket.emit("enter", {id: id, pseudo: pseudo}, function (data) {
@@ -65,7 +65,7 @@ GameClient.prototype.update = function (e) {
 			this.begin_cb.call(this, e.data);
 		break;
 		case "update_list":
-			this.list_cb.call(this, e.data)
+			this.list_cb.call(this, e.data);
 		break;
 	}
 };

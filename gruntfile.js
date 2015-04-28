@@ -1,4 +1,4 @@
-/*jslint node: true */
+/*jshint node: true */
 module.exports = function (grunt) {
     'use strict';
     grunt.initConfig({
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
         htmllint: {
             all: ["client/html/*.html"]
         },
-        jslint: {
+        jshint: {
             all: ['gruntfile.js', 'common/**/*.js', 'server/*.js', 'client/js/*.js']
         },
         nodeunit: {
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-jslint');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-html');
     grunt.loadNpmTasks('grunt-replace');
@@ -111,5 +111,5 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['concat', "replace", 'uglify', "htmlmin", "cssmin", "inline", "clean"]);
     grunt.registerTask('dev', ['concat', 'copy', 'replace', 'inline', 'clean', 'exec']);
-    grunt.registerTask('test', ['csslint', 'htmllint', 'jslint', 'nodeunit', 'default']);
+    grunt.registerTask('test', ['csslint', 'jshint', 'htmllint', 'nodeunit', 'default']);
 };

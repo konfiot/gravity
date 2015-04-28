@@ -9,7 +9,6 @@ var sio = require('socket.io'),
 	scoring = require("./scoring.js");
 
 var server = http.createServer(function (request, response) {
-	'use strict';
 	var filename = "index.html",
 		encoding = "identity",
 		acceptEncoding = request.headers['accept-encoding'],
@@ -55,14 +54,11 @@ var 	games_pending = {},
 
 
 io.sockets.on('connection', function (socket) {
-	'use strict';
 	socket.on("list", function (data, cb) {
-		'use strict';
 		socket.join("list");
 		cb(games_pending);
 	});
 	socket.on("create", function (data, cb) {
-		'use strict';
 		
 		var id = uuid.v4();
 		socket.player = 1;
@@ -77,7 +73,6 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
 	socket.on("enter", function (data, cb) {
-		'use strict';
 		
 		games_pending[data.id].connected_players += 1;
 		games_pending[data.id].pseudos.push(data.pseudo);
@@ -97,7 +92,6 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 	});
 	socket.on("play", function (data, cb) {
-		'use strict';
 		
 		if (running_games[data.id].game.play(socket.player, data.x, data.y)) {
 			socket.to(data.id).emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});

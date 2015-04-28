@@ -2,11 +2,11 @@ var	fs = require("fs"),
 	pg = require("pg");
 
 function sum(array){
-	var sum = 0;
+	var out = 0;
 	for(var i = 0; i < array.length; i += 1){
-		sum += array[i];
+		out += array[i];
 	}
-	return sum;
+	return out;
 }
 
 function compute_scores(pseudos, scores, data, game){
@@ -25,13 +25,13 @@ function compute_scores(pseudos, scores, data, game){
 		if (data[pseudos[i]] !== undefined){
 			ri = data[pseudos[i]].won/data[pseudos[i]].total;
 		} else {
-			ri = .5;
+			ri = 0.5;
 		}
 		for (var j = 0; j < pseudos.length; j += 1){
 			if (data[pseudos[j]] !== undefined){
 				rj = data[pseudos[j]].won/data[pseudos[j]].total;
 			} else {
-				rj = .5;
+				rj = 0.5;
 			}
 			dp = scores[i] - scores[j];
 			dr = Math.abs(ri - rj);
@@ -77,9 +77,9 @@ function push_scores(pseudos, scores, game){
 
 				for (var i = 0; i < pseudos.length; i += 1){
 					if (data[pseudos[i]] === undefined){
-						client.query('INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)' , [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {console.log("Inserted, err="+JSON.stringify(err));done();});
+						client.query('INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)' , [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], done);
 					} else {
-						client.query('UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1', [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], function(err, result) {console.log("Updated, err="+JSON.stringify(err));done();});
+						client.query('UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1', [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], done);
 					}
 				}
 			});

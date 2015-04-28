@@ -1,5 +1,4 @@
 function Game(size, update, nplayers) {
-	'use strict';
 	this.state = [];
 	this.size = Math.floor(size || 9);
 	this.nplayers = Math.floor(nplayers || 2);
@@ -8,14 +7,14 @@ function Game(size, update, nplayers) {
 	this.plays = [];
 	
 	for(var i = 0; i < size; i += 1) {
-		this.state[i] = Array(size);
+		this.state[i] = new Array(size);
 		for (var j = 0; j < size; j += 1) {
 			this.state[i][j] = 0;
 		}
 	}
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
 	
-	this.score = Array(this.nplayers);
+	this.score = new Array(this.nplayers);
 	for (var h = 0; h < this.score.length; h += 1) {
 		this.score[h] = 0;
 	}
@@ -25,21 +24,20 @@ function Game(size, update, nplayers) {
 }
 
 Game.prototype.checkplay = function (x,y) {
-	'use strict';
-	var tries = [0,0,0,0];
-	if (this.state[x][y] != 0) {
+	var tries = [0, 0, 0, 0];
+	if (this.state[x][y] !== 0) {
 		return false;
 	}
 
-	if (x==0 || y==0 || x==this.size-1 || y==this.size-1) {
+	if (x === 0 || y === 0 || x === this.size - 1 || y === this.size - 1) {
 		return true;
 	}
 
-	for (var i in this.state) {
-		for (var j in this.state[i]) {
-			if (x == i && y!= j && this.state[i][j] <= 0) {
+	for (var i = 0; i < this.state.length; i += 1) {
+		for (var j = 0; j < this.state[i].length; j += 1) {
+			if (x === i && y !== j && this.state[i][j] <= 0) {
 				tries[Math.floor(y > j)] = 1;
-			} else if (x != i && y == j && this.state[i][j] <= 0) {
+			} else if (x !== i && y === j && this.state[i][j] <= 0) {
 				tries[2+Math.floor(x > i)] = 1;
 			}
 		}
@@ -121,7 +119,7 @@ Game.prototype.scores = function() {
 					if (count[k][l][1] >= 4) {
 						this.score[count[k][l][0]-1] += 1;
 						count[k][l][1] = 0;
-						this.plays.push([count[k][l][2], k])
+						this.plays.push([count[k][l][2], k]);
 					}
 				}
 			}
@@ -132,11 +130,11 @@ Game.prototype.scores = function() {
 
 Game.prototype.getState = function() {
 	return this.state;
-}
+};
 
 Game.prototype.getPlays = function() {
 	return this.plays;
-}
+};
 
 try {
 	module.exports.Game = Game;
