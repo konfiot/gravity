@@ -11,13 +11,13 @@ module.exports = function (grunt) {
             css: {
                 src: ['client/css/spinner.css', 'client/css/main.css'],
                 dest: 'client/main.css'
-            },
+            }
         },
         uglify : {
             main: {
                 src: "client/dist.js",
                 dest: "client/dist.js"
-            },
+            }
         },
         htmlmin: {
             dist: {
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
                     collapseWhitespace: true
                 },
                 files: {
-                    'client/index.html': ['client/html/index.html'],
+                    'client/index.html': ['client/html/index.html']
                 }
             }
         },
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
             main: {
                 src: 'client/main.css',
                 dest: 'client/main.css'
-            },
+            }
         },
         copy: {
             html: {
