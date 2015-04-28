@@ -1,19 +1,19 @@
 function checkplay(state, x, y) {
 	'use strict';
 	var tries = [0, 0, 0, 0];
-	if (state[x][y] != 0) {
+	if (state[x][y] !== 0) {
 		return false;
 	}
 
-	if (x == 0 || y == 0 || x == state.length - 1 || y == state.length - 1) {
+	if (x === 0 || y === 0 || x === state.length - 1 || y === state.length - 1) {
 		return true;
 	}
 
 	for (var i in state) {
 		for (var j in state[i]) {
-			if (x == i && y != j && state[i][j] <= 0) {
+			if (x === i && y !== j && state[i][j] <= 0) {
 				tries[Math.floor(y > j)] = 1;
-			} else if (x != i && y == j && state[i][j] <= 0) {
+			} else if (x !== i && y === j && state[i][j] <= 0) {
 				tries[2 + Math.floor(x > i)] = 1;
 			}
 		}
@@ -226,7 +226,7 @@ function iaplay(state, scores, played) {
 	for (var i = 0; i < segments.length; i += 1) {
 		for (var j = 0; j < segments[i].length; j += 1) {
 			if (free(state, segments[i][j]) && !already_played(segments[i][j], played, state)) {
-				if (segments[i][j][0] == 5 && segments[i][j][1] == 5) {
+				if (segments[i][j][0] === 5 && segments[i][j][1] === 5) {
 					console.log(segments[i].length , nearest(segments[i], j, state) , Math.pow(4, occupied(segments[i], state, true)));
 				}
 				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + Math.pow(4, occupied(segments[i], state));

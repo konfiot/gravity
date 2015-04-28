@@ -110,5 +110,5 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', ['concat', "replace", 'uglify', "htmlmin", "cssmin", "inline", "clean"]);
     grunt.registerTask('dev', ['concat', 'copy', 'replace', 'inline', 'clean', 'exec']);
-    grunt.registerTask('test', ['jslint', 'csslint', 'htmllint', 'nodeunit', 'default']);
+    grunt.registerTask('test', ['csslint', 'htmllint', 'jslint', 'nodeunit', 'default']);
 };

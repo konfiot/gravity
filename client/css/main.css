@@ -17,10 +17,7 @@ body
 	width: auto;
 	height: auto;
 	min-width: 0;
-	padding-top: .5%;
-	padding-bottom: .5%;
-	padding-left: 1.5%;
-	padding-right: 1.5%;
+	padding: 0.5% 1.5% 0.5% 1.5%;
 	z-index: 6;
 }
 
@@ -47,6 +44,7 @@ body
 
 .last
 {
+	border-color: rgb(255,255,255) !important;
 	border-color: rgba(255,255,255,0.3) !important;
 }
 
@@ -143,18 +141,22 @@ table
 
 
 .p1 {
+	background-color: rgb(0,0,255);
 	background-color: rgba(0,0,255,0.5);
 }
 
 .p2 {
+	background-color: rgb(255,0,0);
 	background-color: rgba(255,0,0,0.5);
 }
 
 .p3 {
+	background-color: rgb(33,127,39);
 	background-color: rgba(33,127,39,0.5);
 }
 
 .p4 {
+	background-color: rgb(229,109,12);
 	background-color: rgba(229,109,12,0.5);
 }
 
@@ -168,34 +170,42 @@ table
 }
 
 .t1 {
+	color: rgb(0,0,255);
 	color: rgba(0,0,255,0.5);
 }
 
 .t2 {
+	color: rgb(255,0,0);
 	color: rgba(255,0,0,0.5);
 }
 
 .t3 {
+	color: rgb(33,127,39);
 	color: rgba(33,127,39,0.5);
 }
 
 .t4 {
+	color: rgb(229,109,0);
 	color: rgba(229,109,0,0.5);
 }
 
 .c1 {
+	border-color: rgb(0,0,255);
 	border-color: rgba(0,0,255,0.5);
 }
 
 .c2 {
+	border-color: rgb(255,0,0);
 	border-color: rgba(255,0,0,0.5);
 }
 
 .c3 {
+	border-color: rgb(33,127,39);
 	border-color: rgba(33,127,39,0.5);
 }
 
 .c4 {
+	border-color: rgb(229,109,0);
 	border-color: rgba(229,109,0,0.5);
 }
 
