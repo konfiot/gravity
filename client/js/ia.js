@@ -216,6 +216,24 @@ function init_array(len) {
 	return array;
 }
 
+function cells_revealed(c, playable) {
+	var out = [];
+
+	for (var i = 0; i < playable.length; i += 1) {
+		if (Math.abs(playable[i][0] - c[0]) + Math.abs(playable[i][1] - c[1]) === 1) {
+			out.push(playable[i]);
+		}
+	}
+	return out;
+}
+
+function max_score_revealed(c, playable, risk_map) {
+	var cells = cells_revealed(c, playable);
+	return cells.reduce(function(a, b) {
+		return Math.max(a, risk_map[b[0]][b[1]]);
+	}, 0);
+}
+
 function iaplay(state, scores, played) {
 	var cells = playable_cells(state),
 		segments = segment(state, played),
@@ -232,8 +250,13 @@ function iaplay(state, scores, played) {
 	}
 
 	//console.log(JSON.stringify(risk_map));
-	cells.sort(function (a, b) {
-		return risk_map[b[0]][b[1]] - risk_map[a[0]][a[1]];
-	});
-	return cells[0];
+	return cells.reduce(function (a, b) {
+		if (max_score_revealed(b, cells, risk_map) > risk_map[b[0]][b[1]]) {
+			return a;
+		} else if (risk_map[b[0]][b[1]] > risk_map[a[0]][a[1]]){
+			return b;
+		} else {
+			return a;
+		}
+	}, cells[0]);
 }
