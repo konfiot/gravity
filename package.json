@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node server/app.js",
-    "test": "node_modules/grunt-cli/bin/grunt"
+    "test": "node_modules/grunt-cli/bin/grunt test"
   },
   "repository": {
     "type": "git",
