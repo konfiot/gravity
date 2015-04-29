@@ -1,4 +1,4 @@
-dflskjfdlskjfsdkfjvar	fs = require("fs"),
+var	fs = require("fs"),
 	pg = require("pg");
 
 function sum(array) {
