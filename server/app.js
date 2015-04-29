@@ -1,7 +1,6 @@
 /*jslint node: true*/
 
 var sio = require('socket.io'),
-	uuid = require('node-uuid'),
 	http = require('http'),
 	fs = require('fs'),
 	zlib = require("zlib"),
