@@ -82,14 +82,12 @@ module.exports = function (grunt) {
 		},
 		inline: {
 			desktop: {
-				src: ['client/index.html']
-			},
-			mobile: {
-				src: ['client/mobile.html']
+				src: 'client/index.html',
+				dest: 'dist/index.html'
 			}
 		},
 		clean: {
-			dist: ["client/*.css", "client/*.js"]
+			dist: ["client/*.css", "client/*.js", "client/*.html"]
 		}
 
 	});

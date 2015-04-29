@@ -18,7 +18,7 @@ var server = http.createServer(function (request, response) {
 	}
 
 	/*jslint nomen: true */
-	raw = fs.createReadStream(__dirname + '/../client/' + filename);
+	raw = fs.createReadStream(__dirname + '/../dist/' + filename);
 	/*jslint nomen: false */
 
 	if (acceptEncoding.match(/\bgzip\b/)) {
