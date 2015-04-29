@@ -1,17 +1,17 @@
 var	fs = require("fs"),
 	pg = require("pg");
 
-function sum(array){
+function sum(array) {
 	var out = 0;
-	for(var i = 0; i < array.length; i += 1){
+	for(var i = 0; i < array.length; i += 1) {
 		out += array[i];
 	}
 	return out;
 }
 
-function compute_scores(pseudos, scores, data, game){
+function compute_scores(pseudos, scores, data, game) {
 	var points = Array(pseudos.length),
-		K = sum(scores)/Math.pow(game.size, 2)/game.nplayers,
+		K = sum(scores) / Math.pow(game.size, 2) / game.nplayers,
 		dr = 0,
 		ri = 0,
 		rj = 0,
@@ -23,13 +23,13 @@ function compute_scores(pseudos, scores, data, game){
 
 	for (var i = 0; i < pseudos.length; i += 1){
 		if (data[pseudos[i]] !== undefined){
-			ri = data[pseudos[i]].won/data[pseudos[i]].total;
+			ri = data[pseudos[i]].won / data[pseudos[i]].total;
 		} else {
 			ri = 0.5;
 		}
 		for (var j = 0; j < pseudos.length; j += 1){
 			if (data[pseudos[j]] !== undefined){
-				rj = data[pseudos[j]].won/data[pseudos[j]].total;
+				rj = data[pseudos[j]].won / data[pseudos[j]].total;
 			} else {
 				rj = 0.5;
 			}
