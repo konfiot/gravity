@@ -1,5 +1,4 @@
 function checkplay(state, x, y) {
-	'use strict';
 	var tries = [0, 0, 0, 0];
 	if (state[x][y] !== 0) {
 		return false;
