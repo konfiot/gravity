@@ -215,19 +215,44 @@ function init_array(len) {
 	return array;
 }
 
-function cells_revealed(c, playable) {
-	var out = [];
+function cells_revealed(c, state, playable) {
+	var	out = [],
+		next_state = Array(state.length);
+		unique = true;
 
-	for (var i = 0; i < playable.length; i += 1) {
-		if (Math.abs(playable[i][0] - c[0]) + Math.abs(playable[i][1] - c[1]) === 1) {
-			out.push(playable[i]);
+	for (var i = 0; i < next_state.length; i += 1) {
+		next_state[i] = new Array(state.length);
+		for (var j = 0; j < next_state.length; j += 1) {
+			if (i === c[0] && j === c[1]) {
+				next_state[i][j] = 1;
+			} else {
+				next_state[i][j] = state[i][j];
+			}
 		}
 	}
+
+	next_playable = playable_cells(next_state);
+
+
+	for (var k = 0; k < next_playable.length; k += 1) {
+		unique = true;
+		for (var l = 0; l < playable.length; l += 1) {
+			if (array_equals(next_playable[k], playable[l])) {
+				unique = false;
+			}
+		}
+
+		if (unique) {
+			out.push(next_playable[k]);
+		}
+	}
+
 	return out;
 }
 
-function max_score_revealed(c, playable, risk_map) {
-	var cells = cells_revealed(c, playable);
+function max_score_revealed(c, state, risk_map, playable) {
+	var cells = cells_revealed(c, state, playable);
+
 	return cells.reduce(function(a, b) {
 		return Math.max(a, risk_map[b[0]][b[1]]);
 	}, 0);
@@ -250,7 +275,7 @@ function iaplay(state, scores, played) {
 
 	//console.log(JSON.stringify(risk_map));
 	return cells.reduce(function (a, b) {
-		if (max_score_revealed(b, cells, risk_map) > risk_map[b[0]][b[1]]) {
+		if (max_score_revealed(b, state, risk_map, cells) > risk_map[b[0]][b[1]]) {
 			return a;
 		} else if (risk_map[b[0]][b[1]] > risk_map[a[0]][a[1]]){
 			return b;
