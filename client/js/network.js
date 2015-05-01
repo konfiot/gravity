@@ -3,7 +3,7 @@ function GameClient(socket, begin_cb) {
 
 	this.player = -1;
 	this.begin_cb = begin_cb;
-	
+
 	parent = this;
 	this.socket = socket;
 	this.socket.on('e', function (data) {
@@ -43,10 +43,8 @@ GameClient.prototype.enter = function(id, pseudo, cb) {
 };
 
 GameClient.prototype.play = function(x,y) {
-	if(this.game.play(this.player, x,y)) { 
-		this.socket.emit("play", {id: this.id, x: x, y: y}, function (worked) {
-			
-		});
+	if(this.game.play(this.player, x,y)) {
+		this.socket.emit("play", {id: this.id, x: x, y: y}, function (worked) {});
 	}
 };
 

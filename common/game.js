@@ -3,9 +3,9 @@ function Game(size, update, nplayers) {
 	this.size = Math.floor(size || 9);
 	this.nplayers = Math.floor(nplayers || 2);
 	this.whosturn = 0;
-	
+
 	this.plays = [];
-	
+
 	for(var i = 0; i < size; i += 1) {
 		this.state[i] = new Array(size);
 		for (var j = 0; j < size; j += 1) {
@@ -13,7 +13,7 @@ function Game(size, update, nplayers) {
 		}
 	}
 	this.state[Math.floor(size/2)][Math.floor(size/2)] = -1;
-	
+
 	this.score = new Array(this.nplayers);
 	for (var h = 0; h < this.score.length; h += 1) {
 		this.score[h] = 0;
@@ -54,7 +54,7 @@ Game.prototype.play = function (player, x,y, overwrite) {
 	if (player > this.nplayers || player < 1) {
 		return false;
 	}
-	
+
 	if (player-1 != this.whosturn && !overwrite) {
 		return false;
 	}

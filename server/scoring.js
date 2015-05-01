@@ -16,7 +16,7 @@ function compute_scores(pseudos, scores, data, game) {
 		ri = 0,
 		rj = 0,
 		dp = 0;
-	
+
 	for (var k = 0; k < points.length; k += 1){
 		points[k] = 0;
 	}
@@ -119,6 +119,6 @@ function get_scores(cb){
 		});
 	}
 }
-		
+
 module.exports.push_scores = push_scores;
 module.exports.get_scores = get_scores;

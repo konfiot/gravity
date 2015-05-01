@@ -75,7 +75,7 @@ document.getElementById("solo").addEventListener("click", function (e) {
 	init_game(size, function (x,y) {
 		if (game.play(1/*i%nplayers+1*/,x,y)) {
 			i += 1;
-			var play = iaplay(game.getState(), game.scores(), game.getPlays()); 
+			var play = iaplay(game.getState(), game.scores(), game.getPlays());
 
 			while(!(game.play(2, play[0], play[1]))) {
 				play = iaplay(game.getState(), game.scores(), game.getPlays());
@@ -103,7 +103,9 @@ document.getElementById("leaderbord").addEventListener("click", function(e) {
 
 		for(var j  = 0; j < enumerate.length; j += 1) {
 			str += "<tr>";
-			str += "<td>" + r + "</td><td>" + enumerate[j][0] + "</td><td>"+enumerate[j][1].total+"</td><td>" + parseInt(enumerate[j][1].won/enumerate[j][1].total*100) + " %</td><td>" + enumerate[j][1].score + "</td>";
+			str += "<td>" + r + "</td><td>" + enumerate[j][0] + "</td><td>"+enumerate[j][1].total+"</td>"  +
+				"<td>" + parseInt(enumerate[j][1].won/enumerate[j][1].total*100) + " %</td>" +
+				"<td>" + enumerate[j][1].score + "</td>";
 			str += "</tr>";
 			r += 1;
 		}
@@ -124,7 +126,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		}
 		document.getElementById("pseudos").innerHTML = str;
 	});
-	
+
 	network.list(function (list) {
 		var str = "<table class='list'>";
 		for (var i in list) {
@@ -151,7 +153,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 			document.getElementById(i).addEventListener("click", manageEvent);
 		}
 	});
-	
+
 	document.getElementById("create").addEventListener("submit", function (e) {
 		e.preventDefault();
 		toggle_div("waiting", true);

@@ -74,13 +74,13 @@ function push_not_visited(from, to, size, arr1, arr2) {
 }
 
 function trim_ends(segments, state) {
-	var 	to_del = [],
+	var	to_del = [],
 		occ = 0;
 
 	for (var i = 0; i < segments.length; i += 1) {
 		occ = occupied(segments[i], state);
 		to_del = [];
-		
+
 		for (var j = 0; j < segments[i].length; j += 1) {
 			if (free(state, segments[i][j])) {
 				if (nearest(segments[i], j, state) > (4 - occ)) {
@@ -113,7 +113,7 @@ function discoverFrom(segments, state, i, j, p, plays) {
 		next,
 		free = 3;
 		directions = [[[i,j,0]], [[i,j,1]], [[i,j,2]], [[i,j,3]]];
-	
+
 	for (var k = 0; k < to_visit_try.length; k += 1) {
 		if (not_visited(to_visit_try[k], segments, state.length) && !(out_of_bonds(to_visit_try[k], state.length))) {
 			to_visit.push(to_visit_try[k]);
@@ -268,14 +268,14 @@ function iaplay(state, scores, played) {
 	var cells = playable_cells(state),
 		segments = segment(state, played),
 		risk_map = init_array(state.length);
-	
+
 	console.log(segments);
 
 	for (var i = 0; i < segments.length; i += 1) {
 		for (var j = 0; j < segments[i].length; j += 1) {
 			if (free(state, segments[i][j]) && !already_played(segments[i][j], played, state)) {
 				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + Math.pow(4, occupied(segments[i], state));
-			} 
+			}
 		}
 	}
 

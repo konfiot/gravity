@@ -88,8 +88,23 @@ module.exports = function (grunt) {
 		},
 		clean: {
 			dist: ["client/*.css", "client/*.js", "client/*.html"]
+		},
+		jscs: {
+			src: ['gruntfile.js', 'common/**/*.js', 'server/*.js', 'client/js/*.js'],
+			options: {
+				requireCurlyBraces: ["if", "while", "for", "with"],
+				disallowNewlineBeforeBlockStatements: true,
+				disallowSpacesInNamedFunctionExpression: {
+					beforeOpeningRoundBrace: true
+				},
+				disallowSpacesInsideParentheses: true,
+				disallowTrailingComma: true,
+				disallowTrailingWhitespace: true,
+				disallowYodaConditions: true,
+				maximumLineLength: 200,
+				disallowMixedSpacesAndTabs: true
+			}
 		}
-
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -101,6 +116,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-nodeunit');
 	grunt.loadNpmTasks('grunt-html');
+	grunt.loadNpmTasks('grunt-jscs');
 	grunt.loadNpmTasks('grunt-replace');
 	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-inline');
@@ -108,5 +124,5 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default', ['concat', "replace", 'uglify', "htmlmin", "cssmin", "inline", "clean"]);
 	grunt.registerTask('dev', ['concat', 'copy', 'replace', 'inline', 'clean', 'exec']);
-	grunt.registerTask('test', ['csslint', 'jshint', 'htmllint', 'default']);
+	grunt.registerTask('test', ['csslint', 'jshint', 'htmllint', 'jscs', 'default']);
 };
