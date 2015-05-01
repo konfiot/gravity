@@ -74,7 +74,7 @@ document.getElementById("solo").addEventListener("click", function (e) {
 		if (game.play(1/*i%nplayers+1*/,x,y)) {
 			i += 1;
 			var play = iaplay(game.getState(), game.scores(), game.getPlays()); 
-			console.log(play);
+
 			while(!(game.play(2, play[0], play[1]))) {
 				play = iaplay(game.getState(), game.scores(), game.getPlays());
 			}

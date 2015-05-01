@@ -49,25 +49,27 @@ function array_equals(arr1, arr2) {
 	return true;
 }
 
+function not_visited(to_test, arr, size) {
+	for (var i = 0; i < arr.length; i += 1) {
+		for (var j = 0; j < arr[i].length; j += 1) {
+			if (array_equals(to_test, arr[i][j]) || out_of_bonds(to_test, size)) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 function push_not_visited(from, to, size, arr1, arr2) {
-	var arr = Array(),
-		ok = true;
+	var arr = Array();
 
 	Array.prototype.push.apply(arr, arr1);
 	Array.prototype.push.apply(arr, arr2);
 
 	for (var k = 0; k < from.length; k += 1) {
-		for (var i = 0; i < arr.length; i += 1) {
-			for (var j = 0; j < arr[i].length; j += 1) {
-				if (array_equals(from[k], arr[i][j]) || out_of_bonds(from[k], size)) {
-					ok = false;
-				}
-			}
-		}
-		if (ok) {
+		if (not_visited(from[k], arr, size)) {
 			to.push(from[k]);
 		}
-		ok = true;
 	}
 }
 
@@ -105,15 +107,15 @@ function already_played(c, plays, state) {
 }
 
 function discoverFrom(segments, state, i, j, p, plays) {
-	var to_visit_try = [[i, j + 1, 0, false], [i, j - 1, 0, false], [i + 1, j + 1, 3, false], [i + 1, j, 1, false], [i + 1, j - 1, 2, false], [i -1, j ,1, false], [i - 1, j + 1, 2, false], [i - 1, j - 1, 3, false]],
+	var to_visit_try = [[i, j + 1, 0, 3], [i, j - 1, 0, 3], [i + 1, j + 1, 3, 3], [i + 1, j, 1, 3], [i + 1, j - 1, 2, 3], [i -1, j ,1, 3], [i - 1, j + 1, 2, 3], [i - 1, j - 1, 3, 3]],
 		to_visit = [],
 		c,
 		next,
-		free = false;
+		free = 3;
 		directions = [[[i,j,0]], [[i,j,1]], [[i,j,2]], [[i,j,3]]];
 	
 	for (var k = 0; k < to_visit_try.length; k += 1) {
-		if (!out_of_bonds(to_visit_try[k], state.length)) {
+		if (not_visited(to_visit_try[k], segments, state.length) && !(out_of_bonds(to_visit_try[k], state.length))) {
 			to_visit.push(to_visit_try[k]);
 		}
 	}
@@ -123,19 +125,20 @@ function discoverFrom(segments, state, i, j, p, plays) {
 		c = to_visit.shift();
 
 		if (state[c[0]][c[1]] === 0) {
+			if (c[3] <= 0) {
+				continue;
+			}
+			free = c[3] - 1;
 			c.pop();
 			directions[c[2]].push(c);
-			free = true;
 
 		} else if (state[c[0]][c[1]] === p) {
-			if (c[3]) {
-				c.pop();
-				continue;
-			} else if (already_played(c, plays, state)) {
+			if (already_played(c, plays, state)) {
 				continue;
 			}
 			c.pop();
 			directions[c[2]].push(c);
+			free = 4 - occupied(directions[c[2]], state);
 
 		} else {
 			continue;
@@ -157,8 +160,14 @@ function discoverFrom(segments, state, i, j, p, plays) {
 		}
 		push_not_visited(next, to_visit, state.length, segments, directions);
 	}
-	trim_ends(directions, state);
-	Array.prototype.push.apply(segments, directions);
+
+	//trim_ends(directions, state);
+
+	for (var l = 0; l < directions.length; l += 1) {
+		if (directions[l].length >= 4) {
+			segments.push(directions[l]);
+		}
+	}
 }
 
 function segment(state, plays) {
@@ -190,14 +199,11 @@ function nearest(segment, i, state) {
 	}, segment.length);
 }
 
-function occupied(segment, state, debug) {
+function occupied(segment, state) {
 	var count = 0;
 	for (var i = 0; i < segment.length; i += 1) {
 		if (state[segment[i][0]][segment[i][1]] !== 0) {
 			count += 1;
-		}
-		if (debug) {
-			console.log(segment[i], state[segment[i][0]][segment[i][1]]);
 		}
 	}
 	return count;
@@ -263,7 +269,7 @@ function iaplay(state, scores, played) {
 		segments = segment(state, played),
 		risk_map = init_array(state.length);
 	
-	//console.log(segments);
+	console.log(segments);
 
 	for (var i = 0; i < segments.length; i += 1) {
 		for (var j = 0; j < segments[i].length; j += 1) {
@@ -273,7 +279,7 @@ function iaplay(state, scores, played) {
 		}
 	}
 
-	//console.log(JSON.stringify(risk_map));
+	console.log(JSON.stringify(risk_map));
 	return cells.reduce(function (a, b) {
 		if (max_score_revealed(b, state, risk_map, cells) > risk_map[b[0]][b[1]]) {
 			return a;
