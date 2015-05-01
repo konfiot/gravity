@@ -29,7 +29,9 @@ function update(state, score, finished, current, plays, lastplays) {
 	}
 	document.getElementById("score").innerHTML = str;
 
-	document.getElementById("game").className = "c"+((current+1)%score.length+1);
+	console.log(((current)));
+
+	document.getElementById("game").className = "c"+((current%score.length)+1);
 
 	if (finished) {
 		if(score[0] == score[1]) {
