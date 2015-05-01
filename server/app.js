@@ -4,6 +4,7 @@ var sio = require('socket.io'),
 	http = require('http'),
 	fs = require('fs'),
 	zlib = require("zlib"),
+	uuid = require("uuid"),
 	Game = require("../common/game.js").Game,
 	scoring = require("./scoring.js");
 
