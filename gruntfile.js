@@ -92,6 +92,7 @@ module.exports = function (grunt) {
 		jscs: {
 			src: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/*.js"],
 			options: {
+				fix: false,
 				disallowNewlineBeforeBlockStatements: true,
 				disallowSpacesInNamedFunctionExpression: {
 					beforeOpeningRoundBrace: true
@@ -135,6 +136,7 @@ module.exports = function (grunt) {
 				requireCommaBeforeLineBreak: true,
 				requireCapitalizedConstructors: true,
 				requireCapitalizedComments: true,
+				requireSemicolons: true,
 				requireBlocksOnNewline: 1
 			}
 		}
