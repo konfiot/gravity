@@ -1,42 +1,39 @@
-/*jslint node: true*/
-
-var sio = require('socket.io'),
-	http = require('http'),
-	fs = require('fs'),
+var	sio = require("socket.io"),
+	http = require("http"),
+	fs = require("fs"),
 	zlib = require("zlib"),
 	uuid = require("uuid"),
 	Game = require("../common/game.js").Game,
 	scoring = require("./scoring.js");
 
 var server = http.createServer(function (request, response) {
-	var filename = "index.html",
+	var	filename = "index.html",
 		encoding = "identity",
-		acceptEncoding = request.headers['accept-encoding'],
+		acceptEncoding = request.headers["accept-encoding"],
 		raw;
 
 	if (!acceptEncoding) {
-		acceptEncoding = '';
+		acceptEncoding = "";
 	}
 
-	/*jslint nomen: true */
-	raw = fs.createReadStream(__dirname + '/../dist/' + filename);
-	/*jslint nomen: false */
+	raw = fs.createReadStream(__dirname + "/../dist/" + filename);
 
 	if (acceptEncoding.match(/\bgzip\b/)) {
-		encoding =  'gzip';
+		encoding =  "gzip";
 		raw = raw.pipe(zlib.createGzip());
 	} else if (acceptEncoding.match(/\bdeflate\b/)) {
 		encoding = "deflate";
 		raw = raw.pipe(zlib.createDeflate());
 	}
 
-	if (request.url === '/') {
+	if (request.url === "/") {
 		response.writeHead(200, {
-			'Content-Type': 'text/html',
-			'Cache-Control': 'max-age=' + 86400000 * 7,
-			'content-encoding': encoding
+			"Content-Type": "text/html",
+			"Cache-Control": "max-age=" + 86400000 * 7,
+			"content-encoding": encoding
 		});
 		raw.pipe(response);
+
 	} else {
 		response.writeHead(404);
 		response.end();
@@ -45,15 +42,14 @@ var server = http.createServer(function (request, response) {
 
 server.listen(parseInt(process.env.PORT || 1337, 10));
 
-var io = sio.listen(server);
-
-var	games_pending = {},
+var	io = sio.listen(server),
+	games_pending = {},
 	running_games = {};
 
 /* ---------------------------- Listening sockets ---------------------------- */
 
 
-io.sockets.on('connection', function (socket) {
+io.sockets.on("connection", function (socket) {
 	socket.on("list", function (data, cb) {
 		socket.join("list");
 		cb(games_pending);
@@ -73,7 +69,6 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
 	socket.on("enter", function (data, cb) {
-
 		games_pending[data.id].connected_players += 1;
 		games_pending[data.id].pseudos.push(data.pseudo);
 		socket.player = games_pending[data.id].connected_players;
@@ -86,7 +81,7 @@ io.sockets.on('connection', function (socket) {
 			running_games[data.id] = {
 				name: games_pending[data.id].name,
 				pseudos: games_pending[data.id].pseudos,
-				game: new Game(games_pending[data.id].size, function() {}, games_pending[data.id].nplayers),
+				game: new Game(games_pending[data.id].size, function () {}, games_pending[data.id].nplayers),
 				config: {size: games_pending[data.id].size,
 				nplayers: games_pending[data.id].nplayers}
 			};
@@ -95,21 +90,24 @@ io.sockets.on('connection', function (socket) {
 
 			delete games_pending[data.id];
 		}
+
 		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 	});
 	socket.on("play", function (data, cb) {
 		if (running_games[data.id].game.play(socket.player, data.x, data.y)) {
 			socket.to(data.id).emit("e", {action: "play", player: socket.player, id: data.id, x: data.x, y: data.y});
 			cb(true);
+
 		} else {
 			cb(false);
 		}
+
 		if (running_games[data.id].game.isFinished()) {
 			scoring.push_scores(running_games[data.id].pseudos, running_games[data.id].game.scores(), running_games[data.id].config);
 			delete running_games[data.id];
 		}
 	});
-	socket.on("scores", function(data, cb) {
+	socket.on("scores", function (data, cb) {
 		scoring.get_scores(cb);
 	});
 	socket.on("disconnect", function () {
