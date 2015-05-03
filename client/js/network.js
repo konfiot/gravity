@@ -33,7 +33,7 @@ GameClient.prototype.enter = function (id, pseudo, cb) {
 	this.id = id;
 
 	if (pseudo === "") {
-		pseudo = "Invité";
+		cb(false);
 	}
 
 	this.socket.emit("enter", {id: id, pseudo: pseudo}, function (data) {

@@ -153,18 +153,22 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		document.getElementById("games").innerHTML = str;
 
 		var manageEvent = function (e) {
-			toggle_div("list", false);
-			toggle_div("connecting", true);
+			var pseudo = document.getElementById("pseudo").value.trim();
 
-			network.enter(i, document.getElementById("pseudo").value, function (data) {
-				toggle_div("connecting", false);
-				toggle_div("waiting", true);
-				network.setGame(new Game(data.size, update, data.nplayers));
-				init_game(data.size, function (x, y) {
-					network.play(x, y);
+			if (pseudo !== "") {
+				toggle_div("list", false);
+				toggle_div("connecting", true);
+				network.enter(i, pseudo, function (data) {
+					toggle_div("connecting", false);
+					toggle_div("waiting", true);
+					network.setGame(new Game(data.size, update, data.nplayers));
+					init_game(data.size, function (x, y) {
+						network.play(x, y);
+					});
 				});
-
-			});
+			} else {
+				alert("Please choose a pseudo");
+			}
 		};
 
 		for (i in list) {
