@@ -178,13 +178,13 @@ function discoverFrom (segments, state, i, j, p, plays) {
 	}
 }
 
-function segment (state, plays) {
+function segment (state, plays, player) {
 	var segments = [];
 
 	for (var i = 0; i < state.length; i += 1) {
 		for (var j = 0; j < state[i].length; j += 1) {
-			if (state[i][j] === 1) {
-				discoverFrom(segments, state, i, j, state[i][j], plays);
+			if (state[i][j] === player) {
+				discoverFrom(segments, state, i, j, player, plays);
 			}
 		}
 	}
@@ -280,15 +280,19 @@ function max_score_revealed (c, state, risk_map, playable) {
 
 function iaplay (state, scores, played) {
 	var	cells = playable_cells(state),
-		segments = segment(state, played),
+		segments = [],
 		risk_map = init_array(state.length);
 
 	console.log(segments);
 
-	for (var i = 0; i < segments.length; i += 1) {
-		for (var j = 0; j < segments[i].length; j += 1) {
-			if (free(state, segments[i][j]) && !already_played(segments[i][j], played, state)) {
-				risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + Math.pow(4, occupied(segments[i], state));
+	for (var p = 0; p < scores.length; p += 1) {
+		segments = segment(state, played, p + 1);
+
+		for (var i = 0; i < segments.length; i += 1) {
+			for (var j = 0; j < segments[i].length; j += 1) {
+				if (free(state, segments[i][j]) && !already_played(segments[i][j], played, state)) {
+					risk_map[segments[i][j][0]][segments[i][j][1]] += segments[i].length - nearest(segments[i], j, state) + Math.pow(4, occupied(segments[i], state));
+				}
 			}
 		}
 	}
