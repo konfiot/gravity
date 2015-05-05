@@ -15,21 +15,42 @@
 		<div id="winner"></div>
 		<button class="restart">&#8629;</button>
 	</div>
+	<div id="solo_menu">
+		<form id="solo_config">
+			<select id="size_solo">
+				<option>5</option>
+				<option>7</option>
+				<option selected>9</option>
+				<option>11</option>
+				<option>13</option>
+				<option>15</option>
+				<option>17</option>
+			</select>
+			<br />
+			<select class="player">
+				<option value="0">Not playing</option>
+				<option value="1">A.I.</option>
+				<option value="2">Human</option>
+			</select>
+			<select class="player">
+				<option value="0">Not playing</option>
+				<option value="1">A.I.</option>
+				<option value="2">Human</option>
+			</select>
+			<select class="player">
+				<option value="0">Not playing</option>
+				<option value="1">A.I.</option>
+				<option value="2">Human</option>
+			</select>
+			<select class="player">
+				<option value="0">Not playing</option>
+				<option value="1">A.I.</option>
+				<option value="2">Human</option>
+			</select>
+			<button>Let's go !</button>
+		</form>
+	</div>
 	<div id="menu">
-		<select id="nplayers_solo"> 
-			<option value="2">2 players</option>
-			<option value="3">3 players</option>
-			<option value="4">4 players</option>
-		</select>
-		<select id="size_solo">
-			<option>5</option>
-			<option>7</option>
-			<option selected>9</option>
-			<option>11</option>
-			<option>13</option>
-			<option>15</option>
-			<option>17</option>
-		</select>
 		<p><button id="solo">Solo</button></p>
 		<p><button id="multi">Multiplayer</button></p>
 		<p><button id="leaderbord">Leaderboard</button></p>

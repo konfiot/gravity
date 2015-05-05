@@ -75,23 +75,46 @@ function init_game(size, cb) {
 }
 
 document.getElementById("solo").addEventListener("click", function (e) {
-	var nplayers = 2; // Temp: document.getElementById("nplayers_solo").value;
-	var size = document.getElementById("size_solo").value;
-	var game = new Game(size, update, nplayers);
-	var i = 0;
 	toggle_div("menu", false);
+	toggle_div("solo_menu", true);
+});
+
+document.getElementById("solo_config").addEventListener("submit", function (e) {
+	e.preventDefault();
+
+	var	players = [],
+		size = document.getElementById("size_solo").value,
+		fields = document.getElementsByClassName("player");
+
+	for (var i = 0; i < fields.length; i += 1) {
+		if (parseInt(fields[i].value) !== 0) {
+			players.push(parseInt(fields[i].value));
+		}
+	}
+
+	var game = new Game(size, update, players.length);
+
 	document.getElementById("pseudos").innerHTML = "";
 
-	init_game(size, function (x, y) {
-		if (game.play(1/* Temp: i%nplayers+1 */, x, y)) {
-			i += 1;
+	toggle_div("solo_menu", false);
+
+	setInterval(function () {
+		if (players[game.whosturn] === 1) {
 			var play = iaplay(game.getState(), game.scores(), game.getPlays());
 
-			while (!(game.play(2, play[0], play[1]))) {
+			while (!(game.play(game.whosturn + 1, play[0], play[1]))) {
 				play = iaplay(game.getState(), game.scores(), game.getPlays());
 			}
 		}
+	}, 500);
+
+	init_game(size, function (x, y) {
+		if (players[game.whosturn] === 2) {
+			game.play(game.whosturn + 1, x, y);
+		}
 	});
+
+	return false;
 });
 
 document.getElementById("leaderbord").addEventListener("click", function (e) {

@@ -81,7 +81,7 @@ table
 	z-index: 6;
 }
 
-#list, #finish, #menu, #connecting, #waiting, #scores, #loading {
+#list, #finish, #menu, #connecting, #waiting, #scores, #loading, #solo_menu {
 	position: absolute;
 	left: 0;
 	top: 0;
