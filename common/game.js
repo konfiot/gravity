@@ -135,6 +135,7 @@ Game.prototype.scores = function () {
 						this.score[count[k][l][0] - 1] += 1;
 						count[k][l][1] = 0;
 						this.plays.push([count[k][l][2], k]);
+						count[k][l] = undefined;
 					}
 				}
 			}
