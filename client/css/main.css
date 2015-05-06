@@ -4,6 +4,10 @@ body
 	font-family: Helvetica;
 }
 
+h1 {
+	color: rgb(150,150,150);
+}
+
 .margin
 {
 	margin: .5vw;
