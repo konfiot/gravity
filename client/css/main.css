@@ -131,16 +131,8 @@ table
 
 .list thead {
 	background-color: rgb(240,240,240);
-	position: fixed;
-	padding-top: 4vh;
-	z-index: 5;
+	margin-top: 4vh;
 }
-
-.list > tbody {
-	position: relative;
-	top: 11vh;
-}
-
 
 #menu {
 	display: block;
