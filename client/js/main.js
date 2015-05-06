@@ -34,8 +34,6 @@ function update(state, score, finished, current, plays, lastplays) {
 
 	document.getElementById("score").innerHTML = str;
 
-	console.log(((current)));
-
 	document.getElementById("game").className = "c" + ((current % score.length) + 1);
 
 	if (finished) {
@@ -92,13 +90,9 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 		}
 	}
 
-	var game = new Game(size, update, players.length);
+	var game = new Game(size, function (state, score, finished, current, plays, lastplays) {
+		update(state, score, finished, current, plays, lastplays);
 
-	document.getElementById("pseudos").innerHTML = "";
-
-	toggle_div("solo_menu", false);
-
-	setInterval(function () {
 		if (players[game.whosturn] === 1) {
 			var play = iaplay(game.getState(), game.scores(), game.getPlays());
 
@@ -106,13 +100,18 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 				play = iaplay(game.getState(), game.scores(), game.getPlays());
 			}
 		}
-	}, 500);
+	}, players.length);
+
+	document.getElementById("pseudos").innerHTML = "";
+
+	toggle_div("solo_menu", false);
 
 	init_game(size, function (x, y) {
 		if (players[game.whosturn] === 2) {
 			game.play(game.whosturn + 1, x, y);
 		}
 	});
+	game.update();
 
 	return false;
 });
@@ -222,6 +221,7 @@ var	restart_buttons = document.getElementsByClassName("restart"),
 		toggle_div("waiting", false);
 		toggle_div("scores", false);
 		toggle_div("menu", true);
+		clearInterval();
 	};
 
 for (var i  = 0; i < restart_buttons.length; i += 1) {

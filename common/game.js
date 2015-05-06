@@ -23,7 +23,6 @@ function Game (size, update, nplayers) {
 	}
 
 	this.update_cb = update;
-	this.update_cb.call(this, this.state, this.scores(), false, 0, this.plays);
 }
 
 Game.prototype.checkplay = function (x, y) {
@@ -151,6 +150,10 @@ Game.prototype.getState = function () {
 
 Game.prototype.getPlays = function () {
 	return this.plays;
+};
+
+Game.prototype.update = function () {
+	this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays);
 };
 
 try {
