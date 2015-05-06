@@ -198,7 +198,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		}
 	});
 
-	document.getElementById("create").addEventListener("submit", function (e) {
+	document.getElementById("create").onsubmit = function (e) {
 		e.preventDefault();
 		toggle_div("waiting", true);
 		toggle_div("list", false);
@@ -211,7 +211,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		});
 
 		return false;
-	});
+	};
 });
 
 var	restart_buttons = document.getElementsByClassName("restart"),
@@ -221,7 +221,7 @@ var	restart_buttons = document.getElementsByClassName("restart"),
 		toggle_div("waiting", false);
 		toggle_div("scores", false);
 		toggle_div("menu", true);
-		clearInterval();
+		socket.emit("quit");
 	};
 
 for (var i  = 0; i < restart_buttons.length; i += 1) {
