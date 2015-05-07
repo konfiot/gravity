@@ -304,10 +304,8 @@ function iaplay (state, scores, played) {
 			return a;
 		} else if (risk_map[b[0]][b[1]] > risk_map[a[0]][a[1]]) {
 			return b;
-		} else if (risk_map[b[0]][b[1]] < risk_map[a[0]][a[1]]) {
-			return a;
 		} else {
-			return (Math.random() > 1 / cells.length) ? a : b;
+			return a;
 		}
 	}, cells[0]);
 }
