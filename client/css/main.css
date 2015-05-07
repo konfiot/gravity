@@ -1,7 +1,7 @@
 body
 {
 	background-color: #FCFCFC;
-	font-family: Roboto;
+	font-family: Roboto, sans-serif;
 	font-weight: 200;
 	color: rgb(100,100,100);
 }
@@ -246,7 +246,7 @@ input, select, button {
 	font-size: 5vh;
 	max-width: 95vw;
 	font-weight: 200;
-	font-family: Roboto;
+	font-family: Roboto, sans-serif;
 }
 
 form
