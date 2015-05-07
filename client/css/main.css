@@ -70,11 +70,12 @@ table
 {
 	height: 100%;
 	width: 100%;
-	background-color: rgb(240,240,240);
-	border-spacing: 3px; 
+	background-color: #e0e0e0;
+	border-spacing: 1.2vh;
 	border-color: inherit;
 	border-style: solid ;
 	border-width: .25vw;
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 
 .game_table * td
@@ -82,7 +83,8 @@ table
 	border-style: solid;
 	border-color: transparent;
 	border-radius: 0.25vh;
-	border-width: 6px;
+	border-width: 1vh;
+	transition: all 0.3s ease-out 0s;
 }
 
 #loading{
@@ -171,12 +173,13 @@ table
 }
 
 .p-1 {
-	background-color: rgb(240,240,240);
+	background-color: #e0e0e0;
 	color: rgb(240,240,240);
 }
 
 .p0 {
-	background-color: rgb(210,210,210);
+	background-color: #eeeeee;
+	box-shadow: 0 .5vh 0 #D0D0D0;
 }
 
 .t1 {
