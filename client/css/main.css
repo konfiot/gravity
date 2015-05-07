@@ -74,7 +74,8 @@ table
 	border-spacing: 1.2vh;
 	border-color: inherit;
 	border-style: solid ;
-	border-width: .25vw;
+	border-width: .5vh;
+	border-radius: .5vh;
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 
@@ -114,7 +115,7 @@ table
 
 #pseudos
 {
-	font-size: 3vh;
+	font-size: 5vh;
 	text-align: center;
 }
 
