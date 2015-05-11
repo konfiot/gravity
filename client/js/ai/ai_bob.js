@@ -14,6 +14,6 @@
 */
 
 function iaplay_bob (state, scores, played) {
-	console.log(checkplay(state,0,0))
+	console.log(checkplay(state,0,0));
 	return [parseInt(Math.random() * state.length), parseInt(Math.random() * state.length)];
 }
