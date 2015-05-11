@@ -278,7 +278,7 @@ function max_score_revealed (c, state, risk_map, playable) {
 	}, 0);
 }
 
-function iaplay (state, scores, played) {
+function iaplay_banane (state, scores, played) {
 	var	cells = playable_cells(state),
 		segments = [],
 		risk_map = init_array(state.length);

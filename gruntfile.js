@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON("package.json"),
 		concat: {
 			js: {
-				src: ["node_modules/socket.io-client/socket.io.js",  "common/game.js", "client/js/ia.js", "client/js/view.js", "client/js/network.js", "client/js/main.js"],
+				src: ["node_modules/socket.io-client/socket.io.js",  "common/game.js", "client/js/ai/ai_bob.js", "client/js/ai/ai_banane.js", "client/js/view.js", "client/js/network.js", "client/js/main.js"],
 				dest: "client/dist.js"
 			},
 			css: {
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
 			all: ["client/html/*.html"]
 		},
 		jshint: {
-			all: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/*.js"]
+			all: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"]
 		},
 		nodeunit: {
 			all: ["test/test-*.js"]
@@ -90,7 +90,7 @@ module.exports = function (grunt) {
 			dist: ["client/*.css", "client/*.js", "client/*.html"]
 		},
 		jscs: {
-			src: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/*.js"],
+			src: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"],
 			options: {
 				fix: false,
 				disallowNewlineBeforeBlockStatements: true,

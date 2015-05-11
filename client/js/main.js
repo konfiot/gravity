@@ -99,7 +99,16 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 	var game = new Game(size, function (state, score, finished, current, plays, lastplays) {
 		update(state, score, finished, current, plays, lastplays);
 
-		if (players[game.whosturn] === 1) {
+		if (players[game.whosturn] >= 2) {
+			switch (players[game.whosturn]) {
+				case 2:
+					iaplay = iaplay_banane;
+				break;
+
+				case 3:
+					iaplay = iaplay_bob;
+				break;
+			}
 			var play = iaplay(game.getState(), game.scores(), game.getPlays());
 
 			while (!(game.play(game.whosturn + 1, play[0], play[1]))) {
@@ -113,7 +122,7 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 	toggle_div("solo_menu", false);
 
 	init_game(size, function (x, y) {
-		if (players[game.whosturn] === 2) {
+		if (players[game.whosturn] === 1) {
 			game.play(game.whosturn + 1, x, y);
 		}
 	});
