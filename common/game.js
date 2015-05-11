@@ -84,8 +84,29 @@ Game.prototype.isFinished = function () {
 	return true;
 };
 
+function cross_the_middle(state, segment) {
+	for (var i = 0; i < segment.length; i += 1) {
+		if (state[segment[i][0]][segment[i][1]] === -1) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 Game.prototype.scores = function () {
-	var count = [[], [], [], []];
+	this.compute_score(false);
+
+	return this.compute_score(true);
+};
+
+Game.prototype.compute_score = function (middle) {
+	var	count = [[], [], [], []],
+		middle_score = new Array(this.nplayers);
+
+	for (var h = 0; h < this.score.length; h += 1) {
+		middle_score[h] = 0;
+	}
 
 	for (var i = 0; i < this.state.length; i += 1) {
 		for (var j = 0; j < this.state[i].length; j += 1) {
@@ -120,28 +141,35 @@ Game.prototype.scores = function () {
 					break;
 				}
 
-				if (this.state[i][j] === 0 || count[k][l] === undefined || count[k][l][0] !== this.state[i][j]) {
+				if (this.state[i][j] === 0 || count[k][l] === undefined) {
 					count[k][l] = [this.state[i][j], 1, [[i, j]]];
 
 				} else if (played.indexOf(k) !== -1) {
 					count[k][l] = undefined;
 
-				} else if (count[k][l][0] === this.state[i][j] || (this.isFinished() && this.state[i][j] === -1)) {
+				} else if (count[k][l][0] === this.state[i][j] || (this.state[i][j] === -1 && middle)) {
 					count[k][l][1] += 1;
 					count[k][l][2].push([i, j]);
 
 					if (count[k][l][1] >= 4) {
-						this.score[count[k][l][0] - 1] += 1;
-						count[k][l][1] = 0;
-						this.plays.push([count[k][l][2], k]);
+						if (!cross_the_middle(this.state, count[k][l][2])) {
+							this.score[count[k][l][0] - 1] += 1;
+							this.plays.push([count[k][l][2], k]);
+						} else {
+							middle_score[count[k][l][0] - 1] += 1;
+						}
+
 						count[k][l] = undefined;
 					}
+
+				} else {
+					count[k][l] = [this.state[i][j], 1, [[i, j]]];
 				}
 			}
 		}
 	}
 
-	return this.score;
+	return [this.score, middle_score];
 };
 
 Game.prototype.getState = function () {

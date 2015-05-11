@@ -28,20 +28,26 @@ function update(state, score, finished, current, plays, lastplays) {
 
 	var str = "";
 
-	for (var l = 0; l < score.length; l += 1) {
-		str += "<span class='t" + (l + 1) + "'>" + score[l] + "</span>" + ((l == score.length - 1) ?  "" : " - ");
+	for (var l = 0; l < score[0].length; l += 1) {
+		str += "<span class='t" + (l + 1) + "'>" + score[0][l] + "</span>" + ((l == score[0].length - 1) ?  "" : " - ");
 	}
 
 	document.getElementById("score").innerHTML = str;
 
 	document.getElementById("game").className = "c" + ((current % score.length) + 1);
 
+	end_score = Array(score[0].length);
+
+	for (var m = 0; m < end_score.length; m += 1) {
+		end_score[m] = score[0][m] + score[1][m];
+	}
+
 	if (finished) {
-		if (score[0] == score[1]) {
+		if (end_score[0] == end_score[1]) {
 			document.getElementById("winner").innerHTML = "Tie";
 
 		} else {
-			document.getElementById("winner").innerHTML = "Player " + (score.indexOf(Math.max.apply(this, score)) + 1) + " wins";
+			document.getElementById("winner").innerHTML = "Player " + (score.indexOf(Math.max.apply(this, end_score)) + 1) + " wins";
 		}
 
 		toggle_div("finish", true);
