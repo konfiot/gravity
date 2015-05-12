@@ -1,5 +1,5 @@
 var	fs = require("fs"),
-	async = require("async"),
+//	async = require("async"),
 	pg = require("pg");
 
 function sum (array) {
@@ -12,43 +12,25 @@ function sum (array) {
 	return out;
 }
 
+/*
+	Compute scores (featuring interpolated polynome) :
+	scores : [[p1, p2, ...] , [mid1, mid2]]
+*/
 function compute_scores (pseudos, scores, data, game) {
-	var	points = Array(pseudos.length),
-		K = sum(scores) / Math.pow(game.size, 2) / game.nplayers,
-		dr = 0,
-		ri = 0,
-		rj = 0,
-		dp = 0;
+	console.log(scores);
+	
+	var n = pseudos.length;
+	var	points = Array(n);
+	var rank = Array(n);
 
-	for (var k = 0; k < points.length; k += 1) {
-		points[k] = 0;
+	for (var i = 0; i < n; ++i) {
+		rank[i] = i;
 	}
+	
+	rank.sort(function (a, b) { return scores[0][a] > scores[0][b] ? -1 : scores[0][a] < scores[0][b] ? 1 : 0; });
 
-	for (var i = 0; i < pseudos.length; i += 1) {
-		if (data[pseudos[i]] !== undefined || data[pseudos[j]].total === 0) {
-			ri = data[pseudos[i]].won / data[pseudos[i]].total;
-		} else {
-			ri = 0.5;
-		}
-
-		for (var j = 0; j < pseudos.length; j += 1) {
-			if (data[pseudos[j]] !== undefined || data[pseudos[j]].total === 0) {
-				rj = data[pseudos[j]].won / data[pseudos[j]].total;
-			} else {
-				rj = 0.5;
-			}
-
-			dp = scores[i] - scores[j];
-			dr = Math.abs(ri - rj);
-
-			if (dp > 0) {
-				points[i] += K * 10 * dp * Math.min(15, 1 / dr) + 10;
-			} else {
-				points[i] += (1 + dp / (scores[j] + 1)) * dr * 2 + 1;
-			}
-		}
-
-		points[i] = 3 * parseInt(Math.log(points[i]));
+	for (var j = 0 ; j < n ; j++) {
+		points[j] = n * 2 + -0.5 * Math.pow(rank[j], 3) + 3 * Math.pow(rank[j], 2) - 7.5 * rank[j] + 1;
 	}
 
 	return points;
