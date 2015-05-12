@@ -1,5 +1,5 @@
 var	fs = require("fs"),
-//	async = require("async"),
+	async = require("async"),
 	pg = require("pg");
 
 function sum (array) {
