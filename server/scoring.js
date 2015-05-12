@@ -17,8 +17,6 @@ function sum (array) {
 	scores : [[p1, p2, ...] , [mid1, mid2]]
 */
 function compute_scores (pseudos, scores, data, game) {
-	console.log(scores);
-	
 	var n = pseudos.length;
 	var	points = Array(n);
 	var rank = Array(n);
@@ -26,8 +24,23 @@ function compute_scores (pseudos, scores, data, game) {
 	for (var i = 0; i < n; ++i) {
 		rank[i] = i;
 	}
-	
-	rank.sort(function (a, b) { return scores[0][a] > scores[0][b] ? -1 : scores[0][a] < scores[0][b] ? 1 : 0; });
+
+	// Ranking with middle
+	rank.sort(function (a, b) {
+		if (scores[0][a] > scores[0][b]) {
+			return -1;
+		} else if (scores[0][a] < scores[0][b]) {
+			return 1;
+		} else {
+			if (scores[1][a] > scores[1][b]) {
+				return -1;
+			} else if (scores[0][a] < scores[0][b]) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	});
 
 	for (var j = 0 ; j < n ; j++) {
 		points[j] = n * 2 + -0.5 * Math.pow(rank[j], 3) + 3 * Math.pow(rank[j], 2) - 7.5 * rank[j] + 1;
@@ -35,7 +48,6 @@ function compute_scores (pseudos, scores, data, game) {
 
 	return points;
 }
-
 
 function push_scores (pseudos, scores, game, cb) {
 	if (process.env.ENV === "prod") {
