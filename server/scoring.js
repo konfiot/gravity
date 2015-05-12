@@ -86,7 +86,8 @@ function push_scores (pseudos, scores, game, cb) {
 				for (var i = 0; i < pseudos.length; i += 1) {
 					results.push([pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0]);
 				}
-				async.map(result, function (item, callback) {
+
+				async.map(results, function (item, callback) {
 					if (data[item[0]] === undefined) {
 						client.query("INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)" , item, function (err, res) {});
 						console.log([item[0], item[1], 0]);
