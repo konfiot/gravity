@@ -94,7 +94,7 @@ function push_scores (pseudos, scores, game, cb) {
 						callback(null, [item[0], item[1], 0]);
 					} else {
 						client.query("UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1", item, function (err, res) {
-							console.log([item[0], item[1], res.row[0].score - item[1]]);
+							console.log([item[0], item[1], data[item[0]].score]);
 							callback(null, [item[0], item[1], data[item[0]].score]);
 						});
 					}
