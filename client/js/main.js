@@ -170,7 +170,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		var str = "";
 
 		for (var i = 0; i < scores.length; i += 1) {
-			str += scores[i][0] + " : " + scores[i][2] + " -> " + (scores[i][2] + scores[i][1]) + " (+" + scores[i][1] + ")<br />";
+			str += scores[i][0] + " : " + scores[i][2] + " -> " + (parseInt(scores[i][2]) + parseInt(scores[i][1])) + " (+" + scores[i][1] + ")<br />";
 		}
 		document.getElementById("winner").innerHTML = str;
 		toggle_div("finish", true);
