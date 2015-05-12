@@ -1,5 +1,5 @@
 var	fs = require("fs"),
-//	async = require("async"),
+	async = require("async"),
 	pg = require("pg");
 
 function sum (array) {
@@ -18,7 +18,7 @@ function sum (array) {
 */
 function compute_scores (pseudos, scores, data, game) {
 	console.log(scores);
-	
+
 	var n = pseudos.length;
 	var	points = Array(n);
 	var rank = Array(n);
@@ -26,7 +26,7 @@ function compute_scores (pseudos, scores, data, game) {
 	for (var i = 0; i < n; ++i) {
 		rank[i] = i;
 	}
-	
+
 	rank.sort(function (a, b) { return scores[0][a] > scores[0][b] ? -1 : scores[0][a] < scores[0][b] ? 1 : 0; });
 
 	for (var j = 0 ; j < n ; j++) {
