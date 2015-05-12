@@ -54,9 +54,9 @@ function weight (x, y, state, played) {
 
 	// Evaluate at center
 	var local_matrix = zoom_matrix(x, y, state);
-	
+
 	for (var r = 0 ; r < 4 ; r++) {
-		
+
 	}
 
 	return x * y;
@@ -64,8 +64,8 @@ function weight (x, y, state, played) {
 
 function situations (matrix, x, y, r, id, virtual) { // Master Piece of art
 	var W = 0;
-	var double = [0,0];
-	
+	var double = [0, 0];
+
 	// Linear
 	/* L
 	if (matrix[4][5] === id) {
@@ -82,7 +82,7 @@ function situations (matrix, x, y, r, id, virtual) { // Master Piece of art
 				elif not virtual and M[4,8]!=id:
 					W += 100
 					double[0]=1
-			if M[4,3]==0 and checkCellGravity(x,y,x,y-1,r) : 
+			if M[4,3]==0 and checkCellGravity(x,y,x,y-1,r) :
 				if M[4,7]==0 :
 					if checkCellGravity(x,y,x,y+3,r) : 			# OoAAO --
 						W += 80
