@@ -103,7 +103,10 @@ io.sockets.on("connection", function (socket) {
 		}
 
 		if (running_games[data.id].game.isFinished()) {
-			scoring.push_scores(running_games[data.id].pseudos, running_games[data.id].game.scores(), running_games[data.id].config);
+			scoring.push_scores(running_games[data.id].pseudos, running_games[data.id].game.scores(), running_games[data.id].config, function (scores) {
+				console.log("Scores pushed");
+				io.sockets.to(data.id).emit("e", {action: "end_scores", data: scores});
+			});
 			delete running_games[data.id];
 		}
 	});

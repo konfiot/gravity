@@ -41,17 +41,6 @@ function update(state, score, finished, current, plays, lastplays) {
 	for (var m = 0; m < end_score.length; m += 1) {
 		end_score[m] = score[0][m] + score[1][m];
 	}
-
-	if (finished) {
-		if (end_score[0] == end_score[1]) {
-			document.getElementById("winner").innerHTML = "Tie";
-
-		} else {
-			document.getElementById("winner").innerHTML = "Player " + (score.indexOf(Math.max.apply(this, end_score)) + 1) + " wins";
-		}
-
-		toggle_div("finish", true);
-	}
 }
 
 function init_game(size, cb) {
@@ -177,6 +166,14 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		}
 
 		document.getElementById("pseudos").innerHTML = str;
+	}, function (scores) {
+		var str = "";
+
+		for (var i = 0; i < scores.length; i += 1) {
+			str += scores[i][0] + " : " + scores[i][2] + " -> " + (scores[i][2] + scores[i][1]) + " (+" + scores[i][1] + ")<br />";
+		}
+		document.getElementById("winner").innerHTML = str;
+		toggle_div("finish", true);
 	});
 
 	network.list(function (list) {
@@ -190,7 +187,8 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		document.getElementById("games").innerHTML = str;
 
 		var manageEvent = function (e) {
-			var pseudo = document.getElementById("pseudo").value.trim();
+			var	pseudo = document.getElementById("pseudo").value.trim(),
+				game;
 
 			if (pseudo !== "") {
 				toggle_div("list", false);

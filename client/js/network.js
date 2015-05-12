@@ -1,6 +1,7 @@
-function GameClient (socket, begin_cb) {
+function GameClient (socket, begin_cb, end_cb) {
 	this.player = -1;
 	this.begin_cb = begin_cb;
+	this.end_cb = end_cb;
 
 	that = this;
 	this.socket = socket;
@@ -68,6 +69,11 @@ GameClient.prototype.update = function (e) {
 
 		case "update_list":
 			this.list_cb.call(this, e.data);
+		break;
+
+		case "end_scores":
+			console.log("End_score");
+			this.end_cb.call(this, e.data);
 		break;
 	}
 };

@@ -1,4 +1,5 @@
 var	fs = require("fs"),
+	async = require("async"),
 	pg = require("pg");
 
 function sum (array) {
@@ -24,14 +25,14 @@ function compute_scores (pseudos, scores, data, game) {
 	}
 
 	for (var i = 0; i < pseudos.length; i += 1) {
-		if (data[pseudos[i]] !== undefined) {
+		if (data[pseudos[i]] !== undefined || data[pseudos[j]].total === 0) {
 			ri = data[pseudos[i]].won / data[pseudos[i]].total;
 		} else {
 			ri = 0.5;
 		}
 
 		for (var j = 0; j < pseudos.length; j += 1) {
-			if (data[pseudos[j]] !== undefined) {
+			if (data[pseudos[j]] !== undefined || data[pseudos[j]].total === 0) {
 				rj = data[pseudos[j]].won / data[pseudos[j]].total;
 			} else {
 				rj = 0.5;
@@ -54,7 +55,7 @@ function compute_scores (pseudos, scores, data, game) {
 }
 
 
-function push_scores (pseudos, scores, game) {
+function push_scores (pseudos, scores, game, cb) {
 	if (process.env.ENV === "prod") {
 		pg.connect(process.env.DATABASE_URL, function (err, client, done) {
 			if (err) {
@@ -66,7 +67,8 @@ function push_scores (pseudos, scores, game) {
 
 			client.query("SELECT * from players", function (err, result) {
 				var	data = {},
-					points = [];
+					points = [],
+					results = [];
 
 				if (err) {
 					console.log("Erreur dans la récupération des données");
@@ -79,27 +81,37 @@ function push_scores (pseudos, scores, game) {
 					data[result.rows[j].pseudo] = result.rows[j];
 				}
 
-				console.log(data);
 				points = compute_scores(pseudos, scores, data, game);
-				console.log(points);
 
 				for (var i = 0; i < pseudos.length; i += 1) {
-					if (data[pseudos[i]] === undefined) {
-						client.query("INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)" , [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], done);
-					} else {
-						client.query("UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1", [pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0], done);
-					}
+					results.push([pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0]);
 				}
+				async.map(result, function (item, callback) {
+					if (data[item[0]] === undefined) {
+						client.query("INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)" , item, function (err, res) {});
+						callback(null, [item[0], item[1], 0]);
+					} else {
+						client.query("UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1 RETURNING *", item, function (err, res) {
+							callback(null, [item[0], item[1], res.row[0].score - item[1]]);
+						});
+					}
+				}, function (err, results) {
+					done();
+					cb(results);
+				});
 			});
 		});
 
 	} else {
 		fs.readFile("scores.json", function (err, raw) {
 			var	data = JSON.parse(raw || "{}"),
-				points = compute_scores(pseudos, scores, data, game);
+				points = compute_scores(pseudos, scores, data, game),
+				result = [];
 
 			for (var i = 0; i < pseudos.length; i += 1) {
 				data[pseudos[i]] = data[pseudos[i]] || {score: 0, won: 0, total: 0};
+
+				result.push([pseudos[i], points[i], data[pseudos[i]].score]);
 
 				data[pseudos[i]].score += points[i];
 				data[pseudos[i]].total += 1;
@@ -107,6 +119,8 @@ function push_scores (pseudos, scores, game) {
 			}
 
 			fs.writeFile("scores.json", JSON.stringify(data), function () {});
+
+			cb(result);
 		});
 	}
 }
