@@ -25,14 +25,14 @@ function compute_scores (pseudos, scores, data, game) {
 	}
 
 	for (var i = 0; i < pseudos.length; i += 1) {
-		if (data[pseudos[i]] !== undefined || data[pseudos[j]].total === 0) {
+		if (data[pseudos[i]] !== undefined && data[pseudos[j]].total === 0) {
 			ri = data[pseudos[i]].won / data[pseudos[i]].total;
 		} else {
 			ri = 0.5;
 		}
 
 		for (var j = 0; j < pseudos.length; j += 1) {
-			if (data[pseudos[j]] !== undefined || data[pseudos[j]].total === 0) {
+			if (data[pseudos[j]] !== undefined && data[pseudos[j]].total === 0) {
 				rj = data[pseudos[j]].won / data[pseudos[j]].total;
 			} else {
 				rj = 0.5;
