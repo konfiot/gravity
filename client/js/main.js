@@ -184,7 +184,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		});
 
 		for (var i = 0; i < scores.length; i += 1) {
-			str += "<div class='card'><table><tr><td rowspan=2>" + scores[i][0] + "</td><td>+" + scores[i][1] + "</td></tr><tr><td>" +
+			str += "<div class='card'><table><tr><td class='left' rowspan=2>" + scores[i][0] + "</td><td class='right'>+" + scores[i][1] + "</td></tr><tr><td class='right'>" +
 				(parseInt(scores[i][2]) + parseInt(scores[i][1])) + "</td></tr></table></div>";
 		}
 
