@@ -135,7 +135,6 @@ module.exports = function (grunt) {
 				requireCurlyBraces: ["if", "else", "for", "while", "do", "try", "catch", "switch", "function"],
 				requireCommaBeforeLineBreak: true,
 				requireCapitalizedConstructors: true,
-				requireCapitalizedComments: true,
 				requireSemicolons: true,
 				requireBlocksOnNewline: 1
 			}
