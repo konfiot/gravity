@@ -45,13 +45,12 @@ function compute_scores (pseudos, scores, data, game) {
 	for (var j = 0 ; j < n ; j++) {
 		points[j] = n * 2 + -0.5 * Math.pow(rank[j], 3) + 3 * Math.pow(rank[j], 2) - 7.5 * rank[j] + 1;
 	}
-
 	var nb = 0;
 
 	while (nb < pseudos.length) {
 		var equal = 0;
 
-		for (var k = 0; k < 4 ; k++) {
+		for (var k = 0; k < pseudos.length ; k++) {
 			if (scores[0][k] === scores[0][nb] && scores[1][k] === scores[1][nb]) {
 				equal++;
 			}
