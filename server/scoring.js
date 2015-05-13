@@ -78,18 +78,17 @@ function push_scores (pseudos, scores, game, cb) {
 				points = compute_scores(pseudos, scores, data, game);
 
 				for (var i = 0; i < pseudos.length; i += 1) {
-					results.push([pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0]);
+					results.push([pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0, scores[0][i]]);
 				}
 
 				async.map(results, function (item, callback) {
 					if (data[item[0]] === undefined) {
 						client.query("INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)" , item, function (err, res) {});
 						console.log([item[0], item[1], 0]);
-						callback(null, [item[0], item[1], 0]);
+						callback(null, [item[0], item[1], 0, item[3]]);
 					} else {
 						client.query("UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1", item, function (err, res) {
-							console.log([item[0], item[1], data[item[0]].score]);
-							callback(null, [item[0], item[1], data[item[0]].score]);
+							callback(null, [item[0], item[1], data[item[0]].score, item[3]]);
 						});
 					}
 				}, function (err, results) {
@@ -108,7 +107,7 @@ function push_scores (pseudos, scores, game, cb) {
 			for (var i = 0; i < pseudos.length; i += 1) {
 				data[pseudos[i]] = data[pseudos[i]] || {score: 0, won: 0, total: 0};
 
-				result.push([pseudos[i], points[i], data[pseudos[i]].score]);
+				result.push([pseudos[i], points[i], data[pseudos[i]].score, scores[0][i]]);
 
 				data[pseudos[i]].score += points[i];
 				data[pseudos[i]].total += 1;

@@ -167,11 +167,27 @@ document.getElementById("multi").addEventListener("click", function (e) {
 
 		document.getElementById("pseudos").innerHTML = str;
 	}, function (scores) {
-		var str = "";
+		var str = "<div class='card'><table><tr>";
+
+		for (var k = 0; k < scores.length; k += 1) {
+			str += "<td>" + scores[k][0] + "</td>";
+		}
+		str += "</tr><tr>";
+
+		for (var j = 0; j < scores.length; j += 1) {
+			str += "<td>" + scores[j][3] + "</td>";
+		}
+		str += "</tr></table></div>";
+
+		scores.sort(function (a, b) {
+			return b[3] - a[3];
+		});
 
 		for (var i = 0; i < scores.length; i += 1) {
-			str += scores[i][0] + " : " + scores[i][2] + " -> " + (parseInt(scores[i][2]) + parseInt(scores[i][1])) + " (+" + scores[i][1] + ")<br />";
+			str += "<div class='card'><table><tr><td class='left' rowspan=2>" + scores[i][0] + "</td><td class='right'>+" + scores[i][1] + "</td></tr><tr><td class='right'>" +
+				(parseInt(scores[i][2]) + parseInt(scores[i][1])) + "</td></tr></table></div>";
 		}
+
 		document.getElementById("winner").innerHTML = str;
 		toggle_div("finish", true);
 	});
