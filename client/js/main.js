@@ -1,6 +1,10 @@
 var socket = io("@@URL_SOCKETIO_SERVER");
 
 function toggle_div(name, show) {
+	if (show && ["scores", "list", "solo_menu", "menu"].indexOf(name) !== -1) {
+		location.hash = name;
+	}
+
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
@@ -245,16 +249,24 @@ document.getElementById("multi").addEventListener("click", function (e) {
 
 var	restart_buttons = document.getElementsByClassName("restart"),
 	manageEvent = function (e) {
-		toggle_div("finish", false);
-		toggle_div("list", false);
-		toggle_div("waiting", false);
-		toggle_div("scores", false);
-		toggle_div("menu", true);
-		socket.emit("quit");
+		window.history.back();
 	};
 
 for (var i  = 0; i < restart_buttons.length; i += 1) {
 	restart_buttons[i].addEventListener("click", manageEvent);
 }
 
+window.addEventListener("hashchange", function (e) {
+	var	url = e.newURL.split("#"),
+		div = (url.length < 2) ? "menu" : url[1];
+
+	if (div !== e.oldURL.split("#")[1]) {
+		toggle_div("finish", false);
+		toggle_div("list", false);
+		toggle_div("waiting", false);
+		toggle_div("scores", false);
+		toggle_div("menu", false);
+		toggle_div(div, true);
+	}
+});
 
