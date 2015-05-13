@@ -30,7 +30,6 @@ function iaplay_bob (state, scores, played) {
 			m = j;
 		}
 	}
-	console.log(P_list[m], weight_list[m]);
 
 	return P_list[m];
 }
@@ -53,63 +52,186 @@ function weight (x, y, state, played) {
 	var W = 0;
 
 	// Evaluate at center
-	var local_matrix = zoom_matrix(x, y, state);
+	var local_matrix = zoom_matrix(x, y, state),
+		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]];
+
+	var res;
 
 	for (var r = 0 ; r < 4 ; r++) {
+		for (var k = 0 ; k < 2 ; k++) {
+			res = situations(state, local_matrix, x, y, r, k + 1, false);
+			W += res[0];
+			check_double[k][(2 * r) % 4] += res[1];
+			check_double[k][(2 * r + 1) % 4] += res[2];
+		}
+		local_matrix = rot90(local_matrix, 9);
+	}
+	var d;
 
+	for (var i = 0 ; i < 2 ; i++) {
+		for (var j = 0 ; j < 4 ; j++) {
+			d += check_double[i][j];
+		}
 	}
 
-	return x * y;
+	if (d >= 1) {
+		W += 100 * (d - 1);
+	}
+
+	/*
+	#Find allowed cells
+	flag = findCells(x,y)
+
+	#Evaluate in each direction
+	g.Grid.matrix[x,y] = 2
+	m.refresh_scores()
+	for i in range(4):
+		if flag[i] != None:
+			x0 = flag[i][0] ; y0 = flag[i][1]
+			M = zoomMatrix(x0,y0)
+			for r in range(4):
+				w_dir1,c1,c2 = Situations(M,x0,y0,r,1,True)
+				check_double1[(2*r)%4] += c1
+				check_double1[(2*r+1)%4] += c2
+				w_dir2,c1,c2 = Situations(M,x0,y0,r,2,True)
+				check_double2[(2*r)%4] += c1
+				check_double2[(2*r+1)%4] += c2
+				W -= w_dir1+w_dir2
+				M = np.rot90(M)
+	g.Grid.matrix[x,y] = 0
+	m.refresh_scores()
+	d = sum(check_double1)+sum(check_double2)
+	if d >= 1:
+		W -= 50*(d-1)
+		*/
+	return W;
 }
 
-function situations (matrix, x, y, r, id, virtual) { // Master Piece of art
+function rot90 (matrix, size) {
+	var rotated_matrix = init_array(size);
+
+	for (var i = 0 ; i < size ; i++) {
+		for (var j = 0 ; j < size ; j++) {
+			rotated_matrix[i][j] = matrix[j][size - i];
+		}
+	}
+
+	return rotated_matrix;
+}
+
+function global_cell_pos (x, y, X, Y, r) {
+	switch (r) {
+		case 0:
+			if (!out_of_bonds(X, Y)) {
+				return [X, Y];
+			} else { return false; }
+		break;
+
+		case 1:
+			if (!out_of_bonds(x + Y - y, y - X + x)) {
+				return [x + Y - y , y - X + x];
+			} else { return false; }
+		break;
+
+		case 2:
+			if (!out_of_bonds(2 * x - X, 2 * y - Y)) {
+				return [2 * x - X, 2 * y - Y];
+			} else { return false; }
+		break;
+
+		case 3:
+			if (!out_of_bonds(x - Y + y, y + X - x)) {
+				return [x - Y + y, y + X - x];
+			} else { return false; }
+		break;
+	}
+}
+
+function check_gravity (state, x, y, X, Y, r) {
+	pos = global_cell_pos(x, y, X, Y, r);
+
+	if (pos && !out_of_bonds(pos, state.length)) {
+		return checkplay(state, pos[0], pos[1]);
+	} else {
+		return true;
+	}
+}
+
+function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 	var W = 0;
-	var double = [0, 0];
+	var double = [0, 0],
+		pos;
 
 	// Linear
-	/* L
-	if (matrix[4][5] === id) {
-		W += 4;
-		if (matrix[4][6] === id && checkCellScore(x,y,x,y+1,r,id,val=r%2)==0:# oAA
-			W+= 10
-			if M[4,3]==id: 										# AoAA --
-				W+= 97
-				double[0]=1
-			if M[4,7]==id and double[0]==0: 					# oAAA --
-				if virtual:
-					W += 100
-					double[0]=1
-				elif not virtual and M[4,8]!=id:
-					W += 100
-					double[0]=1
-			if M[4,3]==0 and checkCellGravity(x,y,x,y-1,r) :
-				if M[4,7]==0 :
-					if checkCellGravity(x,y,x,y+3,r) : 			# OoAAO --
-						W += 80
-					else: 										# OoAAX --
-						W += 20
-				elif M[4,7] != id and M[4,6] == id :			# OoAAB --
-					W += 30
-			if M[4,3]!=id and M[4,7]!=id:						# BoAAB
-				W -= 5
-		elif M[4,6] == 0 :
-			if checkCellGravity(x,y,x,y+2,r) : 					# oAO --
-				W += 15
-				if M[4,7] == 0 and checkCellGravity(x,y,x,y+3,r) : # oAOO --
-					W += 5
-				elif M[4,7] == id: 								# oAOA
-					W += 30
-			else : 												# oAX --
-				W += 5
-				if M[4,7] == id:
-					W+= 30
-		elif M[4,6] != id and M[4,6] != 0 : 					# oAB --
-			W += 3
-	elif M[4,5]==0 and M[4,6]==id and M[4,7]==id:
-		if checkCellGravity(x,y,x,y+1,r):  						# oOAA --
-			W += 40
-		else: 													# oXAA --
-			W += 30
+
+	if (M[4][5] === id) {
+		W += 4;	// oA
+
+		if (M[4][6] === id) { // && checkCellScore(x,y,x,y+1,r,id,val=r%2)==0
+			W += 10;	// oAA
+
+			if (M[4][3] === id) {
+				W += 97; // AoAA
+				double[0] = 1;
+			}
+
+			if (M[4][7] === id && double[0] === 0) { // oAAA
+
+				if (virtual) {
+					W += 100;
+					double[0] = 1;
+
+				} else if (!virtual && M[4][8] !== id) {
+					W += 100;
+					double[0] = 1;
+				}
+			}
+
+			if (M[4][3] !== id && M[4][7] !== id) {
+				W -= 5;	// BoAAB
+			}
+
+			if (M[4][3] === 0 && check_gravity(state, x, y, x, y - 1, r)) {
+
+				if (M[4][7] === 0) {
+
+					if (check_gravity(state, x, y, x, y + 3, r)) {
+						W += 80; // OoAAO
+					} else {
+						W += 20; // OoAAX
+					}
+				} else if (M[4][7] !== id && M[4][6] === id) {
+					W += 30; // OoAAB
+				}
+			}
+		} else if (M[4][6] === 0) {
+
+			if (check_gravity(state, x, y, x, y + 2, r)) {
+				W += 15; // oAO
+
+				if (M[4][7] === 0 && check_gravity(state, x, y, x, y + 3, r)) {
+					W += 5; // oAOO
+				} else if (M[4][7] === id) {
+					W += 30; // oAOA
+				}
+			} else {
+				W += 5; // oAX
+
+				if (M[4][7] === id) {
+					W += 30;
+				}
+			}
+		} else if (M[4][6] !== id && M[4][6] !== 0) {
+			W += 3; // oAB
+		}
+	} else if (M[4][5] === 0 && M[4][6] === id && M[4][7] === id) {
+
+		if (check_gravity(state, x, y, x, y + 1, r)) {
+			W += 40; // oOAA
+		} else {
+			W += 30; // oXAA
+		}
 	}
-	*/
+
+	return [W, double[0], double[1]];
 }
