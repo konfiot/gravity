@@ -26,7 +26,7 @@ function iaplay_bob (state, scores, played) {
 	var m = 0;
 
 	for (var j = 0 ; j < weight_list.length ; j++) {
-		if (weight_list[j] > m) {
+		if (weight_list[j] > weight_list[m]) {
 			m = j;
 		}
 	}
@@ -41,6 +41,8 @@ function zoom_matrix (x, y, state) {
 		for (var j = 0 ; j < 9 ; j++) {
 			if (!out_of_bonds([x + i - 4, y + j - 4], state.length)) {
 				M[i][j] = state[x + i - 4][y + j - 4];
+			} else {
+				M[i][j] = null;
 			}
 		}
 	}
@@ -64,6 +66,9 @@ function weight (x, y, state, played) {
 			check_double[k][(2 * r) % 4] += res[1];
 			check_double[k][(2 * r + 1) % 4] += res[2];
 		}
+		if (x === 3 && y === 3) {
+			console.log(JSON.stringify(local_matrix))
+		}
 		local_matrix = rot90(local_matrix, 9);
 	}
 	var d;
@@ -78,6 +83,10 @@ function weight (x, y, state, played) {
 		W += 100 * (d - 1);
 	}
 
+	if (x === 3 && y === 3) {
+		console.log(W,x,y)
+	}
+	
 	/*
 	#Find allowed cells
 	flag = findCells(x,y)
@@ -108,15 +117,20 @@ function weight (x, y, state, played) {
 }
 
 function rot90 (matrix, size) {
-	var rotated_matrix = init_array(size);
+	var f = Math.floor(size/2),
+		c = Math.ceil(size/2);
 
-	for (var i = 0 ; i < size ; i++) {
-		for (var j = 0 ; j < size ; j++) {
-			rotated_matrix[i][j] = matrix[j][size - i];
+	for (var x = 0 ; x < f ; x++) {
+		for (var y = 0 ; y < c ; y++) {
+			temp = matrix[x][y];
+			matrix[x][y] = matrix[y][size - 1 - x];
+			matrix[y][size - 1 - x] = matrix[size - 1 - x][size - 1 - y];
+			matrix[size - 1 - x][size - 1 - y] = matrix[size - 1 - y][x];
+			matrix[size - 1 - y][x] = temp;
 		}
 	}
 
-	return rotated_matrix;
+	return matrix;
 }
 
 function global_cell_pos (x, y, X, Y, r) {
@@ -233,5 +247,76 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 		}
 	}
 
+	// Diagonal
+	
+	if (M[3][5] === id) {
+		W += 4;	// oA
+
+		if (M[2][6] === id) { // && checkCellScore(x,y,x,y+1,r,id,val=r%2)==0
+			W += 10;	// oAA
+
+			if (M[5][3] === id) {
+				W += 97; // AoAA
+				double[1] = 1;
+			}
+
+			if (M[1][7] === id && double[1] === 0) { // oAAA
+
+				if (virtual) {
+					W += 100;
+					double[1] = 1;
+
+				} else if (!virtual && M[0][8] !== id) {
+					W += 100;
+					double[1] = 1;
+				}
+			}
+
+			if (M[5][3] !== id && M[1][7] !== id) {
+				W -= 5;	// BoAAB
+			}
+
+			if (M[5][3] === 0 && check_gravity(state, x, y, x + 1, y - 1, r)) {
+
+				if (M[1][7] === 0) {
+
+					if (check_gravity(state, x, y, x - 3, y + 3, r)) {
+						W += 80; // OoAAO
+					} else {
+						W += 20; // OoAAX
+					}
+				} else if (M[1][7] !== id && M[2][6] === id) {
+					W += 30; // OoAAB
+				}
+			}
+		} else if (M[2][6] === 0) {
+
+			if (check_gravity(state, x, y, x, y + 2, r)) {
+				W += 15; // oAO
+
+				if (M[1][7] === 0 && check_gravity(state, x, y, x - 3, y + 3, r)) {
+					W += 5; // oAOO
+				} else if (M[1][7] === id) {
+					W += 30; // oAOA
+				}
+			} else {
+				W += 5; // oAX
+
+				if (M[1][7] === id) {
+					W += 30;
+				}
+			}
+		} else if (M[2][6] !== id && M[2][6] !== 0) {
+			W += 3; // oAB
+		}
+	} else if (M[3][5] === 0 && M[2][6] === id && M[1][7] === id) {
+
+		if (check_gravity(state, x, y, x - 1, y + 1, r)) {
+			W += 40; // oOAA
+		} else {
+			W += 30; // oXAA
+		}
+	}
+	
 	return [W, double[0], double[1]];
 }
