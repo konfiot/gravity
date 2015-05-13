@@ -66,9 +66,6 @@ function weight (x, y, state, played) {
 			check_double[k][(2 * r) % 4] += res[1];
 			check_double[k][(2 * r + 1) % 4] += res[2];
 		}
-		if (x === 3 && y === 3) {
-			console.log(JSON.stringify(local_matrix))
-		}
 		local_matrix = rot90(local_matrix, 9);
 	}
 	var d;
@@ -83,10 +80,6 @@ function weight (x, y, state, played) {
 		W += 100 * (d - 1);
 	}
 
-	if (x === 3 && y === 3) {
-		console.log(W,x,y)
-	}
-	
 	/*
 	#Find allowed cells
 	flag = findCells(x,y)
@@ -117,8 +110,8 @@ function weight (x, y, state, played) {
 }
 
 function rot90 (matrix, size) {
-	var f = Math.floor(size/2),
-		c = Math.ceil(size/2);
+	var f = Math.floor(size / 2),
+		c = Math.ceil(size / 2);
 
 	for (var x = 0 ; x < f ; x++) {
 		for (var y = 0 ; y < c ; y++) {
@@ -248,7 +241,7 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 	}
 
 	// Diagonal
-	
+
 	if (M[3][5] === id) {
 		W += 4;	// oA
 
@@ -317,6 +310,6 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 			W += 30; // oXAA
 		}
 	}
-	
+
 	return [W, double[0], double[1]];
 }

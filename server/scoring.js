@@ -1,5 +1,5 @@
 var	fs = require("fs"),
-//	async = require("async"),
+	async = require("async"),
 	pg = require("pg");
 
 function sum (array) {
@@ -44,6 +44,29 @@ function compute_scores (pseudos, scores, data, game) {
 
 	for (var j = 0 ; j < n ; j++) {
 		points[j] = n * 2 + -0.5 * Math.pow(rank[j], 3) + 3 * Math.pow(rank[j], 2) - 7.5 * rank[j] + 1;
+	}
+
+	var nb = 0;
+
+	while (nb < pseudos.length) {
+		var equal = 0;
+
+		for (var k = 0; k < 4 ; k++) {
+			if (scores[0][k] === scores[0][nb] && scores[1][k] === scores[1][nb]) {
+				equal++;
+			}
+		}
+		var S = 0;
+
+		for (var i0 = nb ; i0 < nb + equal ; i0++) {
+			S += points[i0];
+		}
+		S = Math.floor(S / equal);
+
+		for (var j0 = nb ; j0 < n + equal ; j0++) {
+			points[j0] = S;
+		}
+		nb += equal;
 	}
 
 	return points;
