@@ -19,7 +19,7 @@ function iaplay_bob (state, scores, played) {
 	var weight_list = [];
 
 	for (var i = 0 ; i < P_list.length ; i++) {
-		weight_list[i] = weight(P_list[i][0], P_list[i][1], state, played);
+		weight_list[i] = weight(P_list[i][0], P_list[i][1], state, played, P_list);
 	}
 
 	// Maximum weight
@@ -50,29 +50,41 @@ function zoom_matrix (x, y, state) {
 	return M;
 }
 
-function weight (x, y, state, played) {
-	var W = 0;
-
-	// Evaluate at center
-	var local_matrix = zoom_matrix(x, y, state),
+function evaluate_situation (state, matrix, x, y, virtual) {
+	var W = 0,
+		res,
 		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]];
 
-	var res;
-
 	for (var r = 0 ; r < 4 ; r++) {
+
 		for (var k = 0 ; k < 2 ; k++) {
-			res = situations(state, local_matrix, x, y, r, k + 1, false);
+			res = situations(state, matrix, x, y, r, k + 1, virtual);
 			W += res[0];
 			check_double[k][(2 * r) % 4] += res[1];
 			check_double[k][(2 * r + 1) % 4] += res[2];
 		}
-		local_matrix = rot90(local_matrix, 9);
+		matrix = rot90(matrix, 9);
 	}
+
+	return [W, check_double[0], check_double[1]];
+}
+
+function weight (x, y, state, played, playable) {
+	var W = 0;
+
+	// Evaluate at center
+	var local_matrix = zoom_matrix(x, y, state),
+		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]],
+		res;
+
+	res = evaluate_situation(state, local_matrix, x, y, false);
+	W += res[0];
 	var d;
 
-	for (var i = 0 ; i < 2 ; i++) {
+	for (var i = 1 ; i < 3 ; i++) {
+
 		for (var j = 0 ; j < 4 ; j++) {
-			d += check_double[i][j];
+			d += res[i][j];
 		}
 	}
 
@@ -80,26 +92,24 @@ function weight (x, y, state, played) {
 		W += 100 * (d - 1);
 	}
 
-	/*
-	#Find allowed cells
-	flag = findCells(x,y)
+	if (x === 1 && y === 0) {
+		console.log(JSON.stringify(res), W, x, y);
+	}
 
-	#Evaluate in each direction
+	// Find allowed cells
+	var flag = cells_revealed([x, y], state, playable);
+
+	// C console.log(JSON.stringify(matrix));
+	// Evaluate in each direction
+
+	/*
 	g.Grid.matrix[x,y] = 2
 	m.refresh_scores()
 	for i in range(4):
 		if flag[i] != None:
 			x0 = flag[i][0] ; y0 = flag[i][1]
 			M = zoomMatrix(x0,y0)
-			for r in range(4):
-				w_dir1,c1,c2 = Situations(M,x0,y0,r,1,True)
-				check_double1[(2*r)%4] += c1
-				check_double1[(2*r+1)%4] += c2
-				w_dir2,c1,c2 = Situations(M,x0,y0,r,2,True)
-				check_double2[(2*r)%4] += c1
-				check_double2[(2*r+1)%4] += c2
-				W -= w_dir1+w_dir2
-				M = np.rot90(M)
+			res = evaluate_situation(state, matrix, x, y, true);
 	g.Grid.matrix[x,y] = 0
 	m.refresh_scores()
 	d = sum(check_double1)+sum(check_double2)
