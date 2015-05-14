@@ -171,28 +171,35 @@ document.getElementById("multi").addEventListener("click", function (e) {
 
 		document.getElementById("pseudos").innerHTML = str;
 	}, function (scores) {
-		var str = "<div class='card'><table><tr>";
+		var str = "<table><tr>";
 
 		for (var k = 0; k < scores.length; k += 1) {
-			str += "<td>" + scores[k][0] + "</td>";
+			str += "<td class='t" + (k + 1) + "'>" + scores[k][0] + "</td>";
 		}
 		str += "</tr><tr>";
 
 		for (var j = 0; j < scores.length; j += 1) {
-			str += "<td>" + scores[j][3] + "</td>";
+			str += "<td class='t" + (j + 1) + "'><h2>" + scores[j][3] + "</h2></td>";
 		}
-		str += "</tr></table></div>";
+		str += "</tr></table>";
+		document.getElementById("global_score").innerHTML = str;
 
 		scores.sort(function (a, b) {
 			return b[3] - a[3];
 		});
 
-		for (var i = 0; i < scores.length; i += 1) {
-			str += "<div class='card'><table><tr><td class='left' rowspan=2>" + scores[i][0] + "</td><td class='right'>+" + scores[i][1] + "</td></tr><tr><td class='right'>" +
-				(parseInt(scores[i][2]) + parseInt(scores[i][1])) + "</td></tr></table></div>";
+		var slots = document.getElementsByClassName("score_card");
+
+		for (var i = 0; i < slots.length; i += 1) {
+			if (i < scores.length) {
+				slots[i].innerHTML = "<table><tr><td class='left' rowspan=2><h3>" + scores[i][0] + "</h3></td><td class='right'><h3>+" + scores[i][1] + "</h3></td></tr><tr><td class='right'>" +
+					(parseInt(scores[i][2]) + parseInt(scores[i][1])) + "</td></tr></table>";
+				slots[i].style.display = "block";
+			} else {
+				slots[i].style.display = "none";
+			}
 		}
 
-		document.getElementById("winner").innerHTML = str;
 		toggle_div("finish", true);
 	});
 
