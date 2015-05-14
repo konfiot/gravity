@@ -46,7 +46,7 @@ function compute_scores (pseudos, scores, data, game) {
 		points[j] = n * 2 + -0.5 * Math.pow(rank[j], 3) + 3 * Math.pow(rank[j], 2) - 7.5 * rank[j] + 1;
 	}
 	var nb = 0;
-
+	
 	while (nb < pseudos.length) {
 		var equal = 0;
 
@@ -61,13 +61,13 @@ function compute_scores (pseudos, scores, data, game) {
 			S += points[i0];
 		}
 		S = Math.floor(S / equal);
-
-		for (var j0 = nb ; j0 < n + equal ; j0++) {
+		console.log("equal", JSON.stringify(points), equal);
+		for (var j0 = nb ; j0 < nb + equal ; j0++) {
 			points[j0] = S;
 		}
 		nb += equal;
 	}
-
+	console.log("scores", JSON.stringify(points));
 	return points;
 }
 
