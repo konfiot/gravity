@@ -102,7 +102,7 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 					iaplay = iaplay_bob;
 				break;
 			}
-			var play = iaplay(game.getState(), game.scores(), game.getPlays());
+			var play = iaplay(game.getState(), game.scores(), game.getPlays(), game.whosturn + 1);
 
 			while (!(game.play(game.whosturn + 1, play[0], play[1]))) {
 				play = iaplay(game.getState(), game.scores(), game.getPlays());
