@@ -108,10 +108,6 @@ function weight (x, y, state, played, playable, no_ia) {
 	}
 	state_copy[x][y] = no_ia;
 	var x0, y0;
-	
-		if (x===6 && y ===0){
-		console.log(W)
-	}
 
 	if (flag.length !== 0) {
 		for (var k = 0 ; k < flag.length ; k++) {
@@ -122,9 +118,10 @@ function weight (x, y, state, played, playable, no_ia) {
 			W -= 0.8 * res[0];
 
 			d = 0;
-			for (var i0 = 1 ; i0 < 3 ; i0++) {
-				for (var j0 = 0 ; j0 < 4 ; j0++) {
-					d += res[i0][j0];
+
+			for (var i1 = 1 ; i1 < 3 ; i1++) {
+				for (var j1 = 1 ; j1 < 4 ; j1++) {
+					d += res[i1][j1];
 				}
 			}
 
@@ -134,10 +131,6 @@ function weight (x, y, state, played, playable, no_ia) {
 		}
 	}
 
-		if (x===6 && y ===0){
-		console.log(W)
-	}
-	
 	return W;
 }
 
@@ -352,6 +345,6 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 			W += 35; // oXAA
 		}
 	}
-	
+
 	return [W, double[0], double[1]];
 }
