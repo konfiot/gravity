@@ -1,0 +1,46 @@
+{
+	"disallowNewlineBeforeBlockStatements": true,
+	"disallowSpacesInNamedFunctionExpression": {
+		"beforeOpeningRoundBrace": true
+	},
+	"requireSpacesInFunction": {
+		"beforeOpeningCurlyBrace": true
+	},
+	"disallowSpacesInsideParentheses": true,
+	"disallowTrailingComma": true,
+	"disallowTrailingWhitespace": true,
+	"disallowYodaConditions": true,
+	"maximumLineLength": 200,
+	"disallowMixedSpacesAndTabs": true,
+	"validateQuoteMarks": "\"",
+	"validateParameterSeparator": ", ",
+	"validateIndentation": "\t",
+	"validateAlignedFunctionParameters": {
+		"lineBreakAfterOpeningBraces": true,
+		"lineBreakBeforeClosingBraces": true
+	},
+	"safeContextKeyword": ["that"],
+	"requireSpacesInForStatement": true,
+	"requireSpacesInConditionalExpression": {
+		"afterTest": true,
+		"beforeConsequent": true,
+		"afterConsequent": true,
+		"beforeAlternate": true
+	},
+	"requireSpaceBetweenArguments": true,
+	"requireSpaceBeforeObjectValues": true,
+	"requireSpaceBeforeKeywords": [ "else", "while", "catch" ],
+	"requireSpaceBeforeBlockStatements": true,
+	"requireSpaceBeforeBinaryOperators": true,
+	"requireSpaceAfterLineComment": true,
+	"requireSpaceAfterKeywords": true,
+	"requireSpaceAfterBinaryOperators": true,
+	"requirePaddingNewlinesBeforeKeywords": ["if", "for", "while", "do", "try", "switch", "function", "case", "return"],
+	"requireLineFeedAtFileEnd": true,
+	"requireDotNotation": true,
+	"requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch", "switch", "function"],
+	"requireCommaBeforeLineBreak": true,
+	"requireCapitalizedConstructors": true,
+	"requireSemicolons": true,
+	"requireBlocksOnNewline": 1
+}

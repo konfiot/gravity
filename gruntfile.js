@@ -90,53 +90,14 @@ module.exports = function (grunt) {
 			dist: ["client/*.css", "client/*.js", "client/*.html"]
 		},
 		jscs: {
-			src: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"],
-			options: {
-				fix: false,
-				disallowNewlineBeforeBlockStatements: true,
-				disallowSpacesInNamedFunctionExpression: {
-					beforeOpeningRoundBrace: true
+			main: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"],
+			fix: {
+				options: {
+					fix: true
 				},
-				requireSpacesInFunction: {
-					beforeOpeningCurlyBrace: true
-				},
-				disallowSpacesInsideParentheses: true,
-				disallowTrailingComma: true,
-				disallowTrailingWhitespace: true,
-				disallowYodaConditions: true,
-				maximumLineLength: 200,
-				disallowMixedSpacesAndTabs: true,
-				validateQuoteMarks: "\"",
-				validateParameterSeparator: ", ",
-				validateIndentation: "\t",
-				validateAlignedFunctionParameters: {
-					lineBreakAfterOpeningBraces: true,
-					lineBreakBeforeClosingBraces: true
-				},
-				safeContextKeyword: ["that"],
-				requireSpacesInForStatement: true,
-				requireSpacesInConditionalExpression: {
-					afterTest: true,
-					beforeConsequent: true,
-					afterConsequent: true,
-					beforeAlternate: true
-				},
-				requireSpaceBetweenArguments: true,
-				requireSpaceBeforeObjectValues: true,
-				requireSpaceBeforeKeywords: [ "else", "while", "catch" ],
-				requireSpaceBeforeBlockStatements: true,
-				requireSpaceBeforeBinaryOperators: true,
-				requireSpaceAfterLineComment: true,
-				requireSpaceAfterKeywords: true,
-				requireSpaceAfterBinaryOperators: true,
-				requirePaddingNewlinesBeforeKeywords: ["if", "for", "while", "do", "try", "switch", "function", "case", "return"],
-				requireLineFeedAtFileEnd: true,
-				requireDotNotation: true,
-				requireCurlyBraces: ["if", "else", "for", "while", "do", "try", "catch", "switch", "function"],
-				requireCommaBeforeLineBreak: true,
-				requireCapitalizedConstructors: true,
-				requireSemicolons: true,
-				requireBlocksOnNewline: 1
+				files: {
+					src: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"]
+				}
 			}
 		}
 	});
@@ -158,5 +119,6 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("default", ["concat", "replace", "uglify", "htmlmin", "cssmin", "inline", "clean"]);
 	grunt.registerTask("dev", ["concat", "copy", "replace", "inline", "clean", "exec"]);
-	grunt.registerTask("test", ["csslint", "jshint", "htmllint", "jscs", "default"]);
+	grunt.registerTask("test", ["csslint", "jshint", "htmllint", "jscs:main", "default"]);
+	grunt.registerTask("fix", ["jscs:fix"]);
 };
