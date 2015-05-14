@@ -40,7 +40,9 @@ var server = http.createServer(function (request, response) {
 	}
 });
 
-server.listen(parseInt(process.env.PORT || 1337, 10));
+server.listen(parseInt(process.env.PORT || 1337, 10), function () {
+	console.log("Server running");
+});
 
 var	io = sio.listen(server),
 	games_pending = {},

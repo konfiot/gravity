@@ -5,17 +5,17 @@ module.exports = function (grunt) {
 		concat: {
 			js: {
 				src: ["node_modules/socket.io-client/socket.io.js",  "common/game.js", "client/js/ai/ai_bob.js", "client/js/ai/ai_banane.js", "client/js/view.js", "client/js/network.js", "client/js/main.js"],
-				dest: "client/dist.js"
+				dest: "dist/dist.js"
 			},
 			css: {
 				src: ["client/css/spinner.css", "client/css/main.css"],
-				dest: "client/main.css"
+				dest: "dist/main.css"
 			}
 		},
 		uglify : {
 			main: {
-				src: "client/dist.js",
-				dest: "client/dist.js"
+				src: "dist/dist.js",
+				dest: "dist/dist.js"
 			}
 		},
 		htmlmin: {
@@ -25,14 +25,14 @@ module.exports = function (grunt) {
 					collapseWhitespace: true
 				},
 				files: {
-					"client/index.html": ["client/html/index.html"]
+					"dist/index.html": ["client/html/index.html"]
 				}
 			}
 		},
 		cssmin: {
 			main: {
-				src: "client/main.css",
-				dest: "client/main.css"
+				src: "dist/main.css",
+				dest: "dist/main.css"
 			}
 		},
 		copy: {
@@ -40,7 +40,7 @@ module.exports = function (grunt) {
 				expand: true,
 				cwd: "client/html",
 				src: "*.html",
-				dest: "client/"
+				dest: "dist/"
 			}
 		},
 		csslint : {
@@ -70,24 +70,24 @@ module.exports = function (grunt) {
 				files: [{
 					expand: true,
 					flatten: true,
-					src: ["client/*.js"],
-					dest: "client"
+					src: ["dist/*.js"],
+					dest: "dist"
 				}]
 			}
 		},
 		exec: {
-			server : {
+			server: {
 				command: "node server/app.js"
 			}
 		},
 		inline: {
 			desktop: {
-				src: "client/index.html",
+				src: "dist/index.html",
 				dest: "dist/index.html"
 			}
 		},
 		clean: {
-			dist: ["client/*.css", "client/*.js", "client/*.html"]
+			dist: ["dist/*.css", "dist/*.js"]
 		},
 		jscs: {
 			main: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"],
@@ -99,6 +99,24 @@ module.exports = function (grunt) {
 					src: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"]
 				}
 			}
+		},
+		watch: {
+			options: {
+				livereload: 13377,
+				atBegin: true
+			},
+			client: {
+				files: ["client/**/*", "common/**/*"],
+				tasks: ["dev"]
+			}
+		},
+		nodemon: {
+			dev: {
+				script: "server/app.js"
+			}
+		},
+		concurrent: {
+			server: ["watch", "nodemon"]
 		}
 	});
 
@@ -110,15 +128,19 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-nodeunit");
+	grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-concurrent");
+	grunt.loadNpmTasks("grunt-nodemon");
 	grunt.loadNpmTasks("grunt-html");
 	grunt.loadNpmTasks("grunt-jscs");
 	grunt.loadNpmTasks("grunt-replace");
 	grunt.loadNpmTasks("grunt-exec");
 	grunt.loadNpmTasks("grunt-inline");
-	grunt.loadNpmTasks("grunt-contrib-clean");
 
 	grunt.registerTask("default", ["concat", "replace", "uglify", "htmlmin", "cssmin", "inline", "clean"]);
-	grunt.registerTask("dev", ["concat", "copy", "replace", "inline", "clean", "exec"]);
+	grunt.registerTask("dev", ["concat", "copy", "replace", "inline", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "htmllint", "jscs:main", "default"]);
+	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);
 };
