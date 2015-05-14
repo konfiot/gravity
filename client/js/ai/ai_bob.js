@@ -51,16 +51,20 @@ function zoom_matrix (x, y, state) {
 	return M;
 }
 
-function evaluate_situation (state, played, matrix, x, y, virtual) {
+function evaluate_situation (state, played, matrix, x, y, virtual, no_ia) {
 	var W = 0,
 		res,
 		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]];
 
 	for (var r = 0 ; r < 4 ; r++) {
-		for (var k = 0 ; k < 2 ; k++) {
+		for (var k = 0 ; k < 2 ; k++) { // Nb players !
 			res = situations(state, played, matrix, x, y, r, k + 1, virtual);
 
-			W += res[0];
+			if (k + 1 === no_ia) {
+				W += 5 * res[0];
+			} else {
+				W += 4 * res[0];
+			}
 			check_double[k][(2 * r) % 4] += res[1];
 			check_double[k][(2 * r + 1) % 4] += res[2];
 		}
@@ -78,9 +82,9 @@ function weight (x, y, state, played, playable, no_ia) {
 		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]],
 		res;
 
-	res = evaluate_situation(state, played, local_matrix, x, y, false);
+	res = evaluate_situation(state, played, local_matrix, x, y, false, no_ia);
 	W += res[0];
-	var d;
+	var d = 0;
 
 	for (var i = 1 ; i < 3 ; i++) {
 		for (var j = 0 ; j < 4 ; j++) {
@@ -104,30 +108,36 @@ function weight (x, y, state, played, playable, no_ia) {
 	}
 	state_copy[x][y] = no_ia;
 	var x0, y0;
+	
+		if (x===6 && y ===0){
+		console.log(W)
+	}
 
 	if (flag.length !== 0) {
 		for (var k = 0 ; k < flag.length ; k++) {
 			x0 = flag[k][0];
 			y0 = flag[k][1];
 			local_matrix = zoom_matrix(x0, y0, state_copy);
-			res = evaluate_situation(state_copy, played, local_matrix, x0, y0, true);
-			W -= res[0];
-			// doubles
+			res = evaluate_situation(state_copy, played, local_matrix, x0, y0, true, no_ia);
+			W -= 0.8 * res[0];
+
+			d = 0;
+			for (var i0 = 1 ; i0 < 3 ; i0++) {
+				for (var j0 = 0 ; j0 < 4 ; j0++) {
+					d += res[i0][j0];
+				}
+			}
+
+			if (d >= 1) {
+				W -= 50 * (d - 1);
+			}
 		}
 	}
 
-	/*
-	for i in range(4):
-		if flag[i] != None:
-			x0 = flag[i][0] ; y0 = flag[i][1]
-			M = zoomMatrix(x0,y0)
-			res = evaluate_situation(state, matrix, x, y, true);
-	g.Grid.matrix[x,y] = 0
-	m.refresh_scores()
-	d = sum(check_double1)+sum(check_double2)
-	if d >= 1:
-		W -= 50*(d-1)
-		*/
+		if (x===6 && y ===0){
+		console.log(W)
+	}
+	
 	return W;
 }
 
@@ -204,7 +214,7 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 	// Linear
 
 	if (M[4][5] === id) {
-		W += 4;	// oA
+		W += 2;	// oA
 
 		if (M[4][6] === id && check_not_played(state, played, x, y, x, y + 1, r, r % 2)) {
 			W += 10;	// oAA
@@ -227,7 +237,7 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 			}
 
 			if (M[4][3] !== id && M[4][3] !== 0 && M[4][7] !== id && M[4][7] !== 0) {
-				W -= 5;	// BoAAB
+				W -= 10;	// BoAAB
 			}
 
 			if (M[4][3] === 0 && check_gravity(state, x, y, x, y - 1, r)) {
@@ -250,7 +260,7 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 
 				if (M[4][7] === 0 && check_gravity(state, x, y, x, y + 3, r)) {
 					W += 5; // oAOO
-				} else if (M[4][7] === id) {
+				} else if (M[4][7] === id && check_not_played(state, played, x, y, x, y + 3, r, r % 2)) {
 					W += 30; // oAOA
 				}
 			} else {
@@ -261,21 +271,21 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 				}
 			}
 		} else if (M[4][6] !== id && M[4][6] !== 0) {
-			W += 3; // oAB
+			W += 2; // oAB
 		}
-	} else if (M[4][5] === 0 && M[4][6] === id && M[4][7] === id) {
+	} else if (M[4][5] === 0 && M[4][6] === id && M[4][7] === id && check_not_played(state, played, x, y, x, y + 2, r, r % 2)) {
 
 		if (check_gravity(state, x, y, x, y + 1, r)) {
-			W += 40; // oOAA
+			W += 45; // oOAA
 		} else {
-			W += 30; // oXAA
+			W += 35; // oXAA
 		}
 	}
 
 	// Diagonal
 
 	if (M[3][5] === id) {
-		W += 4;	// oA
+		W += 2;	// oA
 
 		if (M[2][6] === id && check_not_played(state, played, x, y, x - 1, y + 1, r, r % 2 + 2)) {
 			W += 10;	// oAA
@@ -298,7 +308,7 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 			}
 
 			if (M[5][3] !== id && M[5][3] !== 0 && M[1][7] !== id && M[1][7] !== 0) {
-				W -= 5;	// BoAAB
+				W -= 10;	// BoAAB
 			}
 
 			if (M[5][3] === 0 && check_gravity(state, x, y, x + 1, y - 1, r)) {
@@ -321,7 +331,7 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 
 				if (M[1][7] === 0 && check_gravity(state, x, y, x - 3, y + 3, r)) {
 					W += 5; // oAOO
-				} else if (M[1][7] === id) {
+				} else if (M[1][7] === id && check_not_played(state, played, x, y, x - 3, y + 3, r, r % 2 + 2)) {
 					W += 30; // oAOA
 				}
 			} else {
@@ -332,16 +342,16 @@ function situations (state, played, M, x, y, r, id, virtual) { // Master Piece o
 				}
 			}
 		} else if (M[2][6] !== id && M[2][6] !== 0) {
-			W += 3; // oAB
+			W += 2; // oAB
 		}
-	} else if (M[3][5] === 0 && M[2][6] === id && M[1][7] === id) {
+	} else if (M[3][5] === 0 && M[2][6] === id && M[1][7] === id && check_not_played(state, played, x, y, x - 2, y + 2, r, r % 2 + 2)) {
 
 		if (check_gravity(state, x, y, x - 1, y + 1, r)) {
-			W += 40; // oOAA
+			W += 45; // oOAA
 		} else {
-			W += 30; // oXAA
+			W += 35; // oXAA
 		}
 	}
-
+	
 	return [W, double[0], double[1]];
 }
