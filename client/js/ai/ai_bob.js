@@ -30,6 +30,7 @@ function iaplay_bob (state, scores, played, no_ia) {
 			m = j;
 		}
 	}
+	console.log(weight_list[m], JSON.stringify(played));
 
 	return P_list[m];
 }
@@ -50,14 +51,14 @@ function zoom_matrix (x, y, state) {
 	return M;
 }
 
-function evaluate_situation (state, matrix, x, y, virtual) {
+function evaluate_situation (state, played, matrix, x, y, virtual) {
 	var W = 0,
 		res,
 		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]];
 
 	for (var r = 0 ; r < 4 ; r++) {
 		for (var k = 0 ; k < 2 ; k++) {
-			res = situations(state, matrix, x, y, r, k + 1, virtual);
+			res = situations(state, played, matrix, x, y, r, k + 1, virtual);
 
 			W += res[0];
 			check_double[k][(2 * r) % 4] += res[1];
@@ -77,7 +78,7 @@ function weight (x, y, state, played, playable, no_ia) {
 		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]],
 		res;
 
-	res = evaluate_situation(state, local_matrix, x, y, false);
+	res = evaluate_situation(state, played, local_matrix, x, y, false);
 	W += res[0];
 	var d;
 
@@ -109,7 +110,7 @@ function weight (x, y, state, played, playable, no_ia) {
 			x0 = flag[k][0];
 			y0 = flag[k][1];
 			local_matrix = zoom_matrix(x0, y0, state_copy);
-			res = evaluate_situation(state_copy, local_matrix, x0, y0, true);
+			res = evaluate_situation(state_copy, played, local_matrix, x0, y0, true);
 			W -= res[0];
 			// doubles
 		}
@@ -185,7 +186,17 @@ function check_gravity (state, x, y, X, Y, r) {
 	}
 }
 
-function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
+function check_not_played (state, played, x, y, X, Y, r, dir) {
+	pos = global_cell_pos(x, y, X, Y, r);
+
+	if (pos && !out_of_bonds(pos, state.length)) {
+		return !already_played([pos[0], pos[1], dir], played, state);
+	} else {
+		return true;
+	}
+}
+
+function situations (state, played, M, x, y, r, id, virtual) { // Master Piece of art
 	var W = 0;
 	var double = [0, 0],
 		pos;
@@ -195,7 +206,7 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 	if (M[4][5] === id) {
 		W += 4;	// oA
 
-		if (M[4][6] === id) { // && checkCellScore(x,y,x,y+1,r,id,val=r%2)==0
+		if (M[4][6] === id && check_not_played(state, played, x, y, x, y + 1, r, r % 2)) {
 			W += 10;	// oAA
 
 			if (M[4][3] === id) {
@@ -266,7 +277,7 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 	if (M[3][5] === id) {
 		W += 4;	// oA
 
-		if (M[2][6] === id) { // && checkCellScore(x,y,x,y+1,r,id,val=r%2)==0
+		if (M[2][6] === id && check_not_played(state, played, x, y, x - 1, y + 1, r, r % 2 + 2)) {
 			W += 10;	// oAA
 
 			if (M[5][3] === id) {
