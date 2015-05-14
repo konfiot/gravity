@@ -13,13 +13,13 @@
 			- 3 : diagonale Brest Marseille
 */
 
-function iaplay_bob (state, scores, played) {
+function iaplay_bob (state, scores, played, no_ia) {
 	// Weight map
 	var P_list = playable_cells (state);
 	var weight_list = [];
 
 	for (var i = 0 ; i < P_list.length ; i++) {
-		weight_list[i] = weight(P_list[i][0], P_list[i][1], state, played, P_list);
+		weight_list[i] = weight(P_list[i][0], P_list[i][1], state, played, P_list, no_ia);
 	}
 
 	// Maximum weight
@@ -58,6 +58,7 @@ function evaluate_situation (state, matrix, x, y, virtual) {
 	for (var r = 0 ; r < 4 ; r++) {
 		for (var k = 0 ; k < 2 ; k++) {
 			res = situations(state, matrix, x, y, r, k + 1, virtual);
+
 			W += res[0];
 			check_double[k][(2 * r) % 4] += res[1];
 			check_double[k][(2 * r + 1) % 4] += res[2];
@@ -68,7 +69,7 @@ function evaluate_situation (state, matrix, x, y, virtual) {
 	return [W, check_double[0], check_double[1]];
 }
 
-function weight (x, y, state, played, playable) {
+function weight (x, y, state, played, playable, no_ia) {
 	var W = 0;
 
 	// Evaluate at center
@@ -90,10 +91,6 @@ function weight (x, y, state, played, playable) {
 		W += 100 * (d - 1);
 	}
 
-	if (x === 1 && y === 0) {
-		console.log(JSON.stringify(res), W, x, y);
-	}
-
 	// Evaluate in each direction
 
 	var flag = cells_revealed([x, y], state, playable),
@@ -104,7 +101,7 @@ function weight (x, y, state, played, playable) {
 			state_copy[i0][j0] = state[i0][j0];
 		}
 	}
-	state_copy[x][y] = 2;
+	state_copy[x][y] = no_ia;
 	var x0, y0;
 
 	if (flag.length !== 0) {
@@ -112,11 +109,12 @@ function weight (x, y, state, played, playable) {
 			x0 = flag[k][0];
 			y0 = flag[k][1];
 			local_matrix = zoom_matrix(x0, y0, state_copy);
-			res = evaluate_situation(state, local_matrix, x, y, true);
+			res = evaluate_situation(state_copy, local_matrix, x0, y0, true);
 			W -= res[0];
 			// doubles
 		}
 	}
+
 	/*
 	for i in range(4):
 		if flag[i] != None:
@@ -217,7 +215,7 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 				}
 			}
 
-			if (M[4][3] !== id && M[4][7] !== id) {
+			if (M[4][3] !== id && M[4][3] !== 0 && M[4][7] !== id && M[4][7] !== 0) {
 				W -= 5;	// BoAAB
 			}
 
@@ -230,7 +228,7 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 					} else {
 						W += 20; // OoAAX
 					}
-				} else if (M[4][7] !== id && M[4][6] === id) {
+				} else if (M[4][7] !== id && M[4][7] !== 0 && M[4][6] === id) {
 					W += 30; // OoAAB
 				}
 			}
@@ -288,7 +286,7 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 				}
 			}
 
-			if (M[5][3] !== id && M[1][7] !== id) {
+			if (M[5][3] !== id && M[5][3] !== 0 && M[1][7] !== id && M[1][7] !== 0) {
 				W -= 5;	// BoAAB
 			}
 
@@ -301,7 +299,7 @@ function situations (state, M, x, y, r, id, virtual) { // Master Piece of art
 					} else {
 						W += 20; // OoAAX
 					}
-				} else if (M[1][7] !== id && M[2][6] === id) {
+				} else if (M[1][7] !== id && M[1][7] !== 0 && M[2][6] === id) {
 					W += 30; // OoAAB
 				}
 			}
