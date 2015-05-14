@@ -56,7 +56,6 @@ function evaluate_situation (state, matrix, x, y, virtual) {
 		check_double = [[0, 0, 0, 0], [0, 0, 0, 0]];
 
 	for (var r = 0 ; r < 4 ; r++) {
-
 		for (var k = 0 ; k < 2 ; k++) {
 			res = situations(state, matrix, x, y, r, k + 1, virtual);
 			W += res[0];
@@ -82,7 +81,6 @@ function weight (x, y, state, played, playable) {
 	var d;
 
 	for (var i = 1 ; i < 3 ; i++) {
-
 		for (var j = 0 ; j < 4 ; j++) {
 			d += res[i][j];
 		}
@@ -96,15 +94,30 @@ function weight (x, y, state, played, playable) {
 		console.log(JSON.stringify(res), W, x, y);
 	}
 
-	// Find allowed cells
-	var flag = cells_revealed([x, y], state, playable);
-
-	// C console.log(JSON.stringify(matrix));
 	// Evaluate in each direction
 
+	var flag = cells_revealed([x, y], state, playable),
+		state_copy = init_array(state.length);
+
+	for (var i0 = 1 ; i0 < state.length ; i0++) {
+		for (var j0 = 0 ; j0 < state.length ; j0++) {
+			state_copy[i0][j0] = state[i0][j0];
+		}
+	}
+	state_copy[x][y] = 2;
+	var x0, y0;
+
+	if (flag.length !== 0) {
+		for (var k = 0 ; k < flag.length ; k++) {
+			x0 = flag[k][0];
+			y0 = flag[k][1];
+			local_matrix = zoom_matrix(x0, y0, state_copy);
+			res = evaluate_situation(state, local_matrix, x, y, true);
+			W -= res[0];
+			// doubles
+		}
+	}
 	/*
-	g.Grid.matrix[x,y] = 2
-	m.refresh_scores()
 	for i in range(4):
 		if flag[i] != None:
 			x0 = flag[i][0] ; y0 = flag[i][1]
