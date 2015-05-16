@@ -1,7 +1,7 @@
 body
 {
 	background-color: #FCFCFC;
-	font-family: Roboto, sans-serif;
+	font-family: "Roboto", sans-serif;
 	font-weight: 100;
 	color: rgb(100,100,100);
 	font-size: 5vh;
@@ -296,7 +296,7 @@ input, select, button {
 	font-size: 5vh;
 	max-width: 95vw;
 	font-weight: 100;
-	font-family: Roboto, sans-serif;
+	font-family: "Roboto", sans-serif;
 }
 
 form
@@ -305,7 +305,7 @@ form
 }
 
 @font-face {
-	font-family: 'Roboto';
+	font-family: "Roboto";
 	font-style: normal;
 	font-weight: 100;
 	src: local('Roboto Thin'), local('Roboto-Thin'), url(Roboto-Thin.ttf) format('ttf');
