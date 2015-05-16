@@ -2,14 +2,14 @@ body
 {
 	background-color: #FCFCFC;
 	font-family: Roboto, sans-serif;
-	font-weight: 200;
+	font-weight: 100;
 	color: rgb(100,100,100);
 	font-size: 5vh;
 }
 
 h1 {
 	color: rgb(150,150,150);
-	font-weight: 200;
+	font-weight: 100;
 	font-size: 10vh;
 }
 
@@ -295,7 +295,7 @@ input, select, button {
 	margin: 1vh 1vw;
 	font-size: 5vh;
 	max-width: 95vw;
-	font-weight: 200;
+	font-weight: 100;
 	font-family: Roboto, sans-serif;
 }
 
@@ -308,6 +308,6 @@ form
 	font-family: 'Roboto';
 	font-style: normal;
 	font-weight: 100;
-	src: local('Roboto'), local('Roboto-Regular'), url(Roboto-Light.ttf) format('ttf');
+	src: local('Roboto'), url(Roboto-Light.ttf) format('ttf');
 }
 
