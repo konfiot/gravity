@@ -11,6 +11,8 @@ function toggle_div(name, show) {
 function update(state, score, finished, current, plays, lastplays) {
 	var cells = document.getElementById("game").getElementsByTagName("td");
 
+	console.log("Updated", score, current);
+
 	for (var i = 0; i < cells.length; i += 1) {
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
 
@@ -223,10 +225,12 @@ document.getElementById("multi").addEventListener("click", function (e) {
 				network.enter(i, pseudo, function (data) {
 					toggle_div("connecting", false);
 					toggle_div("waiting", true);
-					network.setGame(new Game(data.size, update, data.nplayers));
+					game = new Game(data.size, update, data.nplayers);
+					network.setGame(game);
 					init_game(data.size, function (x, y) {
 						network.play(x, y);
 					});
+					game.update();
 				});
 			} else {
 				alert("Please choose a pseudo");
@@ -239,15 +243,19 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	});
 
 	document.getElementById("create").onsubmit = function (e) {
+		var game;
+
 		e.preventDefault();
 		toggle_div("waiting", true);
 		toggle_div("list", false);
-		network.setGame(new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value)));
+		game = new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value));
+		network.setGame(game);
 
 		network.create(parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
 			init_game(parseInt(document.getElementById("size").value), function (x, y) {
 				network.play(x, y);
 			});
+			game.update()
 		});
 
 		return false;
