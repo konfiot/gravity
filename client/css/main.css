@@ -308,6 +308,6 @@ form
 	font-family: 'Roboto';
 	font-style: normal;
 	font-weight: 100;
-	src: local('Roboto'), url(Roboto-Thin.ttf) format('ttf');
+	src: local('Roboto-Thin'), url(Roboto-Thin.ttf) format('ttf');
 }
 
