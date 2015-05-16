@@ -279,8 +279,10 @@ window.addEventListener("hashchange", function (e) {
 		toggle_div("finish", false);
 		toggle_div("list", false);
 		toggle_div("waiting", false);
+		toggle_div("loading", false);
 		toggle_div("scores", false);
 		toggle_div("menu", false);
+		toggle_div("solo_menu", false);
 		toggle_div(div, true);
 	}
 });
