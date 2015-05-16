@@ -28,7 +28,7 @@ var server = http.createServer(function (request, response) {
 
 	if (request.url === "/") {
 		response.writeHead(200, {
-			"Content-Type": "text/html",
+			"Content-Type": "text/html; charset=utf-8",
 			"Cache-Control": "max-age=" + 86400000 * 7,
 			"content-encoding": encoding
 		});
