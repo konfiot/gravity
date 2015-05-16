@@ -167,7 +167,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-image-embed");
 	grunt.loadNpmTasks("grunt-font-optimizer");
 
-	grunt.registerTask("default", ["concat", "replace",  "uglify", "copy:font", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("default", ["concat", "replace",  "uglify", "font_optimizer", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("dev", ["concat", "copy", "replace", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "htmllint", "jscs:main", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
