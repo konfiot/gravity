@@ -255,7 +255,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 			init_game(parseInt(document.getElementById("size").value), function (x, y) {
 				network.play(x, y);
 			});
-			game.update()
+			game.update();
 		});
 
 		return false;
