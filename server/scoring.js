@@ -111,11 +111,11 @@ function push_scores (pseudos, scores, game, cb) {
 
 				async.map(results, function (item, callback) {
 					if (data[item[0]] === undefined) {
-						client.query("INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)" , item, function (err, res) {});
+						client.query("INSERT INTO players(pseudo,score,won) VALUES ($1, $2, $3)" , item.slice(0, 3), function (err, res) {});
 						console.log([item[0], item[1], 0]);
 						callback(null, [item[0], item[1], 0, item[3]]);
 					} else {
-						client.query("UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1", item, function (err, res) {
+						client.query("UPDATE players SET score=score+$2, total=total+1, won=won+$3 WHERE pseudo=$1", item.slice(0, 3), function (err, res) {
 							callback(null, [item[0], item[1], data[item[0]].score, item[3]]);
 						});
 					}
