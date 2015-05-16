@@ -41,11 +41,18 @@ module.exports = function (grunt) {
 				cwd: "client/html",
 				src: "*.html",
 				dest: "dist/"
+			},
+			font: {
+				expand: true,
+				cwd: "node_modules/roboto-fontface/fonts/",
+				src: "Roboto-Light.*",
+				dest: "dist/"
 			}
 		},
 		csslint : {
 			options: {
 				"ids": false,
+				"bulletproof-font-face": false,
 				"box-sizing": false
 			},
 			src: ["client/css/*.css"]
@@ -117,6 +124,26 @@ module.exports = function (grunt) {
 		},
 		concurrent: {
 			server: ["watch", "nodemon"]
+		},
+		imageEmbed: {
+			dist: {
+				src: [ "dist/main.css" ],
+				dest: "dist/main.css",
+				options: {
+					maxImageSize: 0
+				}
+			}
+		},
+		font_optimizer: {
+			Roboto: {
+				options: {
+					chars: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.,?;/:!*^@èé\"{}[(])=+}/-#ù%><\u21B5",
+					includeFeatures: ["kern"]
+				},
+				files: {
+					"dist/": ["node_modules/roboto-fontface/fonts/*.ttf"]
+				}
+			}
 		}
 	});
 
@@ -137,9 +164,11 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-replace");
 	grunt.loadNpmTasks("grunt-exec");
 	grunt.loadNpmTasks("grunt-inline");
+	grunt.loadNpmTasks("grunt-image-embed");
+	grunt.loadNpmTasks("grunt-font-optimizer");
 
-	grunt.registerTask("default", ["concat", "replace", "uglify", "htmlmin", "cssmin", "inline", "clean"]);
-	grunt.registerTask("dev", ["concat", "copy", "replace", "inline", "clean"]);
+	grunt.registerTask("default", ["concat", "replace",  "uglify", "copy:font", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("dev", ["concat", "copy", "replace", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "htmllint", "jscs:main", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);

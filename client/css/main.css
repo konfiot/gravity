@@ -303,3 +303,11 @@ form
 {
 	margin-top: 2vh;
 }
+
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 100;
+	src: local('Roboto'), local('Roboto-Regular'), url(Roboto-Light.ttf) format('ttf');
+}
+
