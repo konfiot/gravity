@@ -4,7 +4,15 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON("package.json"),
 		concat: {
 			js: {
-				src: ["node_modules/socket.io-client/socket.io.js",  "common/game.js", "client/js/ai/ai_bob.js", "client/js/ai/ai_banane.js", "client/js/view.js", "client/js/network.js", "client/js/main.js", "dist/piwik.js"],
+				src: [	"node_modules/socket.io-client/socket.io.js",
+					"common/game.js",
+					"client/js/ai/ai_bob.js",
+					"client/js/ai/ai_banane.js",
+					"client/js/view.js",
+					"client/js/network.js",
+					"client/js/main.js",
+					"dist/piwik.js"],
+
 				dest: "dist/dist.js"
 			},
 			css: {
@@ -72,7 +80,7 @@ module.exports = function (grunt) {
 					patterns: [{
 						match: "URL_SOCKETIO_SERVER",
 						replacement: process.env.SOCKETIO_SERVER || ""
-					}, 
+					},
 					{
 						match: "URL_PIWIK_SERVER",
 						replacement: process.env.PIWIK_SERVER || ""
@@ -160,7 +168,7 @@ module.exports = function (grunt) {
 				url: process.env.PIWIK_SERVER + "/piwik.js",
 				filename: "dist/"
 			}
-		}	
+		}
 	});
 
 	grunt.loadNpmTasks("grunt-contrib-uglify");
@@ -186,7 +194,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("default", ["download", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("dev", ["concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean"]);
-	grunt.registerTask("test", ["csslint", "jshint", "htmllint", "jscs:main", "default"]);
+	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);
 };
