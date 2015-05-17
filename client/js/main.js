@@ -13,6 +13,7 @@ function toggle_div(name, show) {
 		location.hash = name;
 	}
 
+	_paq.push(["trackEvent", "Navigation", "Changed view", name]);
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
@@ -78,6 +79,7 @@ function init_game(size, cb) {
 	for (var k = 0; k < size * size; k += 1) {
 		document.getElementById("game").getElementsByTagName("td")[k].addEventListener("click", manageEvent);
 	}
+	_paq.push(["trackEvent", "Navigation", "Changed view", "game"]);
 
 }
 
@@ -118,11 +120,17 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 				play = iaplay(game.getState(), game.scores(), game.getPlays());
 			}
 		}
+
+		if (finished) {
+			_paq.push(["trackEvent", "Game", "Finished game", "Solo", players.length]);
+			_paq.push(["trackGoal", 1]);
+		}
 	}, players.length);
 
 	document.getElementById("pseudos").innerHTML = "";
 
 	toggle_div("solo_menu", false);
+	_paq.push(["trackEvent", "Game", "Initialized new game", "Solo", players.length]);
 
 	init_game(size, function (x, y) {
 		if (players[game.whosturn] === 1) {
@@ -183,6 +191,9 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	}, function (scores) {
 		var str = "<table><tr>";
 
+		_paq.push(["trackEvent", "Game", "Finished game", "Multi", players.length]);
+		_paq.push(["trackGoal", 2]);
+
 		for (var k = 0; k < scores.length; k += 1) {
 			str += "<td class='t" + (k + 1) + "'>" + scores[k][0] + "</td>";
 		}
@@ -235,6 +246,9 @@ document.getElementById("multi").addEventListener("click", function (e) {
 					toggle_div("waiting", true);
 					game = new Game(data.size, update, data.nplayers);
 					network.setGame(game);
+
+					_paq.push(["trackEvent", "Game", "Joined new game", "Multi", players.length]);
+
 					init_game(data.size, function (x, y) {
 						network.play(x, y);
 					});
@@ -259,7 +273,11 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		game = new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value));
 		network.setGame(game);
 
+		_paq.push(["trackEvent", "Game", "Initialized new game", "Multi", players.length]);
+
 		network.create(parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
+			_paq.push(["trackEvent", "Game", "Game begins", "Multi", players.length]);
+
 			init_game(parseInt(document.getElementById("size").value), function (x, y) {
 				network.play(x, y);
 			});
