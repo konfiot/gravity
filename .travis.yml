@@ -2,7 +2,9 @@ language: node_js
 node_js:
 - '0.12'
 - '0.10'
-env: SOCKETIO_SERVER=https://gravitygame.herokuapp.com/
+env: 
+- SOCKETIO_SERVER=https://gravitygame.herokuapp.com/
+- SOCKETIO_SERVER=https://piwik-konfiot.rhcloud.com/
 deploy:
   provider: heroku
   api_key:
