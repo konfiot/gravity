@@ -144,6 +144,12 @@ module.exports = function (grunt) {
 					"dist/": ["node_modules/roboto-fontface/fonts/*.ttf"]
 				}
 			}
+		},
+		ttf2woff: {
+			roboto: {
+				src: ["dist/*.ttf"],
+				dest: "dist/"
+			}
 		}
 	});
 
@@ -166,9 +172,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-inline");
 	grunt.loadNpmTasks("grunt-image-embed");
 	grunt.loadNpmTasks("grunt-font-optimizer");
+	grunt.loadNpmTasks("grunt-ttf2woff");
 
-	grunt.registerTask("default", ["concat", "replace",  "uglify", "font_optimizer", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
-	grunt.registerTask("dev", ["concat", "copy", "replace", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("default", ["concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("dev", ["concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "htmllint", "jscs:main", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);

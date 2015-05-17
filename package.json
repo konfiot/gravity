@@ -45,6 +45,7 @@
     "grunt-jscs": "^1.8.0",
     "grunt-nodemon": "^0.4.0",
     "grunt-replace": "^0.7.9",
+    "grunt-ttf2woff": "^1.0.0",
     "roboto-fontface": "^0.4.2",
     "shelljs": "^0.2.6"
   },
