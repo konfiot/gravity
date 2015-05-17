@@ -249,7 +249,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 					game = new Game(data.size, update, data.nplayers);
 					network.setGame(game);
 
-					_paq.push(["trackEvent", "Game", "Joined new game", "Multi", players.length]);
+					_paq.push(["trackEvent", "Game", "Joined new game", "Multi"]);
 
 					init_game(data.size, function (x, y) {
 						network.play(x, y);
@@ -275,7 +275,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		game = new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value));
 		network.setGame(game);
 
-		_paq.push(["trackEvent", "Game", "Initialized new game", "Multi", players.length]);
+		_paq.push(["trackEvent", "Game", "Initialized new game", "Multi", parseInt(document.getElementById("nplayers").value]);
 
 		network.create(parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
 			_paq.push(["trackEvent", "Game", "Game begins", "Multi", players.length]);
