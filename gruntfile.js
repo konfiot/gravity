@@ -163,10 +163,11 @@ module.exports = function (grunt) {
 				dest: "dist/"
 			}
 		},
-		download: {
+		wget: {
 			piwik: {
-				url: process.env.PIWIK_SERVER + "/piwik.js",
-				filename: "dist/"
+				files: {
+					"dist/piwik.js": process.env.PIWIK_SERVER + "/piwik.js"
+				}
 			}
 		}
 	});
@@ -190,9 +191,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-image-embed");
 	grunt.loadNpmTasks("grunt-font-optimizer");
 	grunt.loadNpmTasks("grunt-ttf2woff");
-	grunt.loadNpmTasks("grunt-download");
+	grunt.loadNpmTasks("grunt-wget");
 
-	grunt.registerTask("default", ["download", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("default", ["wget", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("dev", ["concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
