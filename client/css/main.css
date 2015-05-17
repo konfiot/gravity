@@ -2,7 +2,7 @@
 	font-family: "Roboto";
 	font-style: normal;
 	font-weight: 100;
-	src: local('Roboto Thin'), local('Roboto-Thin'), local('Roboto Light'), local('Roboto-Light'), url("Roboto-Thin.ttf") format('ttf');
+	src: url('Roboto-Thin.ttf');
 }
 
 body

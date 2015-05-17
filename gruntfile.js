@@ -45,7 +45,7 @@ module.exports = function (grunt) {
 			font: {
 				expand: true,
 				cwd: "node_modules/roboto-fontface/fonts/",
-				src: "Roboto-Light.*",
+				src: "Roboto-Thin.*",
 				dest: "dist/"
 			}
 		},
