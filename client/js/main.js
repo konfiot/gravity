@@ -13,7 +13,9 @@ function toggle_div(name, show) {
 		location.hash = name;
 	}
 
-	_paq.push(["trackEvent", "Navigation", "Changed view", name]);
+	if (show) {
+		_paq.push(["trackEvent", "Navigation", "Changed view", name]);
+	}
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
