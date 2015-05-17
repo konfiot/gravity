@@ -124,7 +124,7 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 		}
 
 		if (finished) {
-			_paq.push(["trackEvent", "Game", "Finished game", "Solo", players.length]);
+			_paq.push(["trackEvent", "Game", "Finished game", "Solo"]);
 			_paq.push(["trackGoal", 1]);
 		}
 	}, players.length);
@@ -193,7 +193,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	}, function (scores) {
 		var str = "<table><tr>";
 
-		_paq.push(["trackEvent", "Game", "Finished game", "Multi", players.length]);
+		_paq.push(["trackEvent", "Game", "Finished game", "Multi"]);
 		_paq.push(["trackGoal", 2]);
 
 		for (var k = 0; k < scores.length; k += 1) {
@@ -278,7 +278,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		_paq.push(["trackEvent", "Game", "Initialized new game", "Multi", parseInt(document.getElementById("nplayers").value)]);
 
 		network.create(parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
-			_paq.push(["trackEvent", "Game", "Game begins", "Multi", players.length]);
+			_paq.push(["trackEvent", "Game", "Game begins", "Multi"]);
 
 			init_game(parseInt(document.getElementById("size").value), function (x, y) {
 				network.play(x, y);
