@@ -275,7 +275,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		game = new Game(parseInt(document.getElementById("size").value), update, parseInt(document.getElementById("nplayers").value));
 		network.setGame(game);
 
-		_paq.push(["trackEvent", "Game", "Initialized new game", "Multi", parseInt(document.getElementById("nplayers").value]);
+		_paq.push(["trackEvent", "Game", "Initialized new game", "Multi", parseInt(document.getElementById("nplayers").value)]);
 
 		network.create(parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
 			_paq.push(["trackEvent", "Game", "Game begins", "Multi", players.length]);
