@@ -22,7 +22,7 @@ function toggle_div(name, show) {
 function update(state, score, finished, current, plays, lastplays) {
 	var cells = document.getElementById("game").getElementsByTagName("td");
 
-	console.log("Updated", score, current);
+	console.log("Updated", score, current, current % score[0].length);
 
 	for (var i = 0; i < cells.length; i += 1) {
 		cells[i].className = "p" + state[cells[i].parentElement.rowIndex][cells[i].cellIndex];
@@ -51,7 +51,7 @@ function update(state, score, finished, current, plays, lastplays) {
 
 	document.getElementById("score").innerHTML = str;
 
-	document.getElementById("game").className = "c" + ((current % score.length) + 1);
+	document.getElementById("game").className = "c" + ((current % score[0].length) + 1);
 
 	end_score = Array(score[0].length);
 
