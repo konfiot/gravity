@@ -291,6 +291,12 @@ document.getElementById("multi").addEventListener("click", function (e) {
 });
 
 function message(text, callback) {
+	toggle_div("tuto", true);
+	document.getElementById("tuto_text").innerHTML = text;
+	document.getElementById("tuto_next").onclick = function () {
+		toggle_div("tuto", false);
+		callback();
+	};
 }
 
 document.getElementById("tuto").addEventListener("click", function () {
