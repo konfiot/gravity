@@ -290,6 +290,32 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	};
 });
 
+function message(text, callback) {
+}
+
+document.getElementById("tuto").addEventListener("click", function () {
+	var game = new Game(9, update, 2);
+	toggle_div("menu", false);
+	init_game(9, function (x, y) {});
+	game.update();
+	message("Welcome to Gravity !\n\n The goal is simple: Score as many points as possible by lining up four cells (either in a row/column or in a diagonal)," +
+		" once a line is made, you can't use the cells again in the same direction.", function () {
+		play_cells(game, [/*...*/]);
+		message("You can add a cell only if it is supported by one of the four sides thanks to a column of other cells", function () {
+			play_cells(game, [/*...*/]);
+			possible([/*...*/]);
+			impossible([/*...*/]);
+			message("You can't play in the middle cell. Furthermore, the middle can't be used as a support", function () {
+				impossible([/*...*/]);
+				message("If the game ends up with a tie, the cells lined up with the middle will settle who's the winner", function () {
+					_paq.push(["trackEvent", "Game", "Finished tutorial"]);
+					_paq.push(["trackGoal", 3]);
+				});
+			});
+		});
+	});
+});
+
 var	restart_buttons = document.getElementsByClassName("restart"),
 	manageEvent = function (e) {
 		window.history.back();
