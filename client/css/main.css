@@ -144,7 +144,7 @@ table
 	z-index: 6;
 }
 
-#list, #finish, #menu, #connecting, #waiting, #scores, #loading, #solo_menu {
+#list, #finish, #menu, #connecting, #waiting, #scores, #loading, #solo_menu, #tuto_view {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -154,6 +154,16 @@ table
 	height: 100%;
 	background-color: #FCFCFC;
 	font-size: 6vh;
+}
+
+#tuto_view {
+	margin: auto;
+	height: auto;
+	width: auto;
+	top: 10%;
+	left: 35%;
+	right: 35%;
+	font-size: 3vh;
 }
 
 #finish {

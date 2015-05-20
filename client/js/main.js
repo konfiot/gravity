@@ -291,12 +291,26 @@ document.getElementById("multi").addEventListener("click", function (e) {
 });
 
 function message(text, callback) {
-	toggle_div("tuto", true);
+	toggle_div("tuto_view", true);
 	document.getElementById("tuto_text").innerHTML = text;
 	document.getElementById("tuto_next").onclick = function () {
-		toggle_div("tuto", false);
+		toggle_div("tuto_view", false);
 		callback();
 	};
+}
+
+function play_cells(game, cells, cb) {
+	if (cells.length > 0) {
+		var cell = cells.shift();
+		game.play(game.whosturn + 1, cell[0], cell[1]);
+
+		setTimeout(play_cells, 1000, game, cells, cb);
+	} else {
+		cb();
+	}
+}
+
+function mark(cells, possible) {
 }
 
 document.getElementById("tuto").addEventListener("click", function () {
@@ -306,16 +320,18 @@ document.getElementById("tuto").addEventListener("click", function () {
 	game.update();
 	message("Welcome to Gravity !\n\n The goal is simple: Score as many points as possible by lining up four cells (either in a row/column or in a diagonal)," +
 		" once a line is made, you can't use the cells again in the same direction.", function () {
-		play_cells(game, [/*...*/]);
-		message("You can add a cell only if it is supported by one of the four sides thanks to a column of other cells", function () {
-			play_cells(game, [/*...*/]);
-			possible([/*...*/]);
-			impossible([/*...*/]);
-			message("You can't play in the middle cell. Furthermore, the middle can't be used as a support", function () {
-				impossible([/*...*/]);
-				message("If the game ends up with a tie, the cells lined up with the middle will settle who's the winner", function () {
-					_paq.push(["trackEvent", "Game", "Finished tutorial"]);
-					_paq.push(["trackGoal", 3]);
+		play_cells(game, [[0, 0], [0, 1], [1, 1]], function () {
+			message("You can add a cell only if it is supported by one of the four sides thanks to a column of other cells", function () {
+				play_cells(game, [/*...*/], function () {
+					mark([/*...*/], true);
+					mark([/*...*/], false);
+					message("You can't play in the middle cell. Furthermore, the middle can't be used as a support", function () {
+						mark([/*...*/], false);
+						message("If the game ends up with a tie, the cells lined up with the middle will settle who's the winner", function () {
+							_paq.push(["trackEvent", "Game", "Finished tutorial"]);
+							_paq.push(["trackGoal", 3]);
+						});
+					});
 				});
 			});
 		});
