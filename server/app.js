@@ -122,9 +122,7 @@ io.sockets.on("connection", function (socket) {
 		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 	});
 	socket.on("disconnect", function () {
-		delete running_games[socket.game_id];
-		delete games_pending[socket.game_id];
-		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
+		console.log("Disconnected");
 	});
 });
 
