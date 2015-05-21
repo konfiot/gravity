@@ -106,7 +106,7 @@ function push_scores (pseudos, scores, game, cb) {
 				points = compute_scores(pseudos, scores, data, game);
 
 				for (var i = 0; i < pseudos.length; i += 1) {
-					results.push([pseudos[i], points[i], (scores[i] === Math.max.apply(this, scores)) ? 1 : 0, scores[0][i]]);
+					results.push([pseudos[i], points[i], (points[i] === Math.max.apply(this, points)) ? 1 : 0, scores[0][i]]);
 				}
 
 				async.map(results, function (item, callback) {
