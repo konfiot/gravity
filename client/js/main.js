@@ -14,7 +14,7 @@ function toggle_div(name, show) {
 	}
 
 	if (show) {
-		_paq.push(["trackEvent", "Navigation", "Changed view", name]);
+		_paq.push(["trackPageView", name]);
 	}
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
@@ -81,7 +81,7 @@ function init_game(size, cb) {
 	for (var k = 0; k < size * size; k += 1) {
 		document.getElementById("game").getElementsByTagName("td")[k].addEventListener("click", manageEvent);
 	}
-	_paq.push(["trackEvent", "Navigation", "Changed view", "game"]);
+	_paq.push(["trackPageView", "Game"]);
 
 }
 
