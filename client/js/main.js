@@ -290,6 +290,66 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	};
 });
 
+function message(text, callback) {
+	toggle_div("tuto_view", true);
+	document.getElementById("tuto_text").innerHTML = text;
+	document.getElementById("tuto_next").onclick = function () {
+		toggle_div("tuto_view", false);
+		callback();
+	};
+}
+
+function play_cells(game, cells, cb) {
+	if (cells.length > 0) {
+		var cell = cells.shift();
+		game.play(game.whosturn + 1, cell[0], cell[1]);
+
+		setTimeout(play_cells, 1000, game, cells, cb);
+	} else {
+		cb();
+	}
+}
+
+function mark(cells, possible) {
+	var table_cells = document.getElementById("game").getElementsByTagName("td");
+
+	for (var i = 0; i < cells.length; i += 1) {
+		for (var j = 0; j < table_cells.length; j += 1) {
+			if (table_cells[j].cellIndex == cells[i][1] && table_cells[j].parentElement.rowIndex == cells[i][0]) {
+				table_cells[j].className = (possible) ? "p-2" : "p-3";
+				break;
+			}
+		}
+	}
+}
+
+document.getElementById("tuto").addEventListener("click", function () {
+	var game = new Game(9, update, 2);
+	toggle_div("menu", false);
+	init_game(9, function (x, y) {});
+	game.update();
+	message("<strong>Welcome to Gravity !</strong><br /> The goal is simple: Score as many points as possible by lining up four cells (either in a row/column or in a diagonal)," +
+		" once a line is made, you can't use the cells again in the same direction.", function () {
+		play_cells(game, [[8, 5], [6, 8], [6, 7], [8, 6], [7, 6], [8, 8], [5, 8]], function () {
+			message("You can add a cell only if it is supported by one of the four sides thanks to a column of other cells", function () {
+				play_cells(game, [[8, 3], [7, 3], [6, 3]], function () {
+					mark([[5, 3]], true);
+					mark([[6, 2], [6, 4]], false);
+					message("You can't play in the middle cell. Furthermore, the middle can't be used as a support", function () {
+						game.update();
+						mark([[3, 4], [4, 3], [5, 4], [4, 5]], false);
+						message("If the game ends up with a tie, the cells lined up with the middle will settle who's the winner", function () {
+							_paq.push(["trackEvent", "Game", "Finished tutorial"]);
+							_paq.push(["trackGoal", 3]);
+							toggle_div("menu", true);
+						});
+					});
+				});
+			});
+		});
+	});
+});
+
 var	restart_buttons = document.getElementsByClassName("restart"),
 	manageEvent = function (e) {
 		window.history.back();
