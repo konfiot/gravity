@@ -159,10 +159,11 @@ table
 #tuto_view {
 	margin: auto;
 	height: auto;
-	width: auto;
+	width: 25vw;
+	min-width: 55vh;
 	top: 10%;
-	left: 35%;
-	right: 35%;
+	left: 1%;
+	right: 1%;
 	font-size: 3vh;
 }
 
