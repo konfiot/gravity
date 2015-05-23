@@ -192,7 +192,9 @@ table
 .list
 {
 	border-collapse: collapse;
-	font-size: 3vh;
+	font-size: 5vh;
+	width: 100%;
+	margin-top: 6vh;
 }
 
 .list * td {
