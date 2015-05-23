@@ -9,7 +9,7 @@ _paq.push(["setTrackerUrl", u + "piwik.php"]);
 _paq.push(["setSiteId", 1]);
 
 function toggle_div(name, show) {
-	if (show && ["scores", "list", "solo_menu", "menu"].indexOf(name) !== -1) {
+	if (show && ["tuto_view", "scores", "list", "solo_menu", "menu"].indexOf(name) !== -1) {
 		location.hash = name;
 	}
 
@@ -365,6 +365,7 @@ window.addEventListener("hashchange", function (e) {
 
 	if (div !== e.oldURL.split("#")[1]) {
 		toggle_div("finish", false);
+		toggle_div("tuto_view", false);
 		toggle_div("list", false);
 		toggle_div("waiting", false);
 		toggle_div("loading", false);

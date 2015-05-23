@@ -149,7 +149,7 @@ module.exports = function (grunt) {
 		font_optimizer: {
 			Roboto: {
 				options: {
-					chars: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.,?;/:!*^@èé\"{}[(])=+}/-#ù%><\u21B5",
+					chars: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.,?;/:!*^@èé\"{}[(])=+}/-#ù%><\\↵",
 					includeFeatures: ["kern"]
 				},
 				files: {
