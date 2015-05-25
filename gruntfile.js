@@ -5,12 +5,14 @@ module.exports = function (grunt) {
 		concat: {
 			js: {
 				src: [	"node_modules/socket.io-client/socket.io.js",
+					"node_modules/handlebars/lib/handlebars.js",
 					"common/game.js",
 					"client/js/ai/ai_bob.js",
 					"client/js/ai/ai_banane.js",
 					"client/js/view.js",
 					"client/js/network.js",
 					"client/js/main.js",
+					"dist/templates.js",
 					"dist/piwik.js"],
 
 				dest: "dist/dist.js"
@@ -169,6 +171,13 @@ module.exports = function (grunt) {
 					"dist/piwik.js": process.env.PIWIK_SERVER + "/piwik.js"
 				}
 			}
+		},
+		handlebars: {
+			all: {
+				files: {
+					"dist/templates.js": ["client/html/templates/*.html"]
+				}
+			}
 		}
 	});
 
@@ -181,6 +190,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-contrib-handlebars");
 	grunt.loadNpmTasks("grunt-concurrent");
 	grunt.loadNpmTasks("grunt-nodemon");
 	grunt.loadNpmTasks("grunt-html");
@@ -193,8 +203,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-ttf2woff");
 	grunt.loadNpmTasks("grunt-wget");
 
-	grunt.registerTask("default", ["wget", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
-	grunt.registerTask("dev", ["concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("default", ["wget", "handlebars", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("dev", ["handlebars", "concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);

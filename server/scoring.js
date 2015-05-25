@@ -140,6 +140,7 @@ function push_scores (pseudos, scores, game, cb) {
 				data[pseudos[i]].score += points[i];
 				data[pseudos[i]].total += 1;
 				data[pseudos[i]].won += (scores[i] === Math.max.apply(this, scores)) ? 1 : 0;
+				data[pseudos[i]].ratio = parseInt(100 * data[pseudos[i]].won / data[pseudos[i]].total);
 			}
 
 			fs.writeFile("scores.json", JSON.stringify(data), function () {});
@@ -152,7 +153,7 @@ function push_scores (pseudos, scores, game, cb) {
 function get_scores (cb) {
 	if (process.env.ENV === "prod") {
 		pg.connect(process.env.DATABASE_URL, function (err, client, done) {
-			client.query("SELECT * from players", function (err, result) {
+			client.query("SELECT total, 100*won/(total-won) as ratio, score, pseudo FROM players", function (err, result) {
 				var data = {};
 
 				for (var j = 0; j < result.rows.length; j += 1) {
