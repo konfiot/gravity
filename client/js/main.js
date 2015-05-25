@@ -291,12 +291,14 @@ document.getElementById("multi").addEventListener("click", function (e) {
 });
 
 function message(text, callback) {
-	toggle_div("tuto_view", true);
-	document.getElementById("tuto_text").innerHTML = text;
-	document.getElementById("tuto_next").onclick = function () {
-		toggle_div("tuto_view", false);
-		callback();
-	};
+	if (window.location.hash == "#tuto_view") {
+		toggle_div("tuto_view", true);
+		document.getElementById("tuto_text").innerHTML = text;
+		document.getElementById("tuto_next").onclick = function () {
+			toggle_div("tuto_view", false);
+			callback();
+		};
+	}
 }
 
 function play_cells(game, cells, cb) {
@@ -328,6 +330,7 @@ document.getElementById("tuto").addEventListener("click", function () {
 	toggle_div("menu", false);
 	init_game(9, function (x, y) {});
 	game.update();
+	toggle_div("tuto_view", true);
 	message("<strong>Welcome to Gravity !</strong><br /> The goal is simple: Score as many points as possible by lining up four cells (either in a row/column or in a diagonal)," +
 		" once a line is made, you can't use the cells again in the same direction.", function () {
 		play_cells(game, [[8, 5], [6, 8], [6, 7], [8, 6], [7, 6], [8, 8], [5, 8]], function () {
