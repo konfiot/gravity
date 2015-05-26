@@ -153,7 +153,7 @@ function push_scores (pseudos, scores, game, cb) {
 function get_scores (cb) {
 	if (process.env.ENV === "prod") {
 		pg.connect(process.env.DATABASE_URL, function (err, client, done) {
-			client.query("SELECT total, 100*won/(total-won) as ratio, score, pseudo, RANK() as rank FROM players ORDER BY score DESC", function (err, result) {
+			client.query("SELECT total, 100*won/total as ratio, score, pseudo, RANK() OVER (ORDER BY score DESC)  as rank FROM players ORDER BY score DESC", function (err, result) {
 				cb.call(cb, result);
 				done();
 			});
