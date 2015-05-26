@@ -153,15 +153,17 @@ document.getElementById("leaderbord").addEventListener("click", function (e) {
 			r = 1,
 			enumerate = [];
 
+		console.log(data);
+
 		for (var i in data) {
 			if (data.hasOwnProperty(i)) {
 				enumerate.push([i, data[i]]);
 			}
 		}
 
-		enumerate.sort(function (a, b) {return b[1].score - a[1].score;});
+		data.sort(function (a, b) {return b.score - a.score;});
 
-		document.getElementById("scores_table").innerHTML = JST["leaderboard"](enumerate);
+		document.getElementById("scores_table").innerHTML = templates.leaderboard.render({items: data});
 		toggle_div("scores", true);
 	});
 });
