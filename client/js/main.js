@@ -82,7 +82,6 @@ function init_game(size, cb) {
 		document.getElementById("game").getElementsByTagName("td")[k].addEventListener("click", manageEvent);
 	}
 	_paq.push(["trackPageView", "Game"]);
-
 }
 
 document.getElementById("solo").addEventListener("click", function (e) {
@@ -154,24 +153,17 @@ document.getElementById("leaderbord").addEventListener("click", function (e) {
 			r = 1,
 			enumerate = [];
 
+		console.log(data);
+
 		for (var i in data) {
 			if (data.hasOwnProperty(i)) {
 				enumerate.push([i, data[i]]);
 			}
 		}
 
-		enumerate.sort(function (a, b) {return b[1].score - a[1].score;});
+		data.sort(function (a, b) {return b.score - a.score;});
 
-		for (var j  = 0; j < enumerate.length; j += 1) {
-			str += "<tr>";
-			str += "<td>" + r + "</td><td>" + enumerate[j][0] + "</td><td>" + enumerate[j][1].total + "</td>"  +
-				"<td>" + parseInt(enumerate[j][1].won / enumerate[j][1].total * 100) + " %</td>" +
-				"<td>" + enumerate[j][1].score + "</td>";
-			str += "</tr>";
-			r += 1;
-		}
-
-		document.getElementById("scores_table").innerHTML = str;
+		document.getElementById("scores_table").innerHTML = templates.leaderboard.render({items: data});
 		toggle_div("scores", true);
 	});
 });

@@ -140,6 +140,7 @@ function push_scores (pseudos, scores, game, cb) {
 				data[pseudos[i]].score += points[i];
 				data[pseudos[i]].total += 1;
 				data[pseudos[i]].won += (scores[i] === Math.max.apply(this, scores)) ? 1 : 0;
+				data[pseudos[i]].ratio = parseInt(100 * data[pseudos[i]].won / data[pseudos[i]].total);
 			}
 
 			fs.writeFile("scores.json", JSON.stringify(data), function () {});
@@ -152,21 +153,29 @@ function push_scores (pseudos, scores, game, cb) {
 function get_scores (cb) {
 	if (process.env.ENV === "prod") {
 		pg.connect(process.env.DATABASE_URL, function (err, client, done) {
-			client.query("SELECT * from players", function (err, result) {
-				var data = {};
-
-				for (var j = 0; j < result.rows.length; j += 1) {
-					data[result.rows[j].pseudo] = result.rows[j];
-				}
-
-				cb.call(cb, data);
+			client.query("SELECT total, 100*won/(total-won) as ratio, score, pseudo, RANK() as rank FROM players ORDER BY score DESC", function (err, result) {
+				cb.call(cb, result);
 				done();
 			});
 		});
 
 	} else {
 		fs.readFile("scores.json", function (err, raw) {
-			cb.call(cb, JSON.parse(raw || "{}"));
+			var	data = JSON.parse(raw || "{}"),
+				array = [];
+
+			for (var i in data) {
+				if (data.hasOwnProperty(i)) {
+					array.push({
+						score: data[i].score,
+						total: data[i].total,
+						won: data[i].won,
+						ratio: data[i].ratio,
+						pseudo: i
+					});
+				}
+			}
+			cb.call(cb, array);
 		});
 	}
 }
