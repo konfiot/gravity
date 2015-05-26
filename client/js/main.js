@@ -149,17 +149,6 @@ document.getElementById("leaderbord").addEventListener("click", function (e) {
 
 	socket.emit("scores", {}, function (data) {
 		toggle_div("loading", false);
-		var str = "",
-			r = 1,
-			enumerate = [];
-
-		console.log(data);
-
-		for (var i in data) {
-			if (data.hasOwnProperty(i)) {
-				enumerate.push([i, data[i]]);
-			}
-		}
 
 		data.sort(function (a, b) {return b.score - a.score;});
 
