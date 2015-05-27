@@ -172,32 +172,30 @@ document.getElementById("multi").addEventListener("click", function (e) {
 
 		document.getElementById("pseudos").innerHTML = str;
 	}, function (scores) {
-		var str = "<table><tr>";
-
 		_paq.push(["trackEvent", "Game", "Finished game", "Multi"]);
 		_paq.push(["trackGoal", 2]);
 
-		for (var k = 0; k < scores.length; k += 1) {
-			str += "<td class='t" + (k + 1) + "'>" + scores[k][0] + "</td>";
-		}
-		str += "</tr><tr>";
-
-		for (var j = 0; j < scores.length; j += 1) {
-			str += "<td class='t" + (j + 1) + "'><h2>" + scores[j][3] + "</h2></td>";
-		}
-		str += "</tr></table>";
-		document.getElementById("global_score").innerHTML = str;
+		scores = scores.map(function (value, index) {
+			return {
+				player: index + 1,
+				score: value[3],
+				pseudo: value[0],
+				points_won: value[1],
+				points: parseInt(value[2]) + parseInt(value[1])
+			};
+		});
 
 		scores.sort(function (a, b) {
-			return b[3] - a[3];
+			return b.score - a.score;
 		});
+
+		document.getElementById("global_score").innerHTML = templates.end_score.render({scores: scores});
 
 		var slots = document.getElementsByClassName("score_card");
 
 		for (var i = 0; i < slots.length; i += 1) {
 			if (i < scores.length) {
-				slots[i].innerHTML = "<table><tr><td class='left' rowspan=2><h3>" + scores[i][0] + "</h3></td><td class='right'><h3>+" + scores[i][1] + "</h3></td></tr><tr><td class='right'>" +
-					(parseInt(scores[i][2]) + parseInt(scores[i][1])) + "</td></tr></table>";
+				slots[i].innerHTML = templates.end_points.render(scores[i]);
 				slots[i].style.display = "block";
 			} else {
 				slots[i].style.display = "none";
