@@ -123,6 +123,23 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 		}
 
 		if (finished) {
+			var slots = document.getElementsByClassName("score_card");
+
+			document.getElementById("global_score").innerHTML = templates.end_score.render({scores: players.map(function (val, index) {
+				return {
+					player: index + 1,
+					pseudo: (val >= 2) ? "A.I." : "Human",
+					score: score[0][index],
+					middle: score[1][index]
+				};
+			})});
+
+			for (var i = 0; i < slots.length; i += 1) {
+				slots[i].style.display = "none";
+			}
+
+			toggle_div("finish", true);
+
 			_paq.push(["trackEvent", "Game", "Finished game", "Solo"]);
 			_paq.push(["trackGoal", 1]);
 		}
