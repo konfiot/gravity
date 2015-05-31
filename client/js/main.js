@@ -308,17 +308,18 @@ function play_cells(game, cells, cb) {
 	}
 }
 
-function mark(cells, possible) {
+function mark(cells, cb) {
 	var table_cells = document.getElementById("game").getElementsByTagName("td");
 
 	for (var i = 0; i < cells.length; i += 1) {
 		for (var j = 0; j < table_cells.length; j += 1) {
 			if (table_cells[j].cellIndex == cells[i][1] && table_cells[j].parentElement.rowIndex == cells[i][0]) {
-				table_cells[j].className = (possible) ? "p-2" : "p-3";
+				table_cells[j].className = (cells[i][2]) ? "p-2" : "p-3";
 				break;
 			}
 		}
 	}
+	setTimeout(cb, 1000);
 }
 
 document.getElementById("tuto").addEventListener("click", function () {
@@ -332,15 +333,16 @@ document.getElementById("tuto").addEventListener("click", function () {
 		play_cells(game, [[8, 5], [6, 8], [6, 7], [8, 6], [7, 6], [8, 8], [5, 8]], function () {
 			message("You can add a cell only if it is supported by one of the four sides thanks to a column of other cells", function () {
 				play_cells(game, [[8, 3], [7, 3], [6, 3]], function () {
-					mark([[5, 3]], true);
-					mark([[6, 2], [6, 4]], false);
-					message("You can't play in the middle cell. Furthermore, the middle can't be used as a support", function () {
-						game.update();
-						mark([[3, 4], [4, 3], [5, 4], [4, 5]], false);
-						message("If the game ends up with a tie, the cells lined up with the middle will settle who's the winner", function () {
-							_paq.push(["trackEvent", "Game", "Finished tutorial"]);
-							_paq.push(["trackGoal", 3]);
-							toggle_div("menu", true);
+					mark([[5, 3, true], [6, 2, false], [6, 4, false]], function () {
+						message("You can't play in the middle cell. Furthermore, the middle can't be used as a support", function () {
+							game.update();
+							mark([[3, 4, false], [4, 3, false], [5, 4, false], [4, 5, false]], function () {
+								message("If the game ends up with a tie, the cells lined up with the middle will settle the winner", function () {
+									_paq.push(["trackEvent", "Game", "Finished tutorial"]);
+									_paq.push(["trackGoal", 3]);
+									toggle_div("menu", true);
+								});
+							});
 						});
 					});
 				});
