@@ -203,7 +203,7 @@ table
 {
 	width: 100vw;
 	border-collapse: collapse;
-	font-size: 4vh;
+	font-size: 3vh;
 	margin-top: 6vh;
 	table-layout: fixed;
 }
@@ -215,17 +215,17 @@ table
 
 .list * td:nth-child(3)
 {
-	width: 20vw;
+	width: 17vw;
 } 
 
 .list * td:nth-child(4)
 {
-	width: 13vw;
+	width: 15vw;
 } 
 
 .list * td:nth-child(5)
 {
-	width: 16vw;
+	width: 15vw;
 } 
 
 .list * td:nth-child(1)
