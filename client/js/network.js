@@ -60,7 +60,7 @@ GameClient.prototype.update = function (e) {
 		break;
 
 		case "update":
-			this.game.update(e.state);
+			this.game.import(e.data);
 		break;
 
 		case "begin":

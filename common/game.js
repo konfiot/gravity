@@ -184,6 +184,16 @@ Game.prototype.update = function () {
 	this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays);
 };
 
+Game.prototype.export = function () {
+	return [this.state, this.score, this.plays];
+};
+
+Game.prototype.import = function (data) {
+	this.state = data[0];
+	this.score = data[1];
+	this.plays = data[2];
+};
+
 try {
 	module.exports.Game = Game;
 } catch (ignore) {}
