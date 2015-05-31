@@ -215,7 +215,7 @@ table
 
 .list * td:nth-child(3)
 {
-	width: 17vw;
+	width: 20vw;
 } 
 
 .list * td:nth-child(4)
@@ -225,7 +225,7 @@ table
 
 .list * td:nth-child(5)
 {
-	width: 14vw;
+	width: 16vw;
 } 
 
 .list * td:nth-child(1)
