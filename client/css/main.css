@@ -32,6 +32,12 @@ h3 {
 	font-weight: 100;
 }
 
+td
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 
 .card {
 	font-size: 3vh;
@@ -44,6 +50,7 @@ h3 {
 
 .card > table {
 	width: 100%;
+	table-layout: fixed;
 }
 
 .margin
@@ -140,7 +147,8 @@ table
 	transition: all 0.3s ease-out 0s;
 }
 
-#loading{
+#loading
+{
 	z-index: 6;
 }
 
@@ -176,6 +184,8 @@ table
 	width: 85vh;
 	max-width: 90vw;
 	margin: 12vh auto;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #pseudos
@@ -191,15 +201,37 @@ table
 
 .list
 {
+	width: 100vw;
 	border-collapse: collapse;
-	font-size: 3vw;
-	width: 100%;
+	font-size: 4vh;
 	margin-top: 6vh;
+	table-layout: fixed;
 }
 
 .list * td {
-	width: 20vw;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
+
+.list * td:nth-child(3)
+{
+	width: 17vw;
+} 
+
+.list * td:nth-child(4)
+{
+	width: 13vw;
+} 
+
+.list * td:nth-child(5)
+{
+	width: 14vw;
+} 
+
+.list * td:nth-child(1)
+{
+	width: 10vw;
+} 
 
 .list > tbody > tr:nth-child(2n+1)
 {
