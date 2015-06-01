@@ -8,6 +8,13 @@ function GameClient (socket, begin_cb, end_cb) {
 	this.socket.on("e", function (data) {
 		that.update(data);
 	});
+	this.socket.on("disconnect", function () {
+		alert("You have been disconnected, trying to reconnect");
+	});
+	this.socket.on("reconnect", function () {
+		alert("Reconnection - OK - Resyncing");
+		socket.emit("resync");
+	});
 }
 
 GameClient.prototype.list = function (cb) {
@@ -61,6 +68,7 @@ GameClient.prototype.update = function (e) {
 
 		case "update":
 			this.game.import(e.data);
+			alert("Resynced");
 		break;
 
 		case "begin":

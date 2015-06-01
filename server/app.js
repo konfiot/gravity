@@ -126,7 +126,7 @@ io.sockets.on("connection", function (socket) {
 		delete games_pending[socket.game_id];
 		console.log("Disconnected");
 	});
-	socket.on("reconnect", function () {
+	socket.on("resync", function () {
 		console.log("Reconnect");
 
 		if (running_games[socket.game_id] !== undefined) {
