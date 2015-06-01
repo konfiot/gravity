@@ -373,6 +373,7 @@ window.addEventListener("hashchange", function (e) {
 		toggle_div("scores", false);
 		toggle_div("menu", false);
 		toggle_div("solo_menu", false);
+		toggle_div("tuto_view", false);
 		toggle_div(div, true);
 	}
 });
