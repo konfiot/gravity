@@ -122,16 +122,20 @@ io.sockets.on("connection", function (socket) {
 		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 	});
 	socket.on("disconnect", function () {
-		console.log("Disconnected");
+		console.log("Player" + socket.player + "Disconnected");
 	});
-	socket.on("resync", function () {
+	socket.on("resync", function (data) {
 		console.log("Reconnect");
 
-		if (running_games[socket.game_id] !== undefined) {
-			socket.emit("e", {action: "update", data: running_games[socket.game_id].game.export()});
+		socket.game_id = data.id;
+		soclet.player = data.player;
+		socket.join(data.id);
+
+		if (running_games[data.id] !== undefined) {
+			socket.emit("e", {action: "update", data: running_games[data.id].game.export()});
 			console.log("Resynced you !");
 		} else {
-			console.log("Tried to reconnect, but had not joined any game ...", socket.game_id, running_games);
+			console.log("Tried to reconnect, but had not joined any game ...", data.id, running_games);
 		}
 	});
 });

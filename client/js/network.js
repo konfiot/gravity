@@ -13,7 +13,7 @@ function GameClient (socket, begin_cb, end_cb) {
 	});
 	this.socket.on("reconnect", function () {
 		alert("Reconnection - OK - Resyncing");
-		socket.emit("resync");
+		socket.emit("resync", {player: that.player, id: that.id});
 	});
 }
 
