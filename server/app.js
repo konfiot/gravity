@@ -131,7 +131,7 @@ io.sockets.on("connection", function (socket) {
 			socket.emit("e", {action: "update", data: running_games[socket.game_id].game.export()});
 			console.log("Resynced you !");
 		} else {
-			console.log("Tried to reconnect, but had not joined any game ...");
+			console.log("Tried to reconnect, but had not joined any game ...", socket.game_id, running_games);
 		}
 	});
 });
