@@ -185,13 +185,14 @@ Game.prototype.update = function () {
 };
 
 Game.prototype.export = function () {
-	return [this.state, this.score, this.plays];
+	return [this.state, this.score, this.plays, this.whosturn];
 };
 
 Game.prototype.import = function (data) {
 	this.state = data[0];
 	this.score = data[1];
 	this.plays = data[2];
+	this.whosturn = data[3];
 };
 
 try {

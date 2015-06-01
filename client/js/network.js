@@ -68,6 +68,7 @@ GameClient.prototype.update = function (e) {
 
 		case "update":
 			this.game.import(e.data);
+			this.game.update();
 			alert("Resynced");
 		break;
 
