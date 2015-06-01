@@ -128,7 +128,7 @@ io.sockets.on("connection", function (socket) {
 		console.log("Reconnect");
 
 		socket.game_id = data.id;
-		soclet.player = data.player;
+		socket.player = data.player;
 		socket.join(data.id);
 
 		if (running_games[data.id] !== undefined) {
