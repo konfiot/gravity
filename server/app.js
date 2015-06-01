@@ -129,6 +129,9 @@ io.sockets.on("connection", function (socket) {
 
 		if (running_games[socket.game_id] !== undefined) {
 			socket.emit("e", {action: "update", data: running_games[socket.game_id].game.export()});
+			console.log("Resynced you !");
+		} else {
+			console.log("Tried to reconnect, but had not joined any game ...");
 		}
 	});
 });
