@@ -161,7 +161,7 @@ module.exports = function (grunt) {
 		},
 		ttf2woff: {
 			roboto: {
-				src: ["dist/*.ttf"],
+				src: ["dist/Roboto-Thin.ttf"],
 				dest: "dist/"
 			}
 		},
@@ -179,17 +179,30 @@ module.exports = function (grunt) {
 				options : {binderName: "hulk"}
 			}
 		},
-compress: {
-  main: {
-    options: {
-      mode: 'gzip'
-    },
-    expand: true,
-    cwd: 'client/',
-    src: ['**/*'],
-    dest: 'public/'
-  }
-}
+		compress: {
+			deflate: {
+				options: {
+					mode: "deflate",
+					level: 9,
+					pretty: true
+				},
+				expand: true,
+				src: ["dist/index.html"],
+				dest: ".",
+				ext: ".html.zip"
+			},
+			gzip: {
+				options: {
+					mode: "gzip",
+					level: 9,
+					pretty: true
+				},
+				expand: true,
+				src: ["dist/index.html"],
+				dest: ".",
+				ext: ".html.gz"
+			}
+		}
 	});
 
 	grunt.loadNpmTasks("grunt-contrib-uglify");
@@ -215,8 +228,8 @@ compress: {
 	grunt.loadNpmTasks("grunt-ttf2woff");
 	grunt.loadNpmTasks("grunt-wget");
 
-	grunt.registerTask("default", ["wget", "hogan", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean", "compress"]);
-	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean", "compress"]);
+	grunt.registerTask("default", ["wget", "hogan", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
+	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "compress", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);
