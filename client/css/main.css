@@ -208,27 +208,22 @@ table
 	table-layout: fixed;
 }
 
-.list * td {
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.list * td:nth-child(3)
+#scores_table * td:nth-child(3)
 {
 	width: 17vw;
 } 
 
-.list * td:nth-child(4)
+#scores_table * td:nth-child(4)
 {
 	width: 15vw;
 } 
 
-.list * td:nth-child(5)
+#scores_table * td:nth-child(5)
 {
 	width: 15vw;
 } 
 
-.list * td:nth-child(1)
+#scores_table * td:nth-child(1)
 {
 	width: 10vw;
 } 
