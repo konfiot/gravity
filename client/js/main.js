@@ -1,12 +1,7 @@
-var	socket = io("@@URL_SOCKETIO_SERVER"),
+var	socket,
 	_paq = _paq || [],
 	u = "@@URL_PIWIK_SERVER";
 
-
-_paq.push(["trackPageView"]);
-_paq.push(["enableLinkTracking"]);
-_paq.push(["setTrackerUrl", u + "piwik.php"]);
-_paq.push(["setSiteId", 1]);
 
 function toggle_div(name, show) {
 	if (show && ["tuto_view", "scores", "list", "solo_menu", "menu"].indexOf(name) !== -1) {
@@ -393,3 +388,9 @@ window.addEventListener("hashchange", function (e) {
 	}
 });
 
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+_paq.push(["setTrackerUrl", u + "piwik.php"]);
+_paq.push(["setSiteId", 1]);
+
+socket = io("@@URL_SOCKETIO_SERVER");
