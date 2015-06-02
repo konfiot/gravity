@@ -60,7 +60,7 @@ function update(state, score, finished, current, plays, lastplays) {
 	}
 }
 
-function init_game(size, cb) {
+function init_game(size, cb, confirm_quit) {
 	var str = "<table class='game_table'>";
 
 	for (var i = 0; i < size; i += 1) {
@@ -72,7 +72,12 @@ function init_game(size, cb) {
 		str += "</tr>";
 	}
 	str += "</table>";
+
 	document.getElementById("game").innerHTML = str;
+
+	if (confirm_quit) {
+		document.location.hash = "#game";
+	}
 
 	var manageEvent = function (e) {
 		cb(e.target.parentElement.rowIndex, e.target.cellIndex);
@@ -154,7 +159,7 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 		if (players[game.whosturn] === 1) {
 			game.play(game.whosturn + 1, x, y);
 		}
-	});
+	}, true);
 	game.update();
 
 	return false;
@@ -249,7 +254,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 
 					init_game(data.size, function (x, y) {
 						network.play(x, y);
-					});
+					}, true);
 					game.update();
 				});
 			} else {
@@ -278,7 +283,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 
 			init_game(parseInt(document.getElementById("size").value), function (x, y) {
 				network.play(x, y);
-			});
+			}, true);
 			game.update();
 		});
 
@@ -365,6 +370,13 @@ window.addEventListener("hashchange", function (e) {
 		div = (url.length < 2) ? "menu" : url[1];
 
 	if (div !== e.oldURL.split("#")[1]) {
+		if (e.oldURL.split("#")[1] === "game") {
+			if (!confirm("You sure you want to ragequit ?")) {
+				document.location.hash = "#game";
+
+				return false;
+			}
+		}
 		toggle_div("finish", false);
 		toggle_div("tuto_view", false);
 		toggle_div("list", false);
