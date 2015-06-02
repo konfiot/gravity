@@ -6,14 +6,14 @@ module.exports = function (grunt) {
 			js: {
 				src: [	"node_modules/socket.io-client/socket.io.js",
 					"node_modules/hogan.js/lib/template.js",
-					"dist/piwik.js",
 					"common/game.js",
 					"client/js/ai/ai_bob.js",
 					"client/js/ai/ai_banane.js",
 					"client/js/view.js",
 					"client/js/network.js",
 					"dist/templates.js",
-					"client/js/main.js"],
+					"client/js/main.js",
+					"dist/piwik.js"],
 
 				dest: "dist/dist.js"
 			},
