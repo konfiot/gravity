@@ -155,7 +155,7 @@ module.exports = function (grunt) {
 					includeFeatures: ["kern"]
 				},
 				files: {
-					"dist/": ["node_modules/roboto-fontface/fonts/*.ttf"]
+					"dist/": ["node_modules/roboto-fontface/fonts/Roboto-Thin.ttf"]
 				}
 			}
 		},
