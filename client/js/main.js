@@ -376,7 +376,10 @@ window.addEventListener("hashchange", function (e) {
 
 				return false;
 			}
+		} else {
+			this.getElementByID("game").innerHTML = "";
 		}
+
 		toggle_div("finish", false);
 		toggle_div("tuto_view", false);
 		toggle_div("list", false);

@@ -178,7 +178,18 @@ module.exports = function (grunt) {
 				src: "client/html/templates/*.html",
 				options : {binderName: "hulk"}
 			}
-		}
+		},
+compress: {
+  main: {
+    options: {
+      mode: 'gzip'
+    },
+    expand: true,
+    cwd: 'client/',
+    src: ['**/*'],
+    dest: 'public/'
+  }
+}
 	});
 
 	grunt.loadNpmTasks("grunt-contrib-uglify");
@@ -190,6 +201,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-contrib-compress");
 	grunt.loadNpmTasks("grunt-hogan");
 	grunt.loadNpmTasks("grunt-concurrent");
 	grunt.loadNpmTasks("grunt-nodemon");
@@ -203,8 +215,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-ttf2woff");
 	grunt.loadNpmTasks("grunt-wget");
 
-	grunt.registerTask("default", ["wget", "hogan", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean"]);
-	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean"]);
+	grunt.registerTask("default", ["wget", "hogan", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "clean", "compress"]);
+	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "clean", "compress"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);

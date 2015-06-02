@@ -20,10 +20,10 @@ var server = http.createServer(function (request, response) {
 
 	if (acceptEncoding.match(/\bgzip\b/)) {
 		encoding =  "gzip";
-		raw = raw.pipe(zlib.createGzip());
+		raw = fs.createReadStream(__dirname + "/../dist/" + filename + ".gz");
 	} else if (acceptEncoding.match(/\bdeflate\b/)) {
 		encoding = "deflate";
-		raw = raw.pipe(zlib.createDeflate());
+		raw = fs.createReadStream(__dirname + "/../dist/" + filename + ".zip");
 	}
 
 	if (request.url === "/") {
