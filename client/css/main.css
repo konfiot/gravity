@@ -130,6 +130,7 @@ table
 	height: 100%;
 	width: 100%;
 	background-color: #e0e0e0;
+	border-spacing: 5px;
 	border-spacing: 1.2vh;
 	border-color: inherit;
 	border-style: solid ;
