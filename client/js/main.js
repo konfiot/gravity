@@ -3,6 +3,8 @@ var	socket,
 	u = "@@URL_PIWIK_SERVER";
 
 
+window.location.hash = "#menu";
+
 function toggle_div(name, show) {
 	if (show && ["tuto_view", "scores", "list", "solo_menu", "menu"].indexOf(name) !== -1) {
 		location.hash = name;
@@ -371,8 +373,6 @@ window.addEventListener("hashchange", function (e) {
 
 				return false;
 			}
-		} else {
-			this.getElementByID("game").innerHTML = "";
 		}
 
 		toggle_div("finish", false);
