@@ -12,14 +12,6 @@ body
 	font-weight: 100;
 	color: rgb(100,100,100);
 	font-size: 5vh;
-	width: 100%;
-	height: 100%
-}
-
-html
-{
-	width: 100%;
-	height: 100%
 }
 
 h1 {
@@ -103,8 +95,6 @@ td
 {
 	margin-left: auto;
 	margin-right: auto;
-	height: 85vmin;
-	width: 85vmin;
 }
 
 #score
@@ -133,8 +123,8 @@ table
 
 .game_table 
 {
-	height: 100%;
-	width: 100%;
+	height: 85vmin;
+	width: 85vmin;
 	background-color: #e0e0e0;
 	border-spacing: 5px;
 	border-color: inherit;
