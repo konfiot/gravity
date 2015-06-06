@@ -126,7 +126,7 @@ table
 	height: 85vmin;
 	width: 85vmin;
 	background-color: #e0e0e0;
-	border-spacing: 5px;
+	border-spacing: 0.22em;
 	border-color: inherit;
 	border-style: solid ;
 	border-width: .5vh;
