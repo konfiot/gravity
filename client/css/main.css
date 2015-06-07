@@ -207,17 +207,17 @@ table
 
 #scores_list * td:nth-child(3)
 {
-	width: 14%;
+	width: 17%;
 } 
 
 #scores_list * td:nth-child(4)
 {
-	width: 17%;
+	width: 14%;
 } 
 
 #scores_list * td:nth-child(5)
 {
-	width: 17%;
+	width: 14%;
 } 
 
 #scores_list * td:nth-child(1)
