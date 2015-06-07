@@ -129,7 +129,7 @@ table
 	border-spacing: 0.22em;
 	border-color: inherit;
 	border-style: solid ;
-	border-width: .5vh;
+	border-width: .1em;
 	border-radius: .5vh;
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 	table-layout: fixed;
@@ -140,7 +140,7 @@ table
 	border-style: solid;
 	border-color: transparent;
 	border-radius: 0.25vh;
-	border-width: 1vh;
+	border-width: .2em;
 	transition: all 0.3s ease-out 0s;
 }
 
