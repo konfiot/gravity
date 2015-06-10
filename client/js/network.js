@@ -73,7 +73,7 @@ GameClient.prototype.update = function (e) {
 		break;
 
 		case "begin":
-			this.begin_cb.call(this, e.data);
+			this.begin_cb.call(this, e.data, this.game);
 		break;
 
 		case "update_list":

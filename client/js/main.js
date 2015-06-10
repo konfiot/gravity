@@ -181,7 +181,7 @@ document.getElementById("multi").addEventListener("click", function (e) {
 	toggle_div("list", true);
 	document.getElementById("pseudo").focus();
 
-	var network = new GameClient(socket, function (pseudos) {
+	var network = new GameClient(socket, function (pseudos, game) {
 		toggle_div("waiting", false);
 		str = "";
 
@@ -190,6 +190,12 @@ document.getElementById("multi").addEventListener("click", function (e) {
 		}
 
 		document.getElementById("pseudos").innerHTML = str;
+
+		init_game(game.size, function (x, y) {
+			network.play(x, y);
+		}, true);
+		game.update();
+
 	}, function (scores) {
 		_paq.push(["trackEvent", "Game", "Finished game", "Multi"]);
 		_paq.push(["trackGoal", 2]);
@@ -242,17 +248,13 @@ document.getElementById("multi").addEventListener("click", function (e) {
 				toggle_div("list", false);
 				toggle_div("connecting", true);
 				network.enter(i, pseudo, function (data) {
+					console.log("here it is");
 					toggle_div("connecting", false);
 					toggle_div("waiting", true);
 					game = new Game(data.size, update, data.nplayers);
 					network.setGame(game);
 
 					_paq.push(["trackEvent", "Game", "Joined new game", "Multi"]);
-
-					init_game(data.size, function (x, y) {
-						network.play(x, y);
-					}, true);
-					game.update();
 				});
 			} else {
 				alert("Please choose a pseudo");
@@ -277,11 +279,6 @@ document.getElementById("multi").addEventListener("click", function (e) {
 
 		network.create(parseInt(document.getElementById("size").value), parseInt(document.getElementById("nplayers").value), document.getElementById("pseudo").value, function (data) {
 			_paq.push(["trackEvent", "Game", "Game begins", "Multi"]);
-
-			init_game(parseInt(document.getElementById("size").value), function (x, y) {
-				network.play(x, y);
-			}, true);
-			game.update();
 		});
 
 		return false;
@@ -356,6 +353,7 @@ document.getElementById("tuto").addEventListener("click", function () {
 var	restart_buttons = document.getElementsByClassName("restart"),
 	manageEvent = function (e) {
 		window.history.back();
+		socket.emit("quit");
 	};
 
 for (var i  = 0; i < restart_buttons.length; i += 1) {
