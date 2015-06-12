@@ -1,3 +1,5 @@
+var base64Img = require('base64-img');
+
 module.exports = function (grunt) {
 	"use strict";
 	grunt.initConfig({
@@ -86,12 +88,16 @@ module.exports = function (grunt) {
 					{
 						match: "URL_PIWIK_SERVER",
 						replacement: process.env.PIWIK_SERVER || ""
+					},
+					{
+						match: "FAVICON_BASE64",
+						replacement: base64Img.base64Sync("dist/favicon.png")
 					}]
 				},
 				files: [{
 					expand: true,
 					flatten: true,
-					src: ["dist/*.js"],
+					src: ["dist/*.js", "dist/*.html"],
 					dest: "dist"
 				}]
 			}
@@ -202,6 +208,16 @@ module.exports = function (grunt) {
 				dest: ".",
 				ext: ".html.gz"
 			}
+		},
+		imagemin: {
+			favicon: {
+				options: {
+					optimizationLevel: 7
+				},
+				files: {
+					"dist/favicon.png": "client/favicon.png"
+				}
+			}
 		}
 	});
 
@@ -215,6 +231,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-contrib-compress");
+	grunt.loadNpmTasks("grunt-contrib-imagemin");
 	grunt.loadNpmTasks("grunt-hogan");
 	grunt.loadNpmTasks("grunt-concurrent");
 	grunt.loadNpmTasks("grunt-nodemon");
@@ -228,8 +245,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-ttf2woff");
 	grunt.loadNpmTasks("grunt-wget");
 
-	grunt.registerTask("default", ["wget", "hogan", "concat", "replace",  "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
-	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "replace", "imageEmbed", "inline", "compress", "clean"]);
+	grunt.registerTask("default", ["wget", "hogan", "concat", "imagemin", "replace", "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
+	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "imagemin", "replace", "imageEmbed", "inline", "compress", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);
