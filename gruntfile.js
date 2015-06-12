@@ -114,7 +114,7 @@ module.exports = function (grunt) {
 			}
 		},
 		clean: {
-			dist: ["dist/*.css", "dist/*.js"]
+			dist: ["dist/*.css", "dist/*.js", "dist/*.png", "dist/*.woff", "dist/*.ttf"]
 		},
 		jscs: {
 			main: ["gruntfile.js", "common/**/*.js", "server/*.js", "client/js/**/*.js"],
@@ -245,7 +245,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-ttf2woff");
 	grunt.loadNpmTasks("grunt-wget");
 
-	grunt.registerTask("default", ["wget", "hogan", "concat", "imagemin", "replace", "uglify", "font_optimizer", "ttf2woff", "htmlmin", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
+	grunt.registerTask("default", ["wget", "hogan", "concat", "imagemin", "uglify", "font_optimizer", "ttf2woff", "htmlmin",  "replace", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
 	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "imagemin", "replace", "imageEmbed", "inline", "compress", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
