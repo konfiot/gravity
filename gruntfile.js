@@ -1,4 +1,4 @@
-var base64Img = require('base64-img');
+var base64Img = require("base64-img");
 
 module.exports = function (grunt) {
 	"use strict";
