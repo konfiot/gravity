@@ -91,7 +91,7 @@ module.exports = function (grunt) {
 					},
 					{
 						match: "FAVICON_BASE64",
-						replacement: function () {base64Img.base64Sync("dist/favicon.png")}
+						replacement: function () {base64Img.base64Sync("dist/favicon.png");}
 					}]
 				},
 				files: [{
