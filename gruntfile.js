@@ -249,7 +249,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-ttf2woff");
 	grunt.loadNpmTasks("grunt-remove-logging");
 
-	grunt.registerTask("default", ["wget", "hogan", "concat", "removelogging", "imagemin", "uglify", "font_optimizer", "ttf2woff", "htmlmin",  "replace", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
+	grunt.registerTask("default", [	"wget", "hogan", "concat", "removelogging", "imagemin", "uglify", 
+					"font_optimizer", "ttf2woff", "htmlmin",  "replace", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
+
 	grunt.registerTask("dev", ["hogan", "concat", "removelogging", "copy", "ttf2woff", "imagemin", "replace", "imageEmbed", "inline", "compress", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
