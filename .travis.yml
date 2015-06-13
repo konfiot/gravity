@@ -13,3 +13,6 @@ deploy:
     branch: master
     node: '0.12'
   skip_cleanup: true
+cache:
+  directories:
+    - node_modules/
