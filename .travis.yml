@@ -16,4 +16,3 @@ deploy:
 cache:
   directories:
     - node_modules/
-    - package.json
