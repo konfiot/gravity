@@ -218,6 +218,10 @@ module.exports = function (grunt) {
 					"dist/favicon.png": "client/favicon.png"
 				}
 			}
+		},
+		removelogging: {
+			src: "dist/dist.js",
+			dest: "dist/dist.js"
 		}
 	});
 
@@ -243,10 +247,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-image-embed");
 	grunt.loadNpmTasks("grunt-font-optimizer");
 	grunt.loadNpmTasks("grunt-ttf2woff");
-	grunt.loadNpmTasks("grunt-wget");
+	grunt.loadNpmTasks("grunt-remove-logging");
 
-	grunt.registerTask("default", ["wget", "hogan", "concat", "imagemin", "uglify", "font_optimizer", "ttf2woff", "htmlmin",  "replace", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
-	grunt.registerTask("dev", ["hogan", "concat", "copy", "ttf2woff", "imagemin", "replace", "imageEmbed", "inline", "compress", "clean"]);
+	grunt.registerTask("default", ["wget", "hogan", "concat", "removelogging", "imagemin", "uglify", "font_optimizer", "ttf2woff", "htmlmin",  "replace", "cssmin", "imageEmbed", "inline", "compress", "clean"]);
+	grunt.registerTask("dev", ["hogan", "concat", "removelogging", "copy", "ttf2woff", "imagemin", "replace", "imageEmbed", "inline", "compress", "clean"]);
 	grunt.registerTask("test", ["csslint", "jshint", "jscs:main", "htmllint", "default"]);
 	grunt.registerTask("server", ["concurrent:server"]);
 	grunt.registerTask("fix", ["jscs:fix"]);

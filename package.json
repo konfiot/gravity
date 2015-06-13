@@ -47,6 +47,7 @@
     "grunt-inline": "~0.3.0",
     "grunt-jscs": "^1.8.0",
     "grunt-nodemon": "^0.4.0",
+    "grunt-remove-logging": "^0.2.0",
     "grunt-replace": "^0.7.9",
     "grunt-ttf2woff": "^1.0.0",
     "grunt-wget": "^0.1.3",
