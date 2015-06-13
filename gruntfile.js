@@ -247,6 +247,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-image-embed");
 	grunt.loadNpmTasks("grunt-font-optimizer");
 	grunt.loadNpmTasks("grunt-ttf2woff");
+	grunt.loadNpmTasks("grunt-whet");
 	grunt.loadNpmTasks("grunt-remove-logging");
 
 	grunt.registerTask("default", [	"wget", "hogan", "concat", "removelogging", "imagemin", "uglify",
