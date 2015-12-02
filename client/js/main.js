@@ -127,6 +127,10 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 				case 3:
 					iaplay = iaplay_bob;
 				break;
+				
+				case 4:
+					iaplay = iaplay_boin;
+				break;
 			}
 			var play = iaplay(game.getState(), game.scores(), game.getPlays(), game.whosturn + 1);
 
