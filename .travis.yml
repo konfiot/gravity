@@ -6,7 +6,7 @@ env: SOCKETIO_SERVER=https://gravitygame.herokuapp.com/ PIWIK_SERVER=https://piw
 deploy:
   provider: heroku
   api_key:
-    secure: RKXXTurlzAGDJkw2BoHGoZSQD64PKjYubclBkrkzYNgQXET3awq58dCTeJ4/feEKoO9XYdn8UD4oVkiEVgrom2kH1PNJHbrrz9CFxUhP+KvD4/RC/nZkiFKqc2/TQRp2zfsV7JJkHcRlF35/DzBLvaQ7rRYvkzshfN3QPqJfCLE=
+    secure: XyOvdQIU1NSGzZ0g4mI5f8EKgDae4hPkIWsLpKlwsxlkM0iEAr/5eTaXQ/k0S7PhjNbD4iRLA1/RfOZo7aHE17KZ6QcCQOoFPkm+sqiAOa/FzEZu2X+M8TUx1XyyOtPvamL/lQJJWI3ApFGztTvkv7wPyFNdRXMjSAPn9AzJL1g=
   app: gravitygame
   on:
     repo: konfiot/gravity
