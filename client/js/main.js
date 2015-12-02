@@ -31,7 +31,7 @@ function update(game, state, score, finished, current, plays, lastplays) {
 			cells[i].id = "";
 		}
 
-		if(cells[i].className == "p0" && !game.checkplay(cells[i].parentElement.rowIndex,cells[i].cellIndex)) {
+		if (cells[i].className == "p0" && !game.checkplay(cells[i].parentElement.rowIndex, cells[i].cellIndex)) {
 			cells[i].className = "g";
 		}
 
@@ -127,7 +127,7 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 				case 3:
 					iaplay = iaplay_bob;
 				break;
-				
+
 				case 4:
 					iaplay = iaplay_boin;
 				break;

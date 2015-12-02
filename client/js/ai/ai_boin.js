@@ -131,7 +131,7 @@ function discoverFrom (segments, state, i, j, p, plays) {
 	while (to_visit.length > 0) {
 		c = to_visit.shift();
 
-		if((Math.random() * 100) + 1 >= 50) {
+		if ((Math.random() * 100) + 1 >= 50) {
 			if (state[c[0]][c[1]] === 0) {
 				if (c[3] <= 0) {
 					continue;
@@ -139,7 +139,6 @@ function discoverFrom (segments, state, i, j, p, plays) {
 				free = c[3] - 1;
 				c.pop();
 				directions[c[2]].push(c);
-	
 			} else if (state[c[0]][c[1]] === p) {
 				if (already_played(c, plays, state)) {
 					continue;
@@ -147,24 +146,23 @@ function discoverFrom (segments, state, i, j, p, plays) {
 				c.pop();
 				directions[c[2]].push(c);
 				free = 4 - occupied(directions[c[2]], state);
-	
 			} else {
 				continue;
 			}
-	
+
 			switch (c[2]) {
 				case 0:
 					next = [[c[0], c[1] - 1, 0, free], [c[0], c[1] + 1, 0, free]];
 				break;
-	
+
 				case 1:
 					next = [[c[0] + 1, c[1], 1, free], [c[0] - 1, c[1], 1, free]];
 				break;
-	
+
 				case 2:
 					next = [[c[0] + 1, c[1] - 1, 2, free], [c[0] - 1, c[1] + 1, 2, free]];
 				break;
-	
+
 				case 3:
 					next = [[c[0] + 1, c[1] + 1, 3, free], [c[0] - 1, c[1] - 1, 3, free]];
 				break;
