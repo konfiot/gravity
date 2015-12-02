@@ -49,6 +49,8 @@ function update(state, score, finished, current, plays, lastplays) {
 	document.getElementById("score").innerHTML = str;
 
 	document.getElementById("game").className = "c" + ((current % score[0].length) + 1);
+	document.getElementById("glob").className = "b" + ((current % score[0].length) + 1);
+	document.getElementById("globb").className = "b" + ((current % score[0].length) + 1);
 
 	end_score = Array(score[0].length);
 

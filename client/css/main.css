@@ -321,6 +321,27 @@ table
 	border-color: rgba(229,109,0,0.5);
 }
 
+.b1 {
+	background-color: rgb(220,220,255);
+}
+
+.b2 {
+	background-color: rgb(255,220,220);
+}
+
+.b3 {
+	background-color: rgb(220,255,220);
+}
+
+.b4 {
+	background-color: rgb(255,245,220);
+}
+
+html, body {
+	-webkit-transition: background-color 0.1s; /* Safari */
+    transition: background-color 0.1s;
+}
+
 
 button {
 	box-sizing: border-box;
@@ -338,6 +359,7 @@ button {
 
 button:hover {
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+	cursor: pointer;
 }
 
 
