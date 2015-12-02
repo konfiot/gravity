@@ -55,7 +55,8 @@ function update(state, score, finished, current, plays, lastplays) {
 	for (var m = 0; m < end_score.length; m += 1) {
 		end_score[m] = score[0][m] + score[1][m];
 	}
-	if (finished){
+
+	if (finished) {
 		window.gaming = false;
 	}
 }
