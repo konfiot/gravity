@@ -1,7 +1,7 @@
 var	socket,
 	_paq = _paq || [],
-	u = "@@URL_PIWIK_SERVER";
-
+	u = "@@URL_PIWIK_SERVER",
+	gaming = false;
 
 window.location.hash = "#menu";
 
@@ -55,9 +55,13 @@ function update(state, score, finished, current, plays, lastplays) {
 	for (var m = 0; m < end_score.length; m += 1) {
 		end_score[m] = score[0][m] + score[1][m];
 	}
+	if (finished){
+		window.gaming = false;
+	}
 }
 
 function init_game(size, cb, confirm_quit) {
+	window.gaming = true;
 	var str = "<table class='game_table'>";
 
 	for (var i = 0; i < size; i += 1) {
@@ -365,7 +369,7 @@ window.addEventListener("hashchange", function (e) {
 		div = (url.length < 2) ? "menu" : url[1];
 
 	if (div !== e.oldURL.split("#")[1]) {
-		if (e.oldURL.split("#")[1] === "game") {
+		if ((e.oldURL.split("#")[1] === "game") && (window.gaming)) {
 			if (!confirm("You sure you want to ragequit ?")) {
 				document.location.hash = "#game";
 
