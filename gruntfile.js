@@ -11,6 +11,7 @@ module.exports = function (grunt) {
 					"common/game.js",
 					"client/js/ai/ai_bob.js",
 					"client/js/ai/ai_banane.js",
+					"client/js/ai/ai_boin.js",
 					"client/js/view.js",
 					"client/js/network.js",
 					"dist/templates.js",

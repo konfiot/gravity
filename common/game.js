@@ -66,7 +66,7 @@ Game.prototype.play = function (player, x, y, overwrite) {
 		this.state[x][y] = player;
 		this.whosturn += 1;
 		this.whosturn %= this.nplayers;
-		this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays, [x, y]);
+		this.update_cb.call(this, this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays, [x, y]);
 
 		return true;
 	} else {
@@ -181,7 +181,7 @@ Game.prototype.getPlays = function () {
 };
 
 Game.prototype.update = function () {
-	this.update_cb.call(this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays);
+	this.update_cb.call(this, this, this.state, this.scores(), this.isFinished(), this.whosturn, this.plays);
 };
 
 Game.prototype.export = function () {

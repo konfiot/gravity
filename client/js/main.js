@@ -16,7 +16,7 @@ function toggle_div(name, show) {
 	document.getElementById(name).style.display = (show) ? "block" : "none";
 }
 
-function update(state, score, finished, current, plays, lastplays) {
+function update(game, state, score, finished, current, plays, lastplays) {
 	var cells = document.getElementById("game").getElementsByTagName("td");
 
 	console.log("Updated", score, current, current % score[0].length);
@@ -29,6 +29,10 @@ function update(state, score, finished, current, plays, lastplays) {
 
 		} else {
 			cells[i].id = "";
+		}
+
+		if (cells[i].className == "p0" && !game.checkplay(cells[i].parentElement.rowIndex, cells[i].cellIndex)) {
+			cells[i].className = "g";
 		}
 
 		for (var j = 0; j < plays.length; j += 1) {
@@ -49,6 +53,8 @@ function update(state, score, finished, current, plays, lastplays) {
 	document.getElementById("score").innerHTML = str;
 
 	document.getElementById("game").className = "c" + ((current % score[0].length) + 1);
+	document.getElementById("glob").className = "b" + ((current % score[0].length) + 1);
+	document.getElementById("globb").className = "b" + ((current % score[0].length) + 1);
 
 	end_score = Array(score[0].length);
 
@@ -109,8 +115,8 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 		}
 	}
 
-	var game = new Game(size, function (state, score, finished, current, plays, lastplays) {
-		update(state, score, finished, current, plays, lastplays);
+	var game = new Game(size, function (tgame, state, score, finished, current, plays, lastplays) {
+		update(tgame, state, score, finished, current, plays, lastplays);
 
 		if (players[game.whosturn] >= 2) {
 			switch (players[game.whosturn]) {
@@ -120,6 +126,10 @@ document.getElementById("solo_config").addEventListener("submit", function (e) {
 
 				case 3:
 					iaplay = iaplay_bob;
+				break;
+
+				case 4:
+					iaplay = iaplay_boin;
 				break;
 			}
 			var play = iaplay(game.getState(), game.scores(), game.getPlays(), game.whosturn + 1);
