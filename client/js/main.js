@@ -345,7 +345,7 @@ document.getElementById("tuto").addEventListener("click", function () {
 	message("<strong>Welcome to Gravity !</strong><br /> The goal is simple: Score as many points as possible by lining up four cells (either in a row/column or in a diagonal)," +
 		" once a line is made, you can't use the cells again in the same direction.", function () {
 		play_cells(game, [[8, 5], [6, 8], [6, 7], [8, 6], [7, 6], [8, 8], [5, 8]], function () {
-			message("You can add a cell only if it is supported by one of the four sides thanks to a column of other cells", function () {
+			message("You can add a cell only if it is supported by one of the four sides thanks to a column of other cells, playable cells are in white, while unplayable ones are greyed", function () {
 				play_cells(game, [[8, 3], [7, 3], [6, 3]], function () {
 					mark([[5, 3, true], [6, 2, false], [6, 4, false]], function () {
 						message("You can't play in the middle cell. Furthermore, the middle can't be used as a support", function () {
