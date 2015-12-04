@@ -4,8 +4,8 @@ var	sio = require("socket.io"),
 	uuid = require("uuid"),
 	Game = require("../common/game.js").Game,
 	scoring = require("./scoring.js"),
-	entities = require('html-entities').AllHtmlEntities,
-	eencode = new entities();
+	Entities = require("html-entities").AllHtmlEntities,
+	eencode = new Entities();
 
 var server = http.createServer(function (request, response) {
 	var	filename = "index.html",
