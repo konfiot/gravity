@@ -3,7 +3,9 @@ var	sio = require("socket.io"),
 	fs = require("fs"),
 	uuid = require("uuid"),
 	Game = require("../common/game.js").Game,
-	scoring = require("./scoring.js");
+	scoring = require("./scoring.js"),
+	entities = require('html-entities').AllHtmlEntities,
+	eencode = new entities();
 
 var server = http.createServer(function (request, response) {
 	var	filename = "index.html",
@@ -62,7 +64,7 @@ io.sockets.on("connection", function (socket) {
 		socket.game_id = id;
 		socket.leave("list");
 		socket.join(id);
-		games_pending[id] = {name: data.name, size: data.size, nplayers: data.nplayers, connected_players: 1, pseudos: [data.pseudo]};
+		games_pending[id] = {name: eencode.encode(data.name), size: data.size, nplayers: data.nplayers, connected_players: 1, pseudos: [data.pseudo]};
 		io.sockets.to("list").emit("e", {action: "update_list", data: games_pending});
 		cb.call(this, {
 			id: id,
@@ -139,4 +141,3 @@ io.sockets.on("connection", function (socket) {
 		}
 	});
 });
-
