@@ -280,13 +280,11 @@ table
 	background-color: #fff;
 	box-shadow: 0 .1em 0 #D0D0D0;
 	position: relative;
-	top: 0;
 }
 
 .p0:hover {
 	cursor: pointer;
 	box-shadow: 0 .01em 0 #D0D0D0;
-	top: 0.09em;
 }
 
 .g {
