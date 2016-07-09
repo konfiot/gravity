@@ -17,19 +17,7 @@ body
 h1 {
 	color: rgb(150,150,150);
 	font-weight: 100;
-	font-size: 10vh;
-}
-
-h2 {
-	font-size: 6vh;
-	font-weight: 100;
-	margin: 1vh;
-}
-
-h3 {
-	font-size: 5vh;
-	margin: 0;
-	font-weight: 100;
+	font-size: 11vh;
 }
 
 td
@@ -37,7 +25,6 @@ td
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
 
 .card {
 	font-size: 3vh;
