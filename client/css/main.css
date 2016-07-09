@@ -84,6 +84,13 @@ td
 	margin-right: auto;
 }
 
+#solo_config_players
+{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
 #score
 {
 	margin-left: auto;
@@ -367,7 +374,8 @@ button:hover {
 input, select, button {
 	vertical-align: middle;
 	margin: 1vh 1vw;
-	font-size: 5vh;
+	padding: 1.5vh;
+	font-size: 4.5vh;
 	max-width: 95vw;
 	font-weight: 100;
 	font-family: "Roboto", sans-serif;
